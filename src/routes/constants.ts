@@ -1,5 +1,6 @@
 const ROUTE = {
-  HOME: "/",
+  HOME: '/',
+  DETAILS: '/details/:id',
 };
 
 export default ROUTE;
