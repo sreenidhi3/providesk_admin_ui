@@ -1,8 +1,8 @@
-import Details from 'modules/details';
-import App from '../App';
-import ROUTE from './constants';
+import Details from "modules/details";
+import App from "../App";
+import ROUTE from "./constants";
 
-const routeConfig = [
+export const routeConfig = [
   {
     path: ROUTE.HOME,
     element: <App />,
@@ -12,5 +12,3 @@ const routeConfig = [
     element: <Details />,
   },
 ];
-
-export default routeConfig;

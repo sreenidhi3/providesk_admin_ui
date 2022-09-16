@@ -1,21 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import routeConfig from 'routes/routeConfig';
-import 'bootstrap/dist/css/bootstrap.css';
-
-import App from './App';
-
-import './index.css';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ThemeProvider } from "@mui/material";
+import "bootstrap/dist/css/bootstrap.css";
+import "./index.css";
+import { routeConfig } from "routes/routeConfig";
+import { theme } from "theme";
 
 const router = createBrowserRouter(routeConfig);
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>
 );
