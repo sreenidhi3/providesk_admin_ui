@@ -17,6 +17,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { useNavigate } from 'react-router-dom';
+import { CardActionArea } from '@mui/material';
 
 //  {
 //     id: 1,
@@ -34,61 +36,77 @@ const RequestCard = ({ data }: { data: RequestData }) => {
     id,
     title,
     raised_by,
-    raised_time,
-    last_update_time,
+    created_at: raised_time,
+    updated_time: last_update_time,
     status,
     assigned_to,
     department,
   } = data;
+
+  const navigate = useNavigate();
+
+  const onCardClick = () => {
+    navigate('/');
+  };
   return (
-    <Card sx={{ minWidth: 275, margin: 3 }}>
-      <CardContent>
-        <Stack
-          direction='row'
-          spacing={1}
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginBottom: 2,
-          }}
-        >
-          <Chip label={id} />
-          <Chip label={status} />
-        </Stack>
-        <Typography
-          sx={{ fontSize: 16, fontWeight: 'bold' }}
-          color='text.dark'
-          gutterBottom
-        >
-          {title}
-        </Typography>
-        <TableContainer>
-          <Table>
-            <TableBody>
-              <TableRow>
-                <TableCell sx={{ color: '#63686b' }}>Department</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }}>{department}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell sx={{ color: '#63686b' }}>Raised by</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }}>{raised_by}</TableCell>
-              </TableRow>{' '}
-              <TableRow>
-                <TableCell sx={{ color: '#63686b' }}>Raised Time</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }}>{raised_time}</TableCell>
-              </TableRow>{' '}
-              <TableRow>
-                <TableCell sx={{ color: '#63686b' }}>Assigned To </TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }}>{assigned_to}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell sx={{ color: '#63686b' }}>Department</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }}>{department}</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </CardContent>
+    <Card sx={{ minWidth: 275, cursor: 'pointer'}} onClick={onCardClick}>
+      <CardActionArea>
+        <CardContent>
+          <Stack
+            direction='row'
+            spacing={1}
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginBottom: 2,
+            }}
+          >
+            <Chip label={id} />
+            <Chip label={status} color="primary"/>
+          </Stack>
+          <Typography
+            sx={{ fontSize: 16, fontWeight: 'bold' }}
+            color='text.dark'
+            gutterBottom
+          >
+            {title}
+          </Typography>
+          <TableContainer>
+            <Table>
+              <TableBody>
+                <TableRow>
+                  <TableCell sx={{ color: '#63686b' }}>Department</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold' }}>
+                    {department}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell sx={{ color: '#63686b' }}>Raised by</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold' }}>{raised_by}</TableCell>
+                </TableRow>{' '}
+                <TableRow>
+                  <TableCell sx={{ color: '#63686b' }}>Raised Time</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold' }}>
+                    {raised_time}
+                  </TableCell>
+                </TableRow>{' '}
+                <TableRow>
+                  <TableCell sx={{ color: '#63686b' }}>Assigned To </TableCell>
+                  <TableCell sx={{ fontWeight: 'bold' }}>
+                    {assigned_to}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell sx={{ color: '#63686b' }}>Department</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold' }}>
+                    {department}
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </CardContent>
+      </CardActionArea>
     </Card>
   );
 };
