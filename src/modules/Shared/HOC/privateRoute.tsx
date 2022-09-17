@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
+import { UserContext } from 'App';
+
 import ROUTE from 'routes/constants';
-import { LOCAL_STORAGE_KEYS } from 'shared/appConstants';
-import { loadLocalStorage } from 'shared/localStorageHelpers';
 
 interface IProps {
-  Component: any;
+  Component: JSX.Element;
 }
 
 const PrivateRoute: React.FC<IProps> = ({ Component }) => {
-  const auth = loadLocalStorage(LOCAL_STORAGE_KEYS.USER_AUTH);
+  const userContext = useContext(UserContext);
+  const auth = userContext.userAuth;
 
   if (!auth?.auth_token) {
     window.location.href = ROUTE.LOGIN;

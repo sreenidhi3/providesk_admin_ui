@@ -1,11 +1,13 @@
+import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode';
 
 import Login from 'assets/svg/Login.svg';
 import Loader from './components/Loader';
+
+import { userProfileType } from './auth.types';
 import { useLogin } from 'hooks/login.hooks';
 import { saveToLocalStorage } from 'shared/localStorageHelpers';
-import { useNavigate } from 'react-router-dom';
 import ROUTE from 'routes/constants';
 import { LOCAL_STORAGE_KEYS } from 'shared/appConstants';
 
@@ -14,7 +16,7 @@ const AuthContainer = () => {
   const navigate = useNavigate();
 
   const onGoogleLoginSuccess = (credentialResponse) => {
-    const { email, name, picture }: any =
+    const { email, name, picture }: userProfileType =
       jwt_decode(credentialResponse.credential) || {};
     // save the google auth data to localstorage
     saveToLocalStorage(LOCAL_STORAGE_KEYS.USER_PROFILE, {
