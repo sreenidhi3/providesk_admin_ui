@@ -1,4 +1,4 @@
-export interface RequestData {
+export interface IComplaintDetails {
   id: number;
   raised_by: string;
   created_at: string;
@@ -11,11 +11,13 @@ export interface RequestData {
 
 export interface GetRequestsListResponse {
   message: string;
-  data: RequestData[];
+  data: IComplaintDetails[];
 }
 
-export interface GetRequestsListRequest{
-  status?:string;
-  department?:string;
-  title?:string;
+export interface IFetchComplaintListRequest {
+  status?: string;
+  department?: string;
+  title?: string;
+  page: number;
+  perPage: number;
 }

@@ -1,13 +1,12 @@
-import Header from 'modules/shared/Header';
-import RequestCard from 'modules/shared/RequestCard';
 import React, { useState } from 'react';
-import { RequestData } from './types';
 import Button from '@mui/material/Button';
-import Pagination from '@mui/material/Pagination';
+import TablePagination from '@mui/material/TablePagination';
+
+import Header from 'modules/shared/Header';
 import Select from 'modules/shared/Select';
 import Search from 'modules/shared/Search';
 import { useGetRequestsList } from './dashboard.hooks';
-import { RequestQuote } from '@mui/icons-material';
+import ComplaintCard from 'modules/shared/ComplaintCard';
 
 const statusOptions = [
   {
@@ -47,14 +46,23 @@ const departmentOptions = [
   },
 ];
 
-const Dashboard = () => {
-  const [filters, setFilters] = useState({
-    status: '',
-    department: '',
-    title: '',
-  });
+const DEFAULT_FILTERS = {
+  status: '',
+  department: '',
+  title: '',
+  page: 0,
+  perPage: 30,
+};
 
-  const { requests, requestsLoading } = useGetRequestsList(filters);
+const TOTAL_COMPLAINTS = 15;
+
+const Dashboard = () => {
+  const [filters, setFilters] = useState(DEFAULT_FILTERS);
+  const { data, isLoading } = useGetRequestsList(filters);
+
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilters((p) => ({ ...p, [event.target.name]: event.target.value }));
   };
@@ -63,13 +71,27 @@ const Dashboard = () => {
     setFilters((p) => ({ ...p, title: event.target.value }));
   };
 
-  
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const updatedData = data?.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
+
   return (
     <div>
       <Header />
-
       <div className='d-flex flex-column p-5 '>
-        <div className='d-flex gap-3 me-2'>
+        <div className='d-flex gap-3 mb-4'>
           <Select
             label={'Status'}
             options={statusOptions}
@@ -94,19 +116,20 @@ const Dashboard = () => {
             Search
           </Button>
         </div>
-        <div className='d-flex flex-wrap gap-4 mt-3'>
-          {requests?.map((request) => (
-            <RequestCard data={request} />
+        <div className='d-flex justify-content-around flex-wrap gap-4 mt-3'>
+          {updatedData?.map((complaint) => (
+            <ComplaintCard details={complaint} />
           ))}
         </div>
         <div className='d-flex justify-content-end mt-3'>
-          <Pagination
-            count={10}
-            variant='outlined'
-            shape='rounded'
-            onChange={(event: React.ChangeEvent<unknown>, page: number) =>
-              console.log(page)
-            }
+          <TablePagination
+            component='div'
+            count={TOTAL_COMPLAINTS}
+            page={page}
+            rowsPerPage={rowsPerPage}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: 30 }}
           />
         </div>
       </div>

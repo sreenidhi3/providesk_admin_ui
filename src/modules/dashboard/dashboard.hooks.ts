@@ -1,14 +1,13 @@
-import { GetRequestsListRequest } from 'modules/dashboard/types';
+import { IFetchComplaintListRequest } from 'modules/dashboard/types';
 import { useQuery } from 'react-query';
 import { getRequestList } from './dashboard.services';
 
-export const useGetRequestsList = (queryParams: GetRequestsListRequest) => {
-  const { data, isLoading, isFetching } = useQuery('request-list', () =>
+export const useGetRequestsList = (queryParams: IFetchComplaintListRequest) => {
+  const { data, isLoading, isFetching } = useQuery('complaint-list', () =>
     getRequestList(queryParams)
   );
-
   return {
-    requests: data?.data,
-    requestsLoading: isLoading || isFetching,
+    data: data?.data,
+    isLoading: isLoading || isFetching,
   };
 };

@@ -1,8 +1,11 @@
 import { get } from 'apis/apiHelper';
-import { GetRequestsListRequest, GetRequestsListResponse, RequestData } from 'modules/dashboard/types';
+import {
+  IFetchComplaintListRequest,
+  GetRequestsListResponse,
+  IComplaintDetails,
+} from 'modules/dashboard/types';
 
-
-const mockData: RequestData[] = [
+const mockData: IComplaintDetails[] = [
   {
     id: 1,
     raised_by: 'Mickie',
@@ -156,8 +159,8 @@ const mockData: RequestData[] = [
 ];
 
 export const getRequestList = (
-  queryParams: GetRequestsListRequest
+  queryParams: IFetchComplaintListRequest
 ): Promise<GetRequestsListResponse> => {
-  return Promise.resolve({message:"success",data:mockData})
+  return Promise.resolve({ message: 'success', data: mockData });
   // return get({ path: '/complaints', ...queryParams });
 };
