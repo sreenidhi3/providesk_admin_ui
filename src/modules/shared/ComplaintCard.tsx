@@ -13,6 +13,7 @@ import TableRow from '@mui/material/TableRow';
 import CardActionArea from '@mui/material/CardActionArea';
 
 import { IComplaintDetails } from 'modules/dashboard/types';
+import ROUTE from 'routes/constants';
 
 interface Props {
   details: IComplaintDetails;
@@ -35,7 +36,7 @@ const ComplaintCard: React.FC<Props> = (props) => {
 
   // navigate to the details page of specific complaint
   const onCardClick = () => {
-    navigate('/');
+    navigate(`${ROUTE.DASHBOARD}/${id}`);
   };
 
   const complaintConfig = [

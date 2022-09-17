@@ -89,7 +89,6 @@ const Dashboard = () => {
 
   return (
     <div>
-      <Header />
       <div className='d-flex flex-column p-5 '>
         <div className='d-flex gap-3 mb-4'>
           <CustomSelect
