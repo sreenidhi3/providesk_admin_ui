@@ -2,9 +2,10 @@ import { Navigate } from 'react-router-dom';
 
 import AuthContainer from 'modules/Auth';
 import Dashboard from 'modules/dashboard';
-import PrivateRoute from 'modules/shared/HOC/privateRoute';
+import PrivateRoute from 'modules/Shared/HOC/privateRoute';
 
 import ROUTE from './constants';
+import Sidebar from 'modules/Shared/Sidebar';
 
 const routeConfig = [
   {
@@ -18,6 +19,10 @@ const routeConfig = [
   {
     path: ROUTE.DASHBOARD,
     element: <PrivateRoute Component={<Dashboard />} />,
+  },
+  {
+    path: ROUTE.SIDEBAR,
+    element: <PrivateRoute Component={<Sidebar />} />,
   },
 ];
 
