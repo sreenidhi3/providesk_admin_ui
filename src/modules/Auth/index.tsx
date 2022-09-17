@@ -2,18 +2,40 @@ import { GoogleLogin } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode';
 
 import Login from 'assets/svg/Login.svg';
-import { useState } from 'react';
 import Loader from './components/Loader';
-// import { googleLogout } from '@react-oauth/google';
+import { useLogin } from 'hooks/login.hooks';
+import { saveToLocalStorage } from 'shared/localStorageHelpers';
+import { useNavigate } from 'react-router-dom';
+import ROUTE from 'routes/constants';
+import { LOCAL_STORAGE_KEYS } from 'shared/appConstants';
 
 const AuthContainer = () => {
-  const [userData, setUserData] = useState<any>({});
-  const [isLogging, setLoggingStatus] = useState(false);
+  const { mutate, isLoading: isLogging } = useLogin();
+  const navigate = useNavigate();
 
   const onGoogleLoginSuccess = (credentialResponse) => {
-    const user = jwt_decode(credentialResponse.credential);
-    setUserData(user);
-    setLoggingStatus(true);
+    const { email, name, picture }: any =
+      jwt_decode(credentialResponse.credential) || {};
+    // save the google auth data to localstorage
+    saveToLocalStorage(LOCAL_STORAGE_KEYS.USER_PROFILE, {
+      email,
+      name,
+      picture,
+    });
+    let payload = {
+      user: {
+        email: email,
+        name: name,
+      },
+    };
+    // make login api call with user data
+    mutate(payload, {
+      onSuccess: (response) => {
+        saveToLocalStorage(LOCAL_STORAGE_KEYS.USER_AUTH, response.data.data);
+        navigate(ROUTE.DASHBOARD);
+      },
+      onError: (error) => {},
+    });
   };
 
   const onGoogleLoginFailure = () => {
@@ -22,7 +44,7 @@ const AuthContainer = () => {
 
   return (
     <div className='d-flex flex-row justify-content-around align-items-center vh-100'>
-      {isLogging && <Loader isLoading={isLogging} />}
+      <Loader isLoading={isLogging} />
       <div className='d-flex align-items-center'>
         <img src={Login} alt='Login' height={600}></img>
       </div>
