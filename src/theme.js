@@ -17,13 +17,13 @@ export const palette = {
   neutral: {
     highEm: "#8A2424",
     mediumEm: "#B75656",
-    disabled: "#DE9393",
+    disabled: "#36ad0f",
     borders: "#F4D5D5",
     background: "#FFF8F8",
     white: "#FFFFFF",
     black: "#332222",
     link: "#D27575",
-    tab: "#FFEBEB",
+    tab: "#007bff",
   },
 };
 export const theme = createTheme({

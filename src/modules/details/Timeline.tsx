@@ -21,7 +21,7 @@ export const TimeLineCom = () => {
                   <TimelineConnector></TimelineConnector>
                 </TimelineSeparator>
                 <TimelineContent>
-                  <TimeLineDescription item={{}} />
+                  <TimeLineDescription />
                 </TimelineContent>
               </TimelineItem>
             </>
@@ -32,13 +32,12 @@ export const TimeLineCom = () => {
   );
 };
 
-export const TimeLineDescription = ({ item }) => {
+export const TimeLineDescription = () => {
   return (
     <>
       <div
         className='m-2 border border-dark d-flex'
-        style={{ height: "100px" }}
-        // style={{ border: "1px solid black" }}
+        style={{ height: "200px", border: "1px solid black" }}
       >
         <div className='d-flex'>
           <p className='fw-bold'>Assign:</p>

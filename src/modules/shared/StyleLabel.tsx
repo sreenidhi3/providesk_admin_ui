@@ -12,8 +12,6 @@ export const StyleLabel = ({
     <>
       <Typography
         sx={{
-          fontFamily: "Open Sans",
-          fontWeight: 700,
           fontSize: "13px",
           display: "flex",
           alignItems: "center",

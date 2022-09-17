@@ -1,13 +1,14 @@
 import {
   Box,
   Select as MUISelect,
-  MenuItem as MUIMenuItem,
-  Typography,
+  MenuItem,
   SelectChangeEvent,
+  FormControl,
+  InputLabel,
 } from "@mui/material";
 import { ReactNode, useMemo } from "react";
 import { StyledErrorText } from "./StyledErrorText";
-import { StyleLabel } from "./StyleLabel";
+
 export const Select = ({
   options,
   value,
@@ -35,39 +36,33 @@ export const Select = ({
   );
 
   return (
-    <Box>
-      {label && <StyleLabel text={label} required={required} />}
-      {helperText && <Typography>{helperText}</Typography>}
-      <MUISelect
-        size={size || "small"}
-        fullWidth
-        value={value?.toString() || " "}
-        name={name}
-        onChange={onChange}
-        onBlur={onBlur}
-        sx={{
-          mt: label || helperText ? 1 : 0,
-          ...sx,
-        }}
-        disabled={disabled}
-      >
-        {placeholder && (
-          <MUIMenuItem value={" "} disabled>
-            {placeholder}
-          </MUIMenuItem>
-        )}
-
-        {selectOptions.map((opt) => (
-          <MUIMenuItem
-            key={opt.value}
-            value={opt.value}
-            disabled={opt.disabled ? opt.disabled : false}
-          >
-            {opt.label}
-          </MUIMenuItem>
-        ))}
-      </MUISelect>
-      {error && <StyledErrorText text={error} />}
+    <Box sx={{ width: "100%", ...sx }}>
+      <FormControl fullWidth variant='standard'>
+        <InputLabel>{label}</InputLabel>
+        <MUISelect
+          value={value as string}
+          label={label}
+          name={name}
+          size='small'
+          onChange={onChange}
+          sx={{
+            mt: label || helperText ? 1 : 0,
+            ...sx,
+          }}
+          // sx={sx}
+        >
+          {selectOptions.map((opt) => (
+            <MenuItem
+              key={opt.value}
+              value={opt.value}
+              disabled={opt.disabled ? opt.disabled : false}
+            >
+              {opt.label}
+            </MenuItem>
+          ))}
+        </MUISelect>
+        {error && <StyledErrorText text={error} />}
+      </FormControl>
     </Box>
   );
 };

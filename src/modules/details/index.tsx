@@ -1,13 +1,20 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Grid } from "@mui/material";
 import { Select } from "modules/shared/Select";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import { StyleLabel } from "modules/shared/StyleLabel";
 import { Button } from "modules/shared/Button";
-import { useCallback, useState } from "react";
+
 import { Form, Formik } from "formik";
-import { TimeLineCom } from "./Timeline";
+import Paper from "@mui/material/Paper";
+import { useDetails } from "./details.hook";
+import { useParams } from "react-router-dom";
+import { useCallback } from "react";
 
 function Details() {
+  // toDo
+  //   const id: number = parseInt(useParams().id as string);
+  //   const { data, isLoading } = useDetails(id);
+
   const onSubmit = useCallback(() => {}, []);
   const onResolve = useCallback(() => {}, []);
   const initialValues = {
@@ -16,23 +23,56 @@ function Details() {
     user: "",
     description: "",
   };
+
   //todo yup
-  const validationSchema = (value) => {};
+  const validationSchema = {};
 
   return (
     <>
-      <div className='d-flex justify-content-around'>
-        <div>
-          <TimeLineCom />
-        </div>
-        <div>
+      <Grid container>
+        <Grid item xs={6} style={{ maxHeight: "85vh", overflow: "auto" }}>
+          <div className='timeline'>
+            {[1, 2, 2, 3, 3, 34, 3, 3, 3, 3, 2].map((item) => {
+              return (
+                <>
+                  <div style={{ display: "flex" }}>
+                    <div className='content-left left'>dfkj.</div>
+                    <div>
+                      <div className='container right'>
+                        <div className='content'>
+                          <Paper elevation={8}>
+                            <div className='p-2 m-2'>
+                              <p>
+                                Lorem ipsum dolor sit amet consectetur
+                                adipisicing omnis laudantium est obcaecati
+                                quibusdam aliquam excepturi nulla?
+                              </p>
+                            </div>
+                          </Paper>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              );
+            })}
+          </div>
+        </Grid>
+        <Grid item xs={6}>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={onSubmit}
           >
             {({ values, errors, touched, handleChange }) => (
-              <Form>
+              <Form
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  margin: 20,
+                  alignItems: "center",
+                }}
+              >
                 <Select
                   value={values.department}
                   name='department'
@@ -43,6 +83,7 @@ function Details() {
                     handleChange(e);
                   }}
                   error={errors.department}
+                  sx={{ width: "300px", my: 1 }}
                 />
                 <Select
                   value={values.catagory}
@@ -54,6 +95,7 @@ function Details() {
                     handleChange(e);
                   }}
                   error={errors.catagory}
+                  sx={{ width: "300px", my: 1 }}
                 />
                 <Select
                   value={values.user}
@@ -62,9 +104,11 @@ function Details() {
                   options={["ayush"]}
                   required={true}
                   onChange={(e) => {
+                    console.log(e.target.value);
                     handleChange(e);
                   }}
                   error={errors.user}
+                  sx={{ width: "300px", my: 1 }}
                 />
                 <Box>
                   <StyleLabel text={"Description"} required={true} />
@@ -73,29 +117,33 @@ function Details() {
                     value={values.description}
                     minRows={3}
                     placeholder='Minimum 3 rows'
-                    style={{ width: "100%" }}
+                    style={{ width: "300px" }}
                     onChange={handleChange}
-                    error={errors.description}
+                    // error={errors.description}
                   />
                 </Box>
-                <Button
-                  onClick={onResolve}
-                  disabled={!(values.description.length > 0)}
-                  sx={{ backgroundColor: "success" }}
-                >
-                  Assign
-                </Button>
-                <Button
-                  onClick={onResolve}
-                  disabled={!(values.description.length > 0)}
-                >
-                  Resolve
-                </Button>
+                <div className='d-flex '>
+                  <button
+                    onClick={onResolve}
+                    disabled={!(values.description.length > 0)}
+                    //   color={"primary.main"}
+                    className={"btn btn-primary mx-5"}
+                  >
+                    Assign
+                  </button>
+                  <button
+                    onClick={onResolve}
+                    className={"btn btn-success"}
+                    disabled={!(values.description.length > 0)}
+                  >
+                    Resolve
+                  </button>
+                </div>
               </Form>
             )}
           </Formik>
-        </div>
-      </div>
+        </Grid>
+      </Grid>
     </>
   );
 }
