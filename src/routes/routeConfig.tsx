@@ -1,11 +1,12 @@
-import { Navigate } from "react-router-dom";
+import { Navigate } from 'react-router-dom';
 
-import AuthContainer from "modules/Auth";
-import Dashboard from "modules/dashboard";
-import PrivateRoute from "modules/shared/HOC/privateRoute";
-import Details from "modules/details";
+import AuthContainer from 'modules/Auth';
+import Dashboard from 'modules/dashboard';
+import PrivateRoute from 'modules/shared/HOC/privateRoute';
+import Details from 'modules/details';
 
-import ROUTE from "./constants";
+import ROUTE from './constants';
+import Sidebar from 'modules/shared/Sidebar';
 
 export const routeConfig = [
   {
@@ -23,5 +24,9 @@ export const routeConfig = [
   {
     path: ROUTE.DETAILS,
     element: <Details />,
+  },
+  {
+    path: ROUTE.SIDEBAR,
+    element: <Sidebar />,
   },
 ];
