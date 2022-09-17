@@ -1,6 +1,6 @@
 import AuthContainer from 'modules/Auth';
+import PrivateRoute from 'modules/Shared/HOC/privateRoute';
 import { Navigate } from 'react-router-dom';
-import App from '../App';
 import ROUTE from './constants';
 
 const routeConfig = [
@@ -14,7 +14,7 @@ const routeConfig = [
   },
   {
     path: ROUTE.DASHBOARD,
-    element: <App />,
+    element: <PrivateRoute Component={<h1>Logged in successfully!</h1>} />,
   },
 ];
 

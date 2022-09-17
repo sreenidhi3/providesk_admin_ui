@@ -1,12 +1,23 @@
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import routeConfig from 'routes/routeConfig';
+import { GOOGLE_CLIENT_ID } from 'shared/appConstants';
+
 import './App.css';
 
+// Create a client
+const queryClient = new QueryClient();
+
 function App() {
+  const router = createBrowserRouter(routeConfig);
+
   return (
-    <div className='App'>
-      <header className='App-header'>
-        <h1>Welcome to Providesk</h1>
-      </header>
-    </div>
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </GoogleOAuthProvider>
   );
 }
 
