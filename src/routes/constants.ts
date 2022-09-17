@@ -1,5 +1,7 @@
 const ROUTE = {
-  HOME: "/",
+  ROOT: '/',
+  DASHBOARD: '/dashboard',
+  LOGIN: '/login',
 };
 
 export default ROUTE;
