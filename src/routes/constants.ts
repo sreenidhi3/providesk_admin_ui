@@ -1,6 +1,8 @@
 const ROUTE = {
-  HOME: '/',
-  DETAILS: '/details/:id',
+  ROOT: "/",
+  DASHBOARD: "/dashboard",
+  LOGIN: "/login",
+  DETAILS: "/details/:id",
 };
 
 export default ROUTE;

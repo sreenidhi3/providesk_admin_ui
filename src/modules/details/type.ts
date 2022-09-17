@@ -1,12 +1,12 @@
 export interface details {
   ticket: {
     status:
-      | "open"
-      | "assigned"
-      | "inprogress"
-      | "resolved"
-      | "closed"
-      | "rejected";
+      | 'open'
+      | 'assigned'
+      | 'inprogress'
+      | 'resolved'
+      | 'closed'
+      | 'rejected';
     title: string;
     description: string;
     ticket_number: number;

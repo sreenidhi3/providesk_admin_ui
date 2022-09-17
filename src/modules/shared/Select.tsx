@@ -5,6 +5,7 @@ import {
   SelectChangeEvent,
   FormControl,
   InputLabel,
+  TextField,
 } from "@mui/material";
 import { ReactNode, useMemo } from "react";
 import { StyledErrorText } from "./StyledErrorText";
@@ -90,3 +91,45 @@ export interface SelectOpt {
   value: string | number;
   disabled?: boolean;
 }
+
+interface SelectOption {
+  label: string;
+  value: string;
+}
+
+interface ISelectProps {
+  label: string;
+  value: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  options: SelectOption[];
+  name: string;
+}
+
+export const CustomSelect = ({
+  label,
+  value,
+  onChange,
+  options,
+  name,
+}: ISelectProps) => {
+  return (
+    <TextField
+      id='outlined-select-currency'
+      select
+      label={label}
+      value={value}
+      onChange={onChange}
+      name={name}
+      //   sx={{width:200}}
+      fullWidth
+    >
+      {options.map((option: SelectOption) => (
+        <MenuItem key={option.value} value={option.value}>
+          {option.label}
+        </MenuItem>
+      ))}
+    </TextField>
+  );
+};
+
+export default Select;

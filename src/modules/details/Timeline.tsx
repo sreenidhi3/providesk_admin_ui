@@ -5,10 +5,10 @@ import {
   TimelineSeparator,
   TimelineItem,
   TimelineContent,
-} from "@mui/lab";
+} from '@mui/lab';
 
 export const TimeLineCom = () => {
-  const k = [{}, ""];
+  const k = [{}, ''];
   return (
     <>
       <Timeline>
@@ -37,7 +37,7 @@ export const TimeLineDescription = () => {
     <>
       <div
         className='m-2 border border-dark d-flex'
-        style={{ height: "200px", border: "1px solid black" }}
+        style={{ height: '200px', border: '1px solid black' }}
       >
         <div className='d-flex'>
           <p className='fw-bold'>Assign:</p>

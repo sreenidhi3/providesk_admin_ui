@@ -1,8 +1,8 @@
-import { useQuery } from "react-query";
-import { toast } from "react-toastify";
+import { useQuery } from 'react-query';
+import { toast } from 'react-toastify';
 
-import API_CONSTANTS from "hooks/constants";
-import { getDepartmentList, getDetailsTicket } from "./details.service";
+import API_CONSTANTS from 'hooks/constants';
+import { getDepartmentList, getDetailsTicket } from './details.service';
 
 export const useDetails = (id: number) => {
   const { data, isLoading, refetch } = useQuery(
@@ -11,7 +11,7 @@ export const useDetails = (id: number) => {
     {
       onError: (err) => {
         console.log(err);
-        toast.error("Unable to Fetch data");
+        toast.error('Unable to Fetch data');
       },
     }
   );
@@ -25,7 +25,7 @@ export const useCatagory = () => {
     getDepartmentList,
     {
       onError: () => {
-        toast.error("unable to fetch department list");
+        toast.error('unable to fetch department list');
       },
     }
   );

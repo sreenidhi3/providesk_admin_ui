@@ -1,14 +1,11 @@
-import { Box, Typography, Grid } from "@mui/material";
-import { Select } from "modules/shared/Select";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
-import { StyleLabel } from "modules/shared/StyleLabel";
-import { Button } from "modules/shared/Button";
+import { Box, Grid } from '@mui/material';
+import { Select } from 'modules/shared/Select';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
+import { StyleLabel } from 'modules/shared/StyleLabel';
 
-import { Form, Formik } from "formik";
-import Paper from "@mui/material/Paper";
-import { useDetails } from "./details.hook";
-import { useParams } from "react-router-dom";
-import { useCallback } from "react";
+import { Form, Formik } from 'formik';
+import Paper from '@mui/material/Paper';
+import { useCallback } from 'react';
 
 function Details() {
   // toDo
@@ -18,10 +15,10 @@ function Details() {
   const onSubmit = useCallback(() => {}, []);
   const onResolve = useCallback(() => {}, []);
   const initialValues = {
-    department: "",
-    catagory: "",
-    user: "",
-    description: "",
+    department: '',
+    catagory: '',
+    user: '',
+    description: '',
   };
 
   //todo yup
@@ -30,12 +27,12 @@ function Details() {
   return (
     <>
       <Grid container>
-        <Grid item xs={6} style={{ maxHeight: "85vh", overflow: "auto" }}>
+        <Grid item xs={6} style={{ maxHeight: '85vh', overflow: 'auto' }}>
           <div className='timeline'>
             {[1, 2, 2, 3, 3, 34, 3, 3, 3, 3, 2].map((item) => {
               return (
                 <>
-                  <div style={{ display: "flex" }}>
+                  <div style={{ display: 'flex' }}>
                     <div className='content-left left'>dfkj.</div>
                     <div>
                       <div className='container right'>
@@ -67,57 +64,57 @@ function Details() {
             {({ values, errors, touched, handleChange }) => (
               <Form
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
+                  display: 'flex',
+                  flexDirection: 'column',
                   margin: 20,
-                  alignItems: "center",
+                  alignItems: 'center',
                 }}
               >
                 <Select
                   value={values.department}
                   name='department'
                   label='Department'
-                  options={["ayush"]}
+                  options={['ayush']}
                   required={true}
                   onChange={(e) => {
                     handleChange(e);
                   }}
                   error={errors.department}
-                  sx={{ width: "300px", my: 1 }}
+                  sx={{ width: '300px', my: 1 }}
                 />
                 <Select
                   value={values.catagory}
                   label='Category'
                   name='catagory'
-                  options={[{ label: "sh", value: "aksjd" }]}
+                  options={[{ label: 'sh', value: 'aksjd' }]}
                   required={true}
                   onChange={(e) => {
                     handleChange(e);
                   }}
                   error={errors.catagory}
-                  sx={{ width: "300px", my: 1 }}
+                  sx={{ width: '300px', my: 1 }}
                 />
                 <Select
                   value={values.user}
                   label='Assign to User'
                   name='user'
-                  options={["ayush"]}
+                  options={['ayush']}
                   required={true}
                   onChange={(e) => {
                     console.log(e.target.value);
                     handleChange(e);
                   }}
                   error={errors.user}
-                  sx={{ width: "300px", my: 1 }}
+                  sx={{ width: '300px', my: 1 }}
                 />
                 <Box>
-                  <StyleLabel text={"Description"} required={true} />
+                  <StyleLabel text={'Description'} required={true} />
                   <TextareaAutosize
                     name='description'
                     value={values.description}
                     minRows={3}
                     placeholder='Minimum 3 rows'
-                    style={{ width: "300px" }}
+                    style={{ width: '300px' }}
                     onChange={handleChange}
                     // error={errors.description}
                   />
@@ -127,13 +124,13 @@ function Details() {
                     onClick={onResolve}
                     disabled={!(values.description.length > 0)}
                     //   color={"primary.main"}
-                    className={"btn btn-primary mx-5"}
+                    className={'btn btn-primary mx-5'}
                   >
                     Assign
                   </button>
                   <button
                     onClick={onResolve}
-                    className={"btn btn-success"}
+                    className={'btn btn-success'}
                     disabled={!(values.description.length > 0)}
                   >
                     Resolve
