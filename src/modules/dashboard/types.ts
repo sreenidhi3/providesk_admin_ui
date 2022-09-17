@@ -13,3 +13,9 @@ export interface GetRequestsListResponse {
   message: string;
   data: RequestData[];
 }
+
+export interface GetRequestsListRequest{
+  status?:string;
+  department?:string;
+  title?:string;
+}

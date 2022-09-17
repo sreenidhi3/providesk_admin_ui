@@ -49,7 +49,7 @@ const RequestCard = ({ data }: { data: RequestData }) => {
     navigate('/');
   };
   return (
-    <Card sx={{ minWidth: 275, cursor: 'pointer'}} onClick={onCardClick}>
+    <Card sx={{ maxWidth: 275, cursor: 'pointer' }} onClick={onCardClick}>
       <CardActionArea>
         <CardContent>
           <Stack
@@ -62,7 +62,7 @@ const RequestCard = ({ data }: { data: RequestData }) => {
             }}
           >
             <Chip label={id} />
-            <Chip label={status} color="primary"/>
+            <Chip label={status} color='primary' />
           </Stack>
           <Typography
             sx={{ fontSize: 16, fontWeight: 'bold' }}
@@ -100,6 +100,14 @@ const RequestCard = ({ data }: { data: RequestData }) => {
                   <TableCell sx={{ color: '#63686b' }}>Department</TableCell>
                   <TableCell sx={{ fontWeight: 'bold' }}>
                     {department}
+                  </TableCell>
+                </TableRow>
+                <TableRow >
+                  <TableCell sx={{ color: '#63686b',display:"flex" }}>
+                    Last Updated Time 
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: 'bold' }}>
+                    {last_update_time}
                   </TableCell>
                 </TableRow>
               </TableBody>
