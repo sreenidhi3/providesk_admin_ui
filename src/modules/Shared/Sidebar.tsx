@@ -55,7 +55,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function PersistentDrawerLeft() {
+export default function Sidebar() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -76,12 +76,12 @@ export default function PersistentDrawerLeft() {
     {
       label: 'Users',
       icon: <GroupIcon fontSize='large' />,
-      path: '/users',
+      path: ROUTE.USERS,
     },
     {
-      label: 'Organization',
+      label: 'Department',
       icon: <DomainIcon fontSize='large' />,
-      path: '/organization',
+      path: ROUTE.DEPARTMENT,
     },
   ];
 
@@ -133,7 +133,7 @@ export default function PersistentDrawerLeft() {
         <List>
           {sidebarConfig.map((ele) => (
             <Link
-              to={'/' + ele.path}
+              to={ele.path}
               style={{ textDecoration: 'none', color: 'gray' }}
             >
               <ListItem className='my-4' key={ele.label} disablePadding>
@@ -146,26 +146,6 @@ export default function PersistentDrawerLeft() {
               </ListItem>
             </Link>
           ))}
-          {/* route and title pair array to render sidebar tabs*/}
-          {/* {[
-            ['dashboard', 'Dashboard'],
-            ['departments', 'Departments'],
-            ['users', 'Users'],
-          ].map((navItem) => (
-            <Link
-              to={'/' + navItem[0]}
-              style={{ textDecoration: 'none', color: 'gray' }}
-            >
-              <ListItem className='my-4' key={navItem[1]} disablePadding>
-                <ListItemButton className='d-flex flex-column justify-content-center align-items-center'>
-                  <ListItemIcon style={{ minWidth: 0 }}>
-                    {navItem[0] === 'dashboard' ? <DashboardIcon /> : ''}
-                  </ListItemIcon>
-                  <ListItemText primary={navItem[1]} />
-                </ListItemButton>
-              </ListItem>
-            </Link>
-          ))} */}
         </List>
         <Divider />
       </Drawer>

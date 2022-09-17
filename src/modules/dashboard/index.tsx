@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import TablePagination from '@mui/material/TablePagination';
 
-import Header from 'modules/Shared/Header';
-import Select from 'modules/Shared/Select';
-import Search from 'modules/Shared/Search';
+import { CustomSelect } from 'modules/shared/Select';
+import Search from 'modules/shared/Search';
 import { useGetRequestsList } from './dashboard.hooks';
-import ComplaintCard from 'modules/Shared/ComplaintCard';
+import ComplaintCard from 'modules/shared/ComplaintCard';
 
 const statusOptions = [
   {
@@ -89,17 +88,16 @@ const Dashboard = () => {
 
   return (
     <div>
-      <Header />
       <div className='d-flex flex-column p-5 '>
         <div className='d-flex gap-3 mb-4'>
-          <Select
+          <CustomSelect
             label={'Status'}
             options={statusOptions}
             value={filters.status}
             onChange={handleChange}
             name='status'
           />
-          <Select
+          <CustomSelect
             label={'Departments'}
             options={departmentOptions}
             value={filters.department}

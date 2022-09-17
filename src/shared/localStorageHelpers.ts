@@ -17,3 +17,14 @@ export const loadLocalStorage = (key) => {
     console.log('Error while retrieving data from localstorage');
   }
 };
+
+export const removeLocalStorageState = (key) => {
+  try {
+    localStorage.removeItem(key);
+  } catch (error) {
+    console.error(
+      `An error occurred while removing the ${key} from local storage, Error details : `,
+      error
+    );
+  }
+};

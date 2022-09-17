@@ -1,7 +1,11 @@
 const ROUTE = {
   ROOT: '/',
-  DASHBOARD: '/dashboard',
   LOGIN: '/login',
+  DASHBOARD: '/complaints',
+  DETAILS: '/complaints/:id',
+  USERS: '/users',
+  DEPARTMENT: '/departments',
+  SIDEBAR: '/sidebar',
 };
 
 export default ROUTE;

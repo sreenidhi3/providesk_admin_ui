@@ -10,10 +10,13 @@ import { useLogin } from 'hooks/login.hooks';
 import { saveToLocalStorage } from 'shared/localStorageHelpers';
 import ROUTE from 'routes/constants';
 import { LOCAL_STORAGE_KEYS } from 'shared/appConstants';
+import { useContext, useEffect } from 'react';
+import { UserContext } from 'App';
 
 const AuthContainer = () => {
   const { mutate, isLoading: isLogging } = useLogin();
   const navigate = useNavigate();
+  const { setUserAuth, userAuth } = useContext(UserContext);
 
   const onGoogleLoginSuccess = (credentialResponse) => {
     const { email, name, picture }: userProfileType =
@@ -33,12 +36,20 @@ const AuthContainer = () => {
     // make login api call with user data
     mutate(payload, {
       onSuccess: (response) => {
+        // update user auth data for userContext
+        setUserAuth(response.data.data);
         saveToLocalStorage(LOCAL_STORAGE_KEYS.USER_AUTH, response.data.data);
-        navigate(ROUTE.DASHBOARD);
       },
       onError: (error) => {},
     });
   };
+
+  // useEffect to navigate on successfull login
+  useEffect(() => {
+    if (userAuth?.auth_token) {
+      navigate(ROUTE.DASHBOARD);
+    }
+  }, [navigate, userAuth]);
 
   const onGoogleLoginFailure = () => {
     console.log('Login Failed');

@@ -9,7 +9,8 @@ export type userProfileType = {
   picture: string;
 };
 
-export type userContextType = {
+export type IUserContextType = {
   userAuth: userAuthType;
   userProfile: userProfileType;
+  setUserAuth: (auth) => void;
 };

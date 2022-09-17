@@ -12,6 +12,7 @@ const PrivateRoute: React.FC<IProps> = ({ Component }) => {
   const userContext = useContext(UserContext);
   const auth = userContext.userAuth;
 
+  // redirect user to login page if token not present
   if (!auth?.auth_token) {
     window.location.href = ROUTE.LOGIN;
     return null;
