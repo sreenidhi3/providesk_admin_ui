@@ -6,7 +6,7 @@ import PrivateRoute from 'modules/shared/HOC/privateRoute';
 import Details from 'modules/details';
 
 import ROUTE from './constants';
-import Sidebar from 'modules/shared/Sidebar';
+import withLayout from 'layouts';
 
 export const routeConfig = [
   {
@@ -19,14 +19,10 @@ export const routeConfig = [
   },
   {
     path: ROUTE.DASHBOARD,
-    element: <PrivateRoute Component={<Dashboard />} />,
+    element: <PrivateRoute Component={withLayout(<Dashboard />)} />,
   },
   {
     path: ROUTE.DETAILS,
-    element: <Details />,
-  },
-  {
-    path: ROUTE.SIDEBAR,
-    element: <Sidebar />,
+    element: <PrivateRoute Component={withLayout(<Details />)} />,
   },
 ];

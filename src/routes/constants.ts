@@ -5,7 +5,6 @@ const ROUTE = {
   DETAILS: '/complaints/:id',
   USERS: '/users',
   DEPARTMENT: '/departments',
-  SIDEBAR: '/sidebar',
 };
 
 export default ROUTE;
