@@ -1,12 +1,12 @@
 import { Navigate } from 'react-router-dom';
 
+import { DepartMent } from 'modules/Department';
 import AuthContainer from 'modules/Auth';
 import Dashboard from 'modules/dashboard';
 import PrivateRoute from 'modules/shared/HOC/privateRoute';
 import Details from 'modules/details';
-
-import ROUTE from './constants';
 import withLayout from 'layouts';
+import ROUTE from './constants';
 
 export const routeConfig = [
   {
@@ -24,5 +24,9 @@ export const routeConfig = [
   {
     path: ROUTE.DETAILS,
     element: <PrivateRoute Component={withLayout(<Details />)} />,
+  },
+  {
+    path: ROUTE.DEPARTMENT,
+    element: <DepartMent />,
   },
 ];
