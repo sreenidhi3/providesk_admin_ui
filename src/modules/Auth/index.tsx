@@ -51,9 +51,7 @@ const AuthContainer = () => {
     }
   }, [navigate, userAuth]);
 
-  const onGoogleLoginFailure = () => {
-    console.log('Login Failed');
-  };
+  const onGoogleLoginFailure = () => {};
 
   return (
     <div className='d-flex flex-row justify-content-around align-items-center vh-100'>

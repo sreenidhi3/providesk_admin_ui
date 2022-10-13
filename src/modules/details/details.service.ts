@@ -1,4 +1,4 @@
-import { get } from "apis/apiHelper";
+import { get } from 'apis/apiHelper';
 
 export const getDetailsTicket = (id) => {
   return get({
@@ -8,5 +8,9 @@ export const getDetailsTicket = (id) => {
 };
 
 export const getDepartmentList = () => {
-  return get({ path: `/departments/` });
+  return get({ path: `/organizations/1/departments` });
+};
+
+export const getCategoryList = () => {
+  return get({ path: `/category/` });
 };
