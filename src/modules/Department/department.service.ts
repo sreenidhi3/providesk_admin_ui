@@ -1,9 +1,9 @@
-import { post } from "apis/apiHelper";
+import { post } from 'apis/apiHelper';
 
 export const postCreateDepartment = ({
   payload,
 }: {
   payload: { name: string; id: number };
 }) => {
-  return post({ path: "", requestParams: payload });
+  return post({ path: '', requestParams: payload });
 };
