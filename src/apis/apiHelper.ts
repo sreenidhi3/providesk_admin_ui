@@ -1,8 +1,17 @@
-import { axiosInstance } from "./apiConfigInitializer";
-import { deletePayload, getPayload, postPayload, putPayload } from "./types";
+import { AxiosRequestHeaders } from 'axios';
+import { axiosInstance } from './apiConfigInitializer';
+
+import { deletePayload, getPayload, postPayload, putPayload } from './types';
 
 export const get = async (payload: getPayload) => {
-  const { path, queryParams = null, responseType = "json" } = payload;
+  const { path, queryParams = null, responseType = 'json' } = payload;
+  axiosInstance.interceptors.request.use((config) => {
+    let headers = config.headers as AxiosRequestHeaders;
+    headers['Authorization'] = JSON.parse(
+      localStorage.getItem('userAuth') as string
+    ).auth_token;
+    return config;
+  });
   const response = await axiosInstance.get(path, {
     params: queryParams,
     responseType,
@@ -15,7 +24,16 @@ export const get = async (payload: getPayload) => {
  * @param payload
  */
 export const post = async (payload: postPayload) => {
-  const { path, requestParams, queryParams = {} } = payload;
+  const { path, requestParams, requireToken, queryParams = {} } = payload;
+  if (!(requireToken === false)) {
+    axiosInstance.interceptors.request.use((config) => {
+      let headers = config.headers as AxiosRequestHeaders;
+      headers['Authorization'] = JSON.parse(
+        localStorage.getItem('userAuth') as string
+      ).auth_token;
+      return config;
+    });
+  }
   const response = await axiosInstance.post(path, requestParams, {
     params: queryParams,
   });
@@ -28,12 +46,26 @@ export const post = async (payload: postPayload) => {
  */
 export const put = async (payload: putPayload) => {
   const { path, payloadParams } = payload;
+  axiosInstance.interceptors.request.use((config) => {
+    let headers = config.headers as AxiosRequestHeaders;
+    headers['Authorization'] = JSON.parse(
+      localStorage.getItem('userAuth') as string
+    ).auth_token;
+    return config;
+  });
   const response = await axiosInstance.put(path, payloadParams);
   return response;
 };
 
 export const deleteCall = async (payload: deletePayload) => {
   const { path, queryParams = null } = payload;
+  axiosInstance.interceptors.request.use((config) => {
+    let headers = config.headers as AxiosRequestHeaders;
+    headers['Authorization'] = JSON.parse(
+      localStorage.getItem('userAuth') as string
+    ).auth_token;
+    return config;
+  });
   const response = await axiosInstance.delete(path, { params: queryParams });
   return response;
 };
