@@ -1,6 +1,7 @@
 import { Navigate } from 'react-router-dom';
 
 import { DepartMent } from 'modules/Department';
+import { Category } from 'modules/Category';
 import AuthContainer from 'modules/Auth';
 import Dashboard from 'modules/dashboard';
 import PrivateRoute from 'modules/shared/HOC/privateRoute';
@@ -27,6 +28,10 @@ export const routeConfig = [
   },
   {
     path: ROUTE.DEPARTMENT,
-    element: <DepartMent />,
+    element: <PrivateRoute Component={withLayout(<DepartMent />)} />,
+  },
+  {
+    path: ROUTE.CATEGORY,
+    element: <PrivateRoute Component={withLayout(<Category />)} />,
   },
 ];
