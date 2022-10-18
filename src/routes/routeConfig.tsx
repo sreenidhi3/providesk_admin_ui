@@ -2,11 +2,13 @@ import { Navigate } from 'react-router-dom';
 
 import { DepartMent } from 'modules/Department';
 import { Category } from 'modules/Category';
+import { Ticket } from 'modules/Ticket';
 import AuthContainer from 'modules/Auth';
 import Dashboard from 'modules/dashboard';
 import PrivateRoute from 'modules/shared/HOC/privateRoute';
 import Details from 'modules/details';
 import withLayout from 'layouts';
+
 import ROUTE from './constants';
 
 export const routeConfig = [
@@ -33,5 +35,9 @@ export const routeConfig = [
   {
     path: ROUTE.CATEGORY,
     element: <PrivateRoute Component={withLayout(<Category />)} />,
+  },
+  {
+    path: ROUTE.TICKET,
+    element: <PrivateRoute Component={withLayout(<Ticket />)} />,
   },
 ];
