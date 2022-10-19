@@ -8,6 +8,7 @@ const ROUTE = {
   CATEGORY: '/categories',
   TICKET: '/ticket',
   HOME: '/',
+  UNAUTHORIZED: '/unauthorized',
 };
 
 export default ROUTE;

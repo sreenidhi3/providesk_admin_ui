@@ -6,7 +6,6 @@ import { ThemeProvider } from '@mui/material';
 import { theme } from 'theme';
 import { ToastContainer } from 'react-toastify';
 
-import Header from 'modules/shared/Header';
 import { IUserContextType } from 'modules/Auth/auth.types';
 import { routeConfig } from 'routes/routeConfig';
 import { GOOGLE_CLIENT_ID, LOCAL_STORAGE_KEYS } from 'shared/appConstants';
@@ -20,7 +19,7 @@ const queryClient = new QueryClient();
 
 // User context is used to store user auth details
 export const UserContext = createContext<IUserContextType>({
-  userAuth: { message: '', auth_token: '' },
+  userAuth: { message: '', auth_token: '', organizations: [], role: '' },
   userProfile: { name: '', email: '', picture: '' },
   setUserAuth: (value) => {},
 });
@@ -40,7 +39,6 @@ function App() {
         <UserContext.Provider value={{ userAuth, userProfile, setUserAuth }}>
           <ThemeProvider theme={theme}>
             <ToastContainer position='top-right' autoClose={5000} />
-            <Header />
             <RouterProvider router={router} />
           </ThemeProvider>
         </UserContext.Provider>
