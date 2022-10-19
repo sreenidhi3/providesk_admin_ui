@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material';
 import { theme } from 'theme';
+import { ToastContainer } from 'react-toastify';
 
 import Header from 'modules/shared/Header';
 import { IUserContextType } from 'modules/Auth/auth.types';
@@ -12,6 +13,7 @@ import { GOOGLE_CLIENT_ID, LOCAL_STORAGE_KEYS } from 'shared/appConstants';
 import { loadLocalStorage } from 'shared/localStorageHelpers';
 
 import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Create a client
 const queryClient = new QueryClient();
@@ -37,6 +39,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <UserContext.Provider value={{ userAuth, userProfile, setUserAuth }}>
           <ThemeProvider theme={theme}>
+            <ToastContainer position='top-right' autoClose={5000} />
             <Header />
             <RouterProvider router={router} />
           </ThemeProvider>
