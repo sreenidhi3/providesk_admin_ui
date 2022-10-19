@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import { useQueryClient } from 'react-query';
 
 import { useCreateCategory, useDepartments } from './category.hook';
 import { PriorityType } from './type';
 import CategoryList from './components/CategoryList';
 import { Button } from 'modules/shared/Button';
-import API_CONSTANTS from 'hooks/constants';
 
 import {
   Divider,
@@ -19,8 +17,6 @@ import {
 import { SelectChangeEvent } from '@mui/material/Select/SelectInput';
 
 export const Category = () => {
-  const queryClient = useQueryClient();
-
   const [category, setCategory] = useState<string>('');
   const [departmentId, setDepartmentId] = useState<number>(0);
   const [priority, setPriority] = useState<number>(0);
