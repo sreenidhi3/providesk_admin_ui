@@ -68,7 +68,10 @@ export const Ticket = () => {
   const handleDataChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    setTicketData((values) => ({ ...values, [name]: value }));
+    let valid = /^[-()., A-Za-z0-9 \n]*$/;
+    if (valid.test(value)) {
+      setTicketData((values) => ({ ...values, [name]: value }));
+    }
   };
 
   function handleSelectDeptChange(e) {
@@ -80,8 +83,10 @@ export const Ticket = () => {
     let ticket = ticketData as createTicketDataType;
     if (
       Object.keys(ticket).length > 1 &&
+      ticket?.title &&
       ticket.title.length > 0 &&
-      ticket.description.length > 0 &&
+      ticket?.description &&
+      ticket.description?.length > 0 &&
       ticket.resolver_id &&
       ticket.department_id &&
       ticket.ticket_type &&
@@ -128,8 +133,9 @@ export const Ticket = () => {
           >
             <TextField
               sx={{ m: 2 }}
-              label='Enter ticket title'
+              label='Complaint or Request'
               name='title'
+              minRows={3}
               value={(ticketData as createTicketDataType).title || ''}
               type='text'
               required={true}
@@ -137,23 +143,32 @@ export const Ticket = () => {
               color='secondary'
               onChange={handleDataChange}
               autoFocus={true}
+              helperText='Cannot include special characters'
             />
-            <TextField
-              sx={{ m: 2 }}
-              label='Enter ticket description'
+            <small style={{ margin: '0 1rem' }}> Description * </small>
+            <textarea
+              style={{
+                margin: '0 1rem',
+                border: '0',
+                borderBottom: '1px solid',
+                whiteSpace: 'pre-wrap',
+                outline: 'none',
+              }}
               name='description'
+              rows={3}
               value={(ticketData as createTicketDataType).description || ''}
-              type='text'
               required={true}
-              variant='standard'
               color='secondary'
               onChange={handleDataChange}
             />
+            <small style={{ fontSize: '0.6rem', margin: '0.4rem 1rem' }}>
+              Cannot include special characters
+            </small>
             <FormControl variant='standard' sx={{ m: 2, minWidth: 120 }}>
               <InputLabel id='ticket-type-selector-id'>Ticket Type</InputLabel>
               <SelectMUI
                 name='ticket_type'
-                placeholder='Select Ticket Type'
+                placeholder='Ticket Type'
                 required={true}
                 labelId='ticket-type-selector-id'
                 id='priority-selector'
