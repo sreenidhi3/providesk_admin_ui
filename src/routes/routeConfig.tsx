@@ -8,6 +8,7 @@ import PrivateRoute from 'modules/shared/HOC/privateRoute';
 import Details from 'modules/details';
 import withLayout from 'layouts';
 import ROUTE from './constants';
+import { Ticket } from 'modules/Ticket';
 
 export const routeConfig = [
   {
@@ -33,5 +34,9 @@ export const routeConfig = [
   {
     path: ROUTE.CATEGORY,
     element: <PrivateRoute Component={withLayout(<Category />)} />,
+  },
+  {
+    path: ROUTE.TICKET,
+    element: <PrivateRoute Component={withLayout(<Ticket />)} />,
   },
 ];

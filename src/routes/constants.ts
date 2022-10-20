@@ -6,6 +6,7 @@ const ROUTE = {
   USERS: '/users',
   DEPARTMENT: '/departments',
   CATEGORY: '/categories',
+  TICKET: '/ticket',
   HOME: '/',
 };
 
