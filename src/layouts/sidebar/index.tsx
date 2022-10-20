@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
+import ROUTE from 'routes/constants';
+import { LOCAL_STORAGE_KEYS } from 'shared/appConstants';
+import { removeLocalStorageState } from 'shared/localStorageHelpers';
+
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -21,7 +25,9 @@ import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import DomainIcon from '@mui/icons-material/Domain';
 import GroupIcon from '@mui/icons-material/Group';
-import ROUTE from 'routes/constants';
+import CategoryIcon from '@mui/icons-material/Category';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { Button } from '@mui/material';
 
 const drawerWidth = 180;
 
@@ -67,6 +73,11 @@ export default function Sidebar() {
     setOpen(false);
   };
 
+  const onLogout = () => {
+    removeLocalStorageState(LOCAL_STORAGE_KEYS.USER_AUTH);
+    window.location.href = ROUTE.LOGIN;
+  };
+
   const sidebarConfig = [
     {
       label: 'Dashboard',
@@ -83,25 +94,55 @@ export default function Sidebar() {
       icon: <DomainIcon fontSize='large' />,
       path: ROUTE.DEPARTMENT,
     },
+    {
+      label: 'Categories',
+      icon: <CategoryIcon fontSize='large' />,
+      path: ROUTE.CATEGORY,
+    },
   ];
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position='fixed' open={open}>
-        <Toolbar>
-          <IconButton
-            color='inherit'
-            aria-label='open drawer'
-            onClick={handleDrawerOpen}
-            edge='start'
-            sx={{ mr: 2, ...(open && { display: 'none' }) }}
+        <Toolbar style={{ justifyContent: 'space-between' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'nowrap',
+              alignItems: 'center',
+            }}
           >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant='h6' noWrap component='div'>
-            PROVIDESK
-          </Typography>
+            <IconButton
+              color='inherit'
+              aria-label='open drawer'
+              onClick={handleDrawerOpen}
+              edge='start'
+              sx={{ mr: 2, ...(open && { display: 'none' }) }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant='h6' noWrap component='div'>
+              PROVIDESK
+            </Typography>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+              width: 'inherit',
+            }}
+          >
+            <Button
+              variant='outlined'
+              sx={{ color: '#ffffff' }}
+              endIcon={<LogoutIcon />}
+              onClick={onLogout}
+            >
+              Logout
+            </Button>
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -135,8 +176,9 @@ export default function Sidebar() {
             <Link
               to={ele.path}
               style={{ textDecoration: 'none', color: 'gray' }}
+              key={ele.label}
             >
-              <ListItem className='my-4' key={ele.label} disablePadding>
+              <ListItem className='my-4' disablePadding>
                 <ListItemButton className='d-flex flex-column justify-content-center align-items-center'>
                   <ListItemIcon style={{ minWidth: 0 }}>
                     {ele.icon}

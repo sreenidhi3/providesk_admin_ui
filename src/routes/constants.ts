@@ -5,6 +5,7 @@ const ROUTE = {
   DETAILS: '/complaints/:id',
   USERS: '/users',
   DEPARTMENT: '/departments',
+  CATEGORY: '/categories',
   HOME: '/',
 };
 
