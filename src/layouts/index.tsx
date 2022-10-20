@@ -5,7 +5,7 @@ const withLayout = (component: React.ReactElement) => {
   return (
     <>
       <Sidebar />
-      {component}
+      <div style={{ marginTop: '5rem' }}>{component}</div>
     </>
   );
 };

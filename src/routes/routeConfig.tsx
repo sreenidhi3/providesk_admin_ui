@@ -31,7 +31,12 @@ export const routeConfig = [
     element: (
       <PrivateRoute
         Component={withLayout(<Dashboard />)}
-        Role={[ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.DEPARTMENT_HEAD]}
+        Role={[
+          ROLES.SUPER_ADMIN,
+          ROLES.ADMIN,
+          ROLES.DEPARTMENT_HEAD,
+          ROLES.EMPLOYEE,
+        ]}
       />
     ),
   },
