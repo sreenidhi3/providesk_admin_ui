@@ -1,9 +1,10 @@
-import { useMemo, useState } from 'react';
-import { useQueryClient } from 'react-query';
+import { useMemo, useState, useContext } from 'react';
+import { toast } from 'react-toastify';
 
 import { Button } from 'modules/shared/Button';
 import Select from 'modules/shared/Select';
 
+import { UserContext } from 'App';
 import { createTicketDataType } from './type';
 import { useCategories, useDepartments } from 'modules/Category/category.hook';
 import { useCreateTicket, useUsers } from './ticket.hook';
@@ -20,20 +21,22 @@ import {
 } from '@mui/material';
 
 export const Ticket = () => {
-  const queryClient = useQueryClient();
+  const { userAuth } = useContext(UserContext);
 
-  const [disabled, setDisabled] = useState<boolean>(true);
+  const [organization_id, setOrganizationId] = useState<number | ''>(
+    userAuth?.organizations?.[0]?.id || ''
+  );
   const [department_id, setDepartmentId] = useState<number | ''>(1);
   const [ticketData, setTicketData] = useState<createTicketDataType | {}>({});
 
   const { data: departmentsList, isLoading: departmentsFetching } =
-    useDepartments(1);
+    useDepartments(organization_id);
   const { data: categoriesList, isLoading: categoriesFetching } =
     useCategories(department_id);
   const { data: usersList, isLoading: usersFetching } = useUsers(department_id);
   const { mutate, isLoading: creating, data } = useCreateTicket();
 
-  const ticketTypesList: string[] = ['Request', 'Complaint'];
+  const ticketTypesList: string[] = ['request', 'complaint'];
 
   const deptOptions = useMemo(() => {
     return (
@@ -43,8 +46,6 @@ export const Ticket = () => {
       })) || []
     );
   }, [departmentsList]);
-  //todo
-  //add organization_id to dependency array for departments option list
 
   const categoryOptions = useMemo(() => {
     return (
@@ -68,21 +69,6 @@ export const Ticket = () => {
     const name = e.target.name;
     const value = e.target.value;
     setTicketData((values) => ({ ...values, [name]: value }));
-    let ticket = ticketData as createTicketDataType;
-    if (
-      ticket.title &&
-      ticket?.title.length > 0 &&
-      ticket.description &&
-      ticket?.description.length > 0 &&
-      ticket.resolver_id &&
-      ticket.department_id &&
-      ticket.ticket_type &&
-      ticket.category_id
-    ) {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
   };
 
   function handleSelectDeptChange(e) {
@@ -91,10 +77,29 @@ export const Ticket = () => {
   }
 
   const createTicket = () => {
-    let payload = {
-      ticket: { ...(ticketData as createTicketDataType) },
-    };
-    mutate(payload);
+    let ticket = ticketData as createTicketDataType;
+    if (
+      Object.keys(ticket).length > 1 &&
+      ticket.title.length > 0 &&
+      ticket.description.length > 0 &&
+      ticket.resolver_id &&
+      ticket.department_id &&
+      ticket.ticket_type &&
+      ticket.category_id
+    ) {
+      let payload = {
+        ticket: {
+          ...ticket,
+          title: ticket.title.trim(),
+          description: ticket.description.trim(),
+        },
+      };
+      mutate(payload);
+      setTicketData({});
+    } else {
+      toast.warning('Fields cannot be empty');
+      return;
+    }
   };
 
   return (
@@ -131,6 +136,7 @@ export const Ticket = () => {
               variant='standard'
               color='secondary'
               onChange={handleDataChange}
+              autoFocus={true}
             />
             <TextField
               sx={{ m: 2 }}
@@ -155,8 +161,19 @@ export const Ticket = () => {
                 label='Ticket Type'
                 onChange={handleDataChange}
               >
+                <MenuItem
+                  key={'Select'}
+                  value={''}
+                  style={{ textTransform: 'capitalize' }}
+                >
+                  <span>None</span>
+                </MenuItem>
                 {ticketTypesList?.map((item) => (
-                  <MenuItem key={item} value={item}>
+                  <MenuItem
+                    key={item}
+                    value={item}
+                    style={{ textTransform: 'capitalize' }}
+                  >
                     <span>{item}</span>
                   </MenuItem>
                 ))}
@@ -200,9 +217,8 @@ export const Ticket = () => {
               onClick={() => {
                 createTicket();
               }}
-              className='btn btn-success mx-3'
+              className='mx-3'
               style={{ height: '40px' }}
-              disabled={disabled}
             >
               Create
             </Button>

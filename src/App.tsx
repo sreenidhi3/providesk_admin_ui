@@ -20,7 +20,7 @@ const queryClient = new QueryClient();
 
 // User context is used to store user auth details
 export const UserContext = createContext<IUserContextType>({
-  userAuth: { message: '', auth_token: '' },
+  userAuth: { message: '', auth_token: '', organizations: [], role: '' },
   userProfile: { name: '', email: '', picture: '' },
   setUserAuth: (value) => {},
 });
