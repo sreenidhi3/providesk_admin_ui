@@ -110,11 +110,6 @@ export default function Sidebar() {
       icon: <CategoryIcon fontSize='large' />,
       path: ROUTE.CATEGORY,
     },
-    {
-      label: 'Ticket',
-      icon: <ConfirmationNumberIcon fontSize='large' />,
-      path: ROUTE.TICKET,
-    },
   ];
 
   const superAdminAccessSidebar = [
