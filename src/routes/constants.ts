@@ -4,7 +4,7 @@ const ROUTE = {
   DASHBOARD: '/complaints',
   DETAILS: '/complaints/:id',
   USERS: '/users',
-  ORGANIZATION: 'organization',
+  ORGANIZATION: '/organization',
   DEPARTMENT: '/departments',
   CATEGORY: '/categories',
   TICKET: '/ticket',
