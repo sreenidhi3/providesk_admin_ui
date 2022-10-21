@@ -7,7 +7,7 @@ import { createTicketPayloadType, CreateTicketErrorType } from './type';
 
 import API_CONSTANTS from 'hooks/constants';
 
-//todo - while ticket listing api integration
+//todo - while ticket listing api integration (dashboard)
 //1. inavalidate ticket query on successful ticket creation
 
 export const useCreateTicket = () => {
@@ -21,7 +21,7 @@ export const useCreateTicket = () => {
       },
       onError: (err: AxiosError) => {
         let error = err?.response?.data as CreateTicketErrorType;
-        toast.error(error.errors);
+        toast.error(error?.errors || 'Failed to create ticket.');
       },
     }
   );
@@ -34,7 +34,7 @@ export const useUsers = (dept_id) => {
     () => getUsersList(dept_id),
     {
       onError: () => {
-        toast.error('unable to fetch users list');
+        toast.error('Failed to fetch department employees list.');
       },
     }
   );
