@@ -56,20 +56,34 @@ const AuthContainer = () => {
   };
 
   return (
-    <div className='d-flex flex-row justify-content-around align-items-center vh-100'>
+    <div
+      className='d-flex flex-column justify-content-center align-items-center'
+      style={{ height: '85vh', overflow: 'hidden' }}
+    >
       <Loader isLoading={isLogging} />
-      <div className='d-flex align-items-center'>
-        <img src={Login} alt='Login' height={600}></img>
-      </div>
-      <div className='d-flex h-100 flex-column align-items-center justify-content-center'>
+      <div className='d-flex flex-column justify-content-center align-items-center'>
         <h1 className='m-3'>Welcome to Providesk!</h1>
-        <GoogleLogin
-          onSuccess={onGoogleLoginSuccess}
-          onError={onGoogleLoginFailure}
-          theme='filled_blue'
-          size='large'
-          shape='pill'
-        />
+        <div className='m-3'>
+          <GoogleLogin
+            onSuccess={onGoogleLoginSuccess}
+            onError={onGoogleLoginFailure}
+            theme='filled_blue'
+            size='large'
+            shape='pill'
+          />
+        </div>
+      </div>
+      <div style={{ marginTop: '2rem' }}>
+        <img
+          style={{
+            border: '1px solid #9e9e9e7a',
+            borderRadius: '3px',
+            padding: '1rem',
+            maxHeight: '20rem',
+          }}
+          src={Login}
+          alt='Login'
+        ></img>
       </div>
     </div>
   );
