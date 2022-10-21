@@ -9,9 +9,8 @@ import PrivateRoute from 'modules/shared/HOC/privateRoute';
 import Details from 'modules/details';
 import UnauthorizedAccess from 'modules/Auth/components/UnauthorizedAccess';
 import withLayout from 'layouts';
-
-import ROUTE from './constants';
 import { ROLES } from './roleConstants';
+import ROUTE from './constants';
 
 export const routeConfig = [
   {
