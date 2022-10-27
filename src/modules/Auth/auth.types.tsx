@@ -1,6 +1,13 @@
 export type userAuthType = {
   message: string;
   auth_token: string;
+  role: string;
+  organizations: OrganizationType[];
+};
+
+export type OrganizationType = {
+  id: number;
+  name: string;
 };
 
 export type userProfileType = {

@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { useCreateCategory, useDepartments } from './category.hook';
 import { PriorityType } from './type';
 import CategoryList from './components/CategoryList';
 import { Button } from 'modules/shared/Button';
-import { toast } from 'react-toastify';
+import { UserContext } from 'App';
 
 import {
   Divider,
@@ -18,13 +19,18 @@ import {
 import { SelectChangeEvent } from '@mui/material/Select/SelectInput';
 
 export const Category = () => {
+  const { userAuth } = useContext(UserContext);
+
+  const [organizationId, setOrganizationId] = useState<number | ''>(
+    userAuth?.organizations?.[0]?.id || ''
+  );
   const [category, setCategory] = useState<string>('');
   const [departmentId, setDepartmentId] = useState<number>(0);
   const [priority, setPriority] = useState<number>(0);
 
   const { mutate, isLoading: creating, data } = useCreateCategory();
   const { data: departmentsList, isLoading: departmentsFetching } =
-    useDepartments(1);
+    useDepartments(organizationId);
   const prioritiesList: PriorityType[] = [
     { id: 0, value: 'Regular' },
     { id: 1, value: 'High' },
