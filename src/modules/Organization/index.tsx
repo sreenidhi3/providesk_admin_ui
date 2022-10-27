@@ -97,7 +97,7 @@ export const Organization = () => {
           >
             <TextField
               sx={{ m: 2, width: 240 }}
-              label='Add New Organization'
+              label='Organization'
               value={organization}
               type='text'
               required={true}
