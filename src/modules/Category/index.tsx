@@ -4,6 +4,7 @@ import { useCreateCategory, useDepartments } from './category.hook';
 import { PriorityType } from './type';
 import CategoryList from './components/CategoryList';
 import { Button } from 'modules/shared/Button';
+import { toast } from 'react-toastify';
 
 import {
   Divider,
@@ -32,14 +33,22 @@ export const Category = () => {
   ];
 
   const createCategory = () => {
-    let payload = {
-      categories: {
-        name: category,
-        priority: priority,
-        department_id: departmentId,
-      },
-    };
-    mutate(payload);
+    let valid = /^[a-zA-Z0-9 ]*$/;
+    if (!valid.test(category)) {
+      toast.warning('Special characters not allowed in category name.');
+    } else {
+      let payload = {
+        categories: {
+          name: category,
+          priority: priority,
+          department_id: departmentId,
+        },
+      };
+      mutate(payload);
+      setPriority(0);
+      setDepartmentId(0);
+      setCategory('');
+    }
   };
 
   return (
@@ -54,7 +63,7 @@ export const Category = () => {
       >
         <Divider>
           <Typography variant='h6' component='div'>
-            Create New Category
+            Add Category
           </Typography>
         </Divider>
         <div
@@ -67,10 +76,11 @@ export const Category = () => {
           }}
         >
           <TextField
-            label='Create New Category'
+            label='Category'
             value={category}
             type='text'
             required={true}
+            autoFocus={true}
             variant='standard'
             color='secondary'
             onChange={(e) => setCategory(e.target.value)}
@@ -121,13 +131,10 @@ export const Category = () => {
           <Button
             onClick={() => {
               createCategory();
-              setPriority(0);
-              setDepartmentId(0);
-              setCategory('');
             }}
             className='btn btn-success mx-3'
             style={{ height: '40px' }}
-            disabled={category.length < 6 || departmentId === 0 || creating}
+            disabled={category.length < 3 || departmentId === 0 || creating}
           >
             Create
           </Button>
