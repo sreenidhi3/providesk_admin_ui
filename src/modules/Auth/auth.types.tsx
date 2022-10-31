@@ -7,7 +7,7 @@ export type userAuthType = {
 
 export type OrganizationType = {
   id: number;
-  name: 'string';
+  name: string;
 };
 
 export type userProfileType = {
