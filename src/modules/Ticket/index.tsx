@@ -1,11 +1,13 @@
 import { useMemo, useState, useContext } from 'react';
-import { toast } from 'react-toastify';
+import * as yup from 'yup';
+import { useFormik } from 'formik';
 
 import { Button } from 'modules/shared/Button';
 import Select from 'modules/shared/Select';
 
+import { ticketTypesList } from './ticket.constants';
 import { UserContext } from 'App';
-import { createTicketDataType } from './type';
+import { ICreateTicketData } from './type';
 import { useCategories, useDepartments } from 'modules/Category/category.hook';
 import { useCreateTicket, useUsers } from './ticket.hook';
 
@@ -23,29 +25,31 @@ import {
 export const Ticket = () => {
   const { userAuth } = useContext(UserContext);
 
-  const [organization_id, setOrganizationId] = useState<number | ''>(
+  const [organizationId, setOrganizationId] = useState<number | ''>(
     userAuth?.organizations?.[0]?.id || ''
   );
-  const [department_id, setDepartmentId] = useState<number | ''>(1);
-  const [ticketData, setTicketData] = useState<createTicketDataType | {}>({});
+  const [departmentId, setDepartmentId] = useState<number | ''>(1);
 
-  const { data: departmentsList, isLoading: departmentsFetching } =
-    useDepartments(organization_id);
-  const { data: categoriesList, isLoading: categoriesFetching } =
-    useCategories(department_id);
-  const { data: usersList, isLoading: usersFetching } = useUsers(department_id);
-  const { mutate, isLoading: creating, data } = useCreateTicket();
+  const { data: departmentsList, isLoading: isFetchingDepartments } =
+    useDepartments(organizationId);
+  const { data: categoriesList, isLoading: isFetchingCategories } =
+    useCategories(departmentId);
+  const { data: usersList, isLoading: isFetchingUsers } =
+    useUsers(departmentId);
+  const {
+    mutate,
+    isLoading: creatingTicket,
+    data: ticketConfirmation,
+  } = useCreateTicket();
 
-  const ticketTypesList: string[] = ['request', 'complaint'];
-
-  const deptOptions = useMemo(() => {
-    return (
+  const deptOptions = useMemo(
+    () =>
       departmentsList?.map((dept) => ({
         label: dept.name,
         value: dept.id,
-      })) || []
-    );
-  }, [departmentsList]);
+      })) || [],
+    [departmentsList]
+  );
 
   const categoryOptions = useMemo(() => {
     return (
@@ -54,7 +58,7 @@ export const Ticket = () => {
         value: cate.id,
       })) || []
     );
-  }, [department_id, categoriesList]);
+  }, [categoriesList]);
 
   const userOptions = useMemo(() => {
     return (
@@ -63,49 +67,54 @@ export const Ticket = () => {
         value: cate.id,
       })) || []
     );
-  }, [department_id, usersList]);
+  }, [usersList]);
 
-  const handleDataChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    let valid = /^[-()., A-Za-z0-9 \n]*$/;
-    if (valid.test(value)) {
-      setTicketData((values) => ({ ...values, [name]: value }));
-    }
+  const createTicket = (values) => {
+    let ticket = values as ICreateTicketData;
+    let payload = {
+      ticket: {
+        ...ticket,
+        title: ticket.title.trim(),
+        description: ticket.description.trim(),
+      },
+    };
+    mutate(payload);
+    return;
   };
 
-  function handleSelectDeptChange(e) {
-    setDepartmentId(parseInt(e.target.value));
-    handleDataChange(e);
-  }
+  const ValidationSchema = yup.object({
+    title: yup
+      .string()
+      .matches(/^[-()., A-Za-z0-9\n]*$/i, 'Special characters are not allowed.')
+      .required('Complaint/Request subject is required'),
+    description: yup
+      .string()
+      .matches(
+        /^[-().,_ A-Za-z0-9@': \n]*$/i,
+        'Special characters are not allowed.'
+      )
+      .required('Complaint/Request description is required'),
+    category_id: yup.string().required('Select ticket category'),
+    department_id: yup.string().required('Select department'),
+    ticket_type: yup.string().required('Select type of ticket'),
+    resolver_id: yup.string().required('Assign ticket to resolver'),
+  });
 
-  const createTicket = () => {
-    let ticket = ticketData as createTicketDataType;
-    if (
-      Object.keys(ticket).length > 1 &&
-      ticket?.title &&
-      ticket.title.length > 0 &&
-      ticket?.description &&
-      ticket.description?.length > 0 &&
-      ticket.resolver_id &&
-      ticket.department_id &&
-      ticket.ticket_type &&
-      ticket.category_id
-    ) {
-      let payload = {
-        ticket: {
-          ...ticket,
-          title: ticket.title.trim(),
-          description: ticket.description.trim(),
-        },
-      };
-      mutate(payload);
-      setTicketData({});
-    } else {
-      toast.warning('Fields cannot be empty');
-      return;
-    }
-  };
+  const formik = useFormik({
+    initialValues: {
+      title: '',
+      description: '',
+      category_id: '',
+      department_id: '',
+      ticket_type: '',
+      resolver_id: '',
+    },
+    validationSchema: ValidationSchema,
+    onSubmit: (values) => {
+      createTicket(values);
+      formik.resetForm();
+    },
+  });
 
   return (
     <>
@@ -123,121 +132,158 @@ export const Ticket = () => {
               Create New Ticket
             </Typography>
           </Divider>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-            }}
-          >
-            <TextField
-              sx={{ m: 2 }}
-              label='Complaint or Request'
-              name='title'
-              minRows={3}
-              value={(ticketData as createTicketDataType).title || ''}
-              type='text'
-              required={true}
-              variant='standard'
-              color='secondary'
-              onChange={handleDataChange}
-              autoFocus={true}
-              helperText='Cannot include special characters'
-            />
-            <small style={{ margin: '0 1rem' }}> Description * </small>
-            <textarea
+          <form onSubmit={formik.handleSubmit}>
+            <div
               style={{
-                margin: '0 1rem',
-                border: '0',
-                borderBottom: '1px solid',
-                whiteSpace: 'pre-wrap',
-                outline: 'none',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                flexWrap: 'wrap',
               }}
-              name='description'
-              rows={3}
-              value={(ticketData as createTicketDataType).description || ''}
-              required={true}
-              color='secondary'
-              onChange={handleDataChange}
-            />
-            <small style={{ fontSize: '0.6rem', margin: '0.4rem 1rem' }}>
-              Cannot include special characters
-            </small>
-            <FormControl variant='standard' sx={{ m: 2, minWidth: 120 }}>
-              <InputLabel id='ticket-type-selector-id'>Ticket Type</InputLabel>
-              <SelectMUI
-                name='ticket_type'
-                placeholder='Ticket Type'
+            >
+              <TextField
+                sx={{ m: 2 }}
+                label='Complaint or Request'
+                name='title'
+                minRows={3}
+                value={formik.values.title}
+                type='text'
                 required={true}
-                labelId='ticket-type-selector-id'
-                id='priority-selector'
-                value={(ticketData as createTicketDataType).ticket_type || ''}
-                label='Ticket Type'
-                onChange={handleDataChange}
-              >
-                <MenuItem
-                  key={'Select'}
-                  value={''}
-                  style={{ textTransform: 'capitalize' }}
+                variant='standard'
+                color='secondary'
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                error={formik.touched.title && Boolean(formik.errors.title)}
+                autoFocus={true}
+                helperText={formik.touched.title && formik.errors.title}
+              />
+              <Typography variant='caption' style={{ margin: '0 1rem' }}>
+                {' '}
+                Description *{' '}
+              </Typography>
+              <textarea
+                style={{
+                  margin: '0 1rem',
+                  border: '0',
+                  borderBottom: '1px solid',
+                  whiteSpace: 'pre-wrap',
+                  outline: 'none',
+                }}
+                name='description'
+                rows={3}
+                value={formik.values.description}
+                required={true}
+                color='secondary'
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+              />
+              {formik.touched.description && formik.errors.description ? (
+                <Typography
+                  variant='caption'
+                  display='block'
+                  color='#d32f2f'
+                  gutterBottom
+                  style={{ fontSize: '11px', margin: '0.4rem 1rem' }}
                 >
-                  <span>None</span>
-                </MenuItem>
-                {ticketTypesList?.map((item) => (
+                  {formik.errors.description}
+                </Typography>
+              ) : (
+                ''
+              )}
+
+              <FormControl variant='standard' sx={{ m: 2, minWidth: 120 }}>
+                <InputLabel id='ticket-type-selector-id'>
+                  Ticket Type
+                </InputLabel>
+                <SelectMUI
+                  name='ticket_type'
+                  placeholder='Ticket Type'
+                  required={true}
+                  labelId='ticket-type-selector-id'
+                  id='priority-selector'
+                  value={formik.values.ticket_type}
+                  label='Ticket Type'
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.ticket_type &&
+                    Boolean(formik.errors.ticket_type)
+                  }
+                >
                   <MenuItem
-                    key={item}
-                    value={item}
+                    key={'Select'}
+                    value={''}
                     style={{ textTransform: 'capitalize' }}
                   >
-                    <span>{item}</span>
+                    <span>None</span>
                   </MenuItem>
-                ))}
-              </SelectMUI>
-            </FormControl>
+                  {ticketTypesList?.map((item) => (
+                    <MenuItem
+                      key={item}
+                      value={item}
+                      style={{ textTransform: 'capitalize' }}
+                    >
+                      <span>{item}</span>
+                    </MenuItem>
+                  ))}
+                </SelectMUI>
+              </FormControl>
 
-            <FormControl sx={{ m: 2, minWidth: 120 }}>
-              <Select
-                name='department_id'
-                required={true}
-                label={'Department'}
-                value={(ticketData as createTicketDataType).department_id || ''}
-                options={deptOptions}
-                onChange={(e) => handleSelectDeptChange(e)}
-              />
-            </FormControl>
+              <FormControl sx={{ m: 2, minWidth: 120 }}>
+                <Select
+                  name='department_id'
+                  required={true}
+                  label={'Department'}
+                  value={formik.values.department_id}
+                  options={deptOptions}
+                  onChange={(e) => {
+                    setDepartmentId(parseInt(e.target.value));
+                    formik.values.category_id = '';
+                    formik.values.resolver_id = '';
+                    formik.handleChange(e);
+                  }}
+                  error={
+                    (formik.touched.department_id &&
+                      formik.errors.department_id) ||
+                    ''
+                  }
+                />
+              </FormControl>
 
-            <FormControl sx={{ m: 2, minWidth: 120 }}>
-              <Select
-                name='category_id'
-                required={true}
-                label={'Category'}
-                value={(ticketData as createTicketDataType).category_id || ''}
-                options={categoryOptions}
-                onChange={(e) => handleDataChange(e)}
-              />
-            </FormControl>
+              <FormControl sx={{ m: 2, minWidth: 120 }}>
+                <Select
+                  name='category_id'
+                  required={true}
+                  label={'Category'}
+                  value={formik.values.category_id}
+                  options={categoryOptions}
+                  onChange={formik.handleChange}
+                  error={
+                    (formik.touched.category_id && formik.errors.category_id) ||
+                    ''
+                  }
+                />
+              </FormControl>
 
-            <FormControl sx={{ m: 2, minWidth: 120 }}>
-              <Select
-                name='resolver_id'
-                required={true}
-                label={'Resolver'}
-                value={(ticketData as createTicketDataType).resolver_id || ''}
-                options={userOptions}
-                onChange={(e) => handleDataChange(e)}
-              />
-            </FormControl>
+              <FormControl sx={{ m: 2, minWidth: 120 }}>
+                <Select
+                  name='resolver_id'
+                  required={true}
+                  label={'Resolver'}
+                  value={formik.values.resolver_id}
+                  options={userOptions}
+                  onChange={formik.handleChange}
+                  error={
+                    (formik.touched.resolver_id && formik.errors.resolver_id) ||
+                    ''
+                  }
+                />
+              </FormControl>
 
-            <Button
-              onClick={() => {
-                createTicket();
-              }}
-              className='mx-3'
-              style={{ height: '40px' }}
-            >
-              Create
-            </Button>
-          </div>
+              <Button type='submit' className='mx-3' style={{ height: '40px' }}>
+                Create
+              </Button>
+            </div>
+          </form>
           <br />
         </Paper>
       </div>

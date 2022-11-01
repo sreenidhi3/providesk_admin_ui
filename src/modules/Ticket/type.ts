@@ -1,23 +1,26 @@
-export type createTicketDataType = {
+export interface ICreateTicketData {
   title: string;
   description: string;
   category_id: number;
   department_id: number;
   ticket_type: number;
   resolver_id: number;
-};
+}
 
-export type createTicketPayloadType = {
-  ticket: createTicketDataType;
-};
+export interface ICreateTicketPayload {
+  ticket: ICreateTicketData;
+}
 
-export type createTicketResponseType = {
+export interface ICreateTicketResponse {
   message: string;
-};
+}
 
-export type TicketType = { id: number; value: string };
+export interface ITicketType {
+  id: number;
+  value: string;
+}
 
-export type CreateTicketErrorType = {
+export interface ICreateTicketError {
   message: string;
   errors: string;
-};
+}
