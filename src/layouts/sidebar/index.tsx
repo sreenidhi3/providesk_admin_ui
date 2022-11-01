@@ -26,6 +26,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import DomainIcon from '@mui/icons-material/Domain';
 import GroupIcon from '@mui/icons-material/Group';
 import CategoryIcon from '@mui/icons-material/Category';
+import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Button } from '@mui/material';
 
@@ -98,6 +99,11 @@ export default function Sidebar() {
       label: 'Categories',
       icon: <CategoryIcon fontSize='large' />,
       path: ROUTE.CATEGORY,
+    },
+    {
+      label: 'Ticket',
+      icon: <ConfirmationNumberIcon fontSize='large' />,
+      path: ROUTE.TICKET,
     },
   ];
 
