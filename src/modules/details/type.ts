@@ -1,69 +1,60 @@
-export interface details {
-  ticket: {
-    status:
-      | 'open'
-      | 'assigned'
-      | 'inprogress'
-      | 'resolved'
-      | 'closed'
-      | 'rejected';
-    title: string;
-    description: string;
-    ticket_number: number;
-    ticket_type: string;
-    priority: string;
-    category_name: string;
-    activities: {
-      created_at: string;
+export interface ITicketDetails {
+  ticket: ITicket;
+  activites: [
+    {
+      id: number;
+      ticket_id: number;
+      assigned_from: string;
+      assigned_to: string;
       description: string;
-      asset_url?: string;
-      resolver?: { id: number; name: string };
-      id: number;
-    }[];
-
-    resolver?: {
-      id: number;
-      name: string;
-    };
-    created_at: string;
-    resolved_at?: string;
-    id: number;
-  };
+      current_ticket_status: ticketStatusType;
+      asset_url: null;
+    }
+  ];
 }
 
-export interface detailsData {
-  data: details;
+export interface ITicket {
+  id: number;
+  title: string;
+  description: string;
+  ticket_number: null;
+  status: ticketStatusType;
+  priority: string;
+  ticket_type: 'Request' | 'Complaint';
+  resolved_at: null | string | Date;
+  created_at: string | Date;
+  category: string;
+  category_id: string;
+  department: string;
+  department_id: string;
+  resolver: string;
+  resolver_id: string;
+  requester: string;
+  requester_id: number;
+  permited_transitions: ticketStatusType[];
 }
 
-// #department listing response
-
-// {
-//   "data": {
-//     "total": 3,
-//     "departments": [
-//       {
-//         "name": "Mr. Raina Fisher3",
-//         "id": "1"
-//       },
-//       {
-//         "name": "Hiram Walker2",
-//         "id": "2"
-//       },
-//       {
-//         "name": "Breanne Ledner1",
-//         "id": "3"
-//       }
-//     ]
-//   }
-// }
-
-export interface departMentList {
-  total: number;
-  departments: {
-    name: string;
-    id: number;
-  }[];
+export interface IEditTicketPayload {
+  category_id: string;
+  department_id: string;
+  resolver_id: string;
+  description?: string;
+  status: ticketStatusType;
 }
-export interface departMentListData {
-  data: departMentList;
-}
+
+export type ticketStatusType =
+  | 'open'
+  | 'for_approval'
+  | 'assigned'
+  | 'inprogress'
+  | 'resolved'
+  | 'closed'
+  | 'rejected';
+
+export type permittedEventsType =
+  | 'assigned'
+  | 'approve'
+  | 'reject'
+  | 'resolve'
+  | 'close'
+  | 'reopen';

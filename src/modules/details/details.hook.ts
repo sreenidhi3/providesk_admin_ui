@@ -1,32 +1,42 @@
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { toast } from 'react-toastify';
 
 import API_CONSTANTS from 'hooks/constants';
-import { getDepartmentList, getDetailsTicket } from './details.service';
+import { getDetailsTicket, putEditTicket } from './details.service';
+import { IEditTicketPayload } from './type';
+import { AxiosError } from 'axios';
+import { ICreateTicketError, ICreateTicketPayload } from 'modules/Ticket/type';
 
-export const useDetails = (id: number) => {
-  const { data, isLoading, refetch } = useQuery(
+export const useEditTicket = () => {
+  return useMutation(
+    ({ id, ticket }: { id: number; ticket: { ticket: IEditTicketPayload } }) =>
+      putEditTicket({ id, ticket }),
+    {
+      onSuccess: (res) => {
+        toast.success(res?.data?.message);
+      },
+      onError: (err: AxiosError) => {
+        let error = err?.response?.data as ICreateTicketError;
+        toast.error(error?.errors || 'Failed to create ticket.');
+      },
+    }
+  );
+};
+
+export const useTicketDetails = (id: number) => {
+  const { data, isLoading } = useQuery(
     [API_CONSTANTS.DETAILS_SPECEFIC, id],
     () => getDetailsTicket(id),
     {
-      onError: (err) => {
-        console.log(err);
-        toast.error('Unable to Fetch data');
+      onError: (err: AxiosError) => {
+        let error = err?.response?.data as ICreateTicketError;
+        toast.error(error?.message || 'Failed to fetch ticket details');
       },
     }
   );
-  return { data: data?.data, isLoading };
-};
-
-export const useDepartMent = () => {};
-export const useCatagory = () => {
-  const { data, isLoading } = useQuery(
-    API_CONSTANTS.DEPARTMENT_LIST,
-    getDepartmentList,
-    {
-      onError: () => {
-        toast.error('unable to fetch department list');
-      },
-    }
-  );
+  return {
+    ticket: data?.data?.data?.ticket,
+    activities: data?.data?.data?.activites,
+    isLoading,
+  };
 };

@@ -1,33 +1,153 @@
-import { Box, Grid } from '@mui/material';
+import * as yup from 'yup';
+import { useCallback, useContext, useState, useMemo, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useFormik } from 'formik';
+import { UserContext } from 'App';
+import { useCategories, useDepartments } from 'modules/Category/category.hook';
+import { IEditTicketPayload, ITicketDetails } from './type';
+import { useEditTicket, useTicketDetails } from './details.hook';
+import { useUsers } from 'modules/Ticket/ticket.hook';
+
+import Paper from '@mui/material/Paper';
+import {
+  Box,
+  Divider,
+  FormControl,
+  Grid,
+  Typography,
+  Select as SelectMUI,
+  MenuItem,
+  InputLabel,
+} from '@mui/material';
 import { Select } from 'modules/shared/Select';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import { StyleLabel } from 'modules/shared/StyleLabel';
-
-import { Form, Formik } from 'formik';
-import Paper from '@mui/material/Paper';
-import { useCallback } from 'react';
+import { Button } from 'modules/shared/Button';
+import Loader from 'modules/Auth/components/Loader';
+import { EditTicketForm } from './components/EditTicketForm';
 
 function Details() {
+  const { userAuth } = useContext(UserContext);
+
   // toDo
-  //   const id: number = parseInt(useParams().id as string);
-  //   const { data, isLoading } = useDetails(id);
+  const id: number = parseInt(useParams().id as string);
+  const {
+    ticket: ticketDetails,
+    activities,
+    isLoading: isFetchingTicketDetails,
+  } = useTicketDetails(id);
 
-  const onSubmit = useCallback(() => {}, []);
-  const onResolve = useCallback(() => {}, []);
-  const initialValues = {
-    department: '',
-    catagory: '',
-    user: '',
-    description: '',
-  };
+  const [ticket, setTicket] = useState(ticketDetails);
+  // const [organizationId, setOrganizationId] = useState<number | ''>(
+  //   userAuth?.organizations?.[0]?.id || ''
+  // );
+  // const [departmentId, setDepartmentId] = useState<number | ''>(
+  //   ticket?.department_id || ''
+  // );
 
-  //todo yup
-  const validationSchema = {};
+  // const { data: departmentsList, isLoading: isFetchingDepartments } =
+  //   useDepartments(organizationId);
+  // const { data: categoriesList, isLoading: isFetchingCategories } =
+  //   useCategories(departmentId);
+  // const { data: usersList, isLoading: isFetchingUsers } =
+  //   useUsers(departmentId);
+  // const { mutate } = useEditTicket();
+
+  useEffect(() => {
+    setTicket(ticketDetails);
+  }, [ticketDetails]);
+
+  // const deptOptions = useMemo(
+  //   () =>
+  //     departmentsList?.map((dept) => ({
+  //       label: dept.name,
+  //       value: dept.id,
+  //     })) || [],
+  //   [departmentsList]
+  // );
+
+  // const categoryOptions = useMemo(() => {
+  //   return (
+  //     categoriesList?.map((cate) => ({
+  //       label: cate.name,
+  //       value: cate.id,
+  //     })) || []
+  //   );
+  // }, [categoriesList]);
+
+  // const userOptions = useMemo(() => {
+  //   return (
+  //     usersList?.map((cate) => ({
+  //       label: cate.name,
+  //       value: cate.id,
+  //     })) || []
+  //   );
+  // }, [usersList]);
+
+  // const onSubmit = useCallback((values) => {
+  //   // window.alert(values);
+  //   mutate({ id, ticket: { ticket: values } });
+  // }, []);
+
+  // const initialValues: IEditTicketPayload = {
+  //   department_id: ticket?.department_id || '',
+  //   category_id: ticket?.category_id || '',
+  //   resolver_id: ticket?.resolver_id || '',
+  //   status: ticket?.status || '',
+  // };
+
+  const validationSchema = yup.object({
+    // description: yup
+    //   .string()
+    //   .matches(
+    //     /^[-().,_ A-Za-z0-9@': \n]*$/i,
+    //     'Special characters are not allowed.'
+    //   )
+    //   .required('Update ticket comment is required'),
+    department_id: yup.string().required('Select department'),
+    category_id: yup.string().required('Select ticket category'),
+    resolver_id: yup.string().required('Assign ticket to resolver'),
+  });
+
+  // const {
+  //   values,
+  //   touched,
+  //   errors,
+  //   handleChange,
+  //   handleBlur,
+  //   handleSubmit,
+  //   resetForm,
+  // } = useFormik({
+  //   initialValues: initialValues,
+  //   validationSchema: validationSchema,
+  //   onSubmit: (values) => {
+  //     onSubmit(values);
+  //     resetForm();
+  //   },
+  // });
 
   return (
     <>
       <Grid container>
-        <Grid item xs={6} style={{ maxHeight: '85vh', overflow: 'auto' }}>
+        <Grid item xs={12} md={6} p={5}>
+          <Divider>
+            <Typography variant='h6' component='div'>
+              Edit Ticket {}
+            </Typography>
+          </Divider>
+          <Loader isLoading={isFetchingTicketDetails} />
+          {isFetchingTicketDetails ? (
+            <Loader isLoading={isFetchingTicketDetails} />
+          ) : (
+            <EditTicketForm ticket={ticketDetails} id={id} />
+          )}
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          style={{ maxHeight: '85vh', overflow: 'auto' }}
+        >
           <div className='timeline'>
             {[1, 2, 2, 3, 3, 34, 3, 3, 3, 3, 2].map((item) => {
               return (
@@ -54,91 +174,6 @@ function Details() {
               );
             })}
           </div>
-        </Grid>
-        <Grid item xs={6}>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={onSubmit}
-          >
-            {({ values, errors, touched, handleChange }) => (
-              <Form
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  margin: 20,
-                  alignItems: 'center',
-                }}
-              >
-                <Select
-                  value={values.department}
-                  name='department'
-                  label='Department'
-                  options={['ayush']}
-                  required={true}
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                  error={errors.department}
-                  sx={{ width: '300px', my: 1 }}
-                />
-                <Select
-                  value={values.catagory}
-                  label='Category'
-                  name='catagory'
-                  options={[{ label: 'sh', value: 'aksjd' }]}
-                  required={true}
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                  error={errors.catagory}
-                  sx={{ width: '300px', my: 1 }}
-                />
-                <Select
-                  value={values.user}
-                  label='Assign to User'
-                  name='user'
-                  options={['ayush']}
-                  required={true}
-                  onChange={(e) => {
-                    console.log(e.target.value);
-                    handleChange(e);
-                  }}
-                  error={errors.user}
-                  sx={{ width: '300px', my: 1 }}
-                />
-                <Box>
-                  <StyleLabel text={'Description'} required={true} />
-                  <TextareaAutosize
-                    name='description'
-                    value={values.description}
-                    minRows={3}
-                    placeholder='Minimum 3 rows'
-                    style={{ width: '300px' }}
-                    onChange={handleChange}
-                    // error={errors.description}
-                  />
-                </Box>
-                <div className='d-flex '>
-                  <button
-                    onClick={onResolve}
-                    disabled={!(values.description.length > 0)}
-                    //   color={"primary.main"}
-                    className={'btn btn-primary mx-5'}
-                  >
-                    Assign
-                  </button>
-                  <button
-                    onClick={onResolve}
-                    className={'btn btn-success'}
-                    disabled={!(values.description.length > 0)}
-                  >
-                    Resolve
-                  </button>
-                </div>
-              </Form>
-            )}
-          </Formik>
         </Grid>
       </Grid>
     </>
