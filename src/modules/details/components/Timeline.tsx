@@ -11,7 +11,6 @@ import { Chip, Paper } from '@mui/material';
 import { ticketStatusColours } from '../constants';
 
 export const TimelineComponent = ({ activities }: any) => {
-  const k = [{}, ''];
   return (
     <>
       <Timeline>

@@ -1,4 +1,3 @@
-import * as yup from 'yup';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTicketDetails } from './details.hook';
