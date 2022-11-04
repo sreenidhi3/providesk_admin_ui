@@ -1,3 +1,9 @@
+export interface IEditTicketProps {
+  ticket: ITicket;
+  id: number;
+  setOpenEdit: (value: React.SetStateAction<boolean>) => void;
+}
+
 export interface ITicketDetails {
   ticket: ITicket;
   activites: [
