@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 
 import { getUsersList, postCreateTicket } from './ticket.service';
-import { createTicketPayloadType, CreateTicketErrorType } from './type';
+import { ICreateTicketPayload, ICreateTicketError } from './type';
 
 import API_CONSTANTS from 'hooks/constants';
 
@@ -13,14 +13,14 @@ import API_CONSTANTS from 'hooks/constants';
 export const useCreateTicket = () => {
   // const queryClient = useQueryClient();
   const { mutate, data, isLoading, error } = useMutation(
-    (payload: createTicketPayloadType) => postCreateTicket({ payload }),
+    (payload: ICreateTicketPayload) => postCreateTicket(payload),
     {
       onSuccess: (res) => {
         // queryClient.invalidateQueries([API_CONSTANTS.TICKET]);
         toast.success(res?.data?.message);
       },
       onError: (err: AxiosError) => {
-        let error = err?.response?.data as CreateTicketErrorType;
+        let error = err?.response?.data as ICreateTicketError;
         toast.error(error?.errors || 'Failed to create ticket.');
       },
     }
