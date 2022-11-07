@@ -20,7 +20,7 @@ export const routeConfig = [
   },
   {
     path: ROUTE.LOGIN,
-    element: withLayout(<AuthContainer />),
+    element: <AuthContainer />,
   },
   {
     path: ROUTE.UNAUTHORIZED,
@@ -31,7 +31,7 @@ export const routeConfig = [
     element: (
       <PrivateRoute
         Component={withLayout(<Dashboard />)}
-        Role={[
+        AllowedRoles={[
           ROLES.SUPER_ADMIN,
           ROLES.ADMIN,
           ROLES.DEPARTMENT_HEAD,
@@ -45,7 +45,12 @@ export const routeConfig = [
     element: (
       <PrivateRoute
         Component={withLayout(<Details />)}
-        Role={[ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.DEPARTMENT_HEAD]}
+        AllowedRoles={[
+          ROLES.SUPER_ADMIN,
+          ROLES.ADMIN,
+          ROLES.DEPARTMENT_HEAD,
+          ROLES.EMPLOYEE,
+        ]}
       />
     ),
   },
@@ -63,7 +68,7 @@ export const routeConfig = [
     element: (
       <PrivateRoute
         Component={withLayout(<DepartMent />)}
-        Role={[ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.DEPARTMENT_HEAD]}
+        AllowedRoles={[ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.DEPARTMENT_HEAD]}
       />
     ),
   },
@@ -72,7 +77,7 @@ export const routeConfig = [
     element: (
       <PrivateRoute
         Component={withLayout(<Category />)}
-        Role={[ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.DEPARTMENT_HEAD]}
+        AllowedRoles={[ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.DEPARTMENT_HEAD]}
       />
     ),
   },
@@ -81,7 +86,7 @@ export const routeConfig = [
     element: (
       <PrivateRoute
         Component={withLayout(<Ticket />)}
-        Role={[
+        AllowedRoles={[
           ROLES.SUPER_ADMIN,
           ROLES.ADMIN,
           ROLES.DEPARTMENT_HEAD,

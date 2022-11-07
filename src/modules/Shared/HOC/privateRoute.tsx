@@ -1,16 +1,14 @@
 import React, { useContext } from 'react';
 
 import { UserContext } from 'App';
-
 import ROUTE from 'routes/constants';
-import { ROLES } from 'routes/roleConstants';
 
 interface IProps {
   Component: JSX.Element;
-  Role: string[];
+  AllowedRoles: string[];
 }
 
-const PrivateRoute: React.FC<IProps> = ({ Component, Role }) => {
+const PrivateRoute: React.FC<IProps> = ({ Component, AllowedRoles }) => {
   const userContext = useContext(UserContext);
   const auth = userContext.userAuth;
 
@@ -21,12 +19,8 @@ const PrivateRoute: React.FC<IProps> = ({ Component, Role }) => {
   }
 
   //check if user has valid role to access the component
-  if (!Role.includes(auth.role)) {
-    if (auth.role === ROLES.EMPLOYEE) {
-      window.location.href = ROUTE.TICKET;
-    } else {
-      window.location.href = ROUTE.UNAUTHORIZED;
-    }
+  if (!auth.role || !AllowedRoles.includes(auth.role)) {
+    window.location.href = ROUTE.UNAUTHORIZED;
     return null;
   }
 
