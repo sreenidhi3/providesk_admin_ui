@@ -12,6 +12,7 @@ import ROUTE from 'routes/constants';
 import { LOCAL_STORAGE_KEYS } from 'shared/appConstants';
 import { useContext, useEffect } from 'react';
 import { UserContext } from 'App';
+import { Header } from 'modules/shared/Header';
 
 const AuthContainer = () => {
   const { mutate, isLoading: isLogging } = useLogin();
@@ -58,8 +59,9 @@ const AuthContainer = () => {
   return (
     <div
       className='d-flex flex-column justify-content-center align-items-center'
-      style={{ height: '85vh', overflow: 'hidden' }}
+      style={{ height: '95vh', overflow: 'hidden' }}
     >
+      <Header />
       <Loader isLoading={isLogging} />
       <div className='d-flex flex-column justify-content-center align-items-center'>
         <h1 className='m-3'>Welcome to Providesk!</h1>
