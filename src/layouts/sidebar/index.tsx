@@ -5,7 +5,7 @@ import ROUTE from 'routes/constants';
 import { UserContext } from 'App';
 import { LOCAL_STORAGE_KEYS } from 'shared/appConstants';
 import { removeLocalStorageState } from 'shared/localStorageHelpers';
-import { ROLES } from 'routes/roleConstants';
+import { getSidebarConfig } from './sidebarConfig';
 
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -24,11 +24,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import DomainIcon from '@mui/icons-material/Domain';
-import CategoryIcon from '@mui/icons-material/Category';
-import ApartmentIcon from '@mui/icons-material/Apartment';
-import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Button } from '@mui/material';
 
@@ -85,69 +80,7 @@ export default function Sidebar() {
     window.location.href = ROUTE.LOGIN;
   };
 
-  const employeeAccessSidebar = [
-    {
-      label: 'Dashboard',
-      icon: <DashboardIcon fontSize='large' />,
-      path: ROUTE.DASHBOARD,
-    },
-    {
-      label: 'Ticket',
-      icon: <ConfirmationNumberIcon fontSize='large' />,
-      path: ROUTE.TICKET,
-    },
-  ];
-
-  const adminAccessSidebar = [
-    ...employeeAccessSidebar,
-    {
-      label: 'Department',
-      icon: <DomainIcon fontSize='large' />,
-      path: ROUTE.DEPARTMENT,
-    },
-    {
-      label: 'Categories',
-      icon: <CategoryIcon fontSize='large' />,
-      path: ROUTE.CATEGORY,
-    },
-  ];
-
-  const superAdminAccessSidebar = [
-    ...adminAccessSidebar,
-    {
-      label: 'Organization',
-      icon: <ApartmentIcon fontSize='large' />,
-      path: ROUTE.ORGANIZATION,
-    },
-  ];
-
-  const departmentHeadAccessSidebar = [
-    ...employeeAccessSidebar,
-    {
-      label: 'Department',
-      icon: <DomainIcon fontSize='large' />,
-      path: ROUTE.DEPARTMENT,
-    },
-  ];
-
-  let sidebarConfig;
-  switch (role) {
-    case ROLES.SUPER_ADMIN:
-      sidebarConfig = superAdminAccessSidebar;
-      break;
-    case ROLES.ADMIN:
-      sidebarConfig = adminAccessSidebar;
-      break;
-    case ROLES.DEPARTMENT_HEAD:
-      sidebarConfig = departmentHeadAccessSidebar;
-      break;
-    case ROLES.EMPLOYEE:
-      sidebarConfig = employeeAccessSidebar;
-      break;
-    default:
-      sidebarConfig = [];
-      break;
-  }
+  const sidebarConfig = getSidebarConfig(role);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -182,18 +115,14 @@ export default function Sidebar() {
               width: 'inherit',
             }}
           >
-            {window.location.pathname === ROUTE.LOGIN ? (
-              <p></p>
-            ) : (
-              <Button
-                variant='outlined'
-                sx={{ color: '#ffffff' }}
-                endIcon={<LogoutIcon />}
-                onClick={onLogout}
-              >
-                Logout
-              </Button>
-            )}
+            <Button
+              variant='outlined'
+              sx={{ color: '#ffffff' }}
+              endIcon={<LogoutIcon />}
+              onClick={onLogout}
+            >
+              Logout
+            </Button>
           </div>
         </Toolbar>
       </AppBar>
