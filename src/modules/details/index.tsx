@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+
 import { useTicketDetails } from './details.hook';
 import Loader from 'modules/Auth/components/Loader';
 import { TimelineComponent } from './components/Timeline';
@@ -40,7 +41,7 @@ function Details() {
     <div className='d-flex'>
       <Grid container>
         <Loader isLoading={isFetchingTicketDetails} />
-        <Grid item xs={12} md={4} p={5} spacing={5}>
+        <Grid item xs={12} md={4} p={5}>
           <Divider>
             <Typography variant='h6' component='div'>
               Ticket Details
@@ -113,7 +114,11 @@ function Details() {
             </TableContainer>
           </Box>
 
-          <Modal open={openEdit} onClose={() => setOpenEdit(false)}>
+          <Modal
+            open={openEdit}
+            onClose={() => setOpenEdit(false)}
+            sx={{ overflow: 'scroll' }}
+          >
             <EditTicketForm
               ticket={ticketDetails}
               id={id}
