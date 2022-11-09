@@ -7,7 +7,7 @@ import {
   TimelineContent,
   TimelineOppositeContent,
 } from '@mui/lab';
-import { Chip, Paper } from '@mui/material';
+import { Box, Chip, Paper } from '@mui/material';
 import { ticketStatusColours } from '../constants';
 
 export const TimelineComponent = ({ activities }: any) => {
@@ -16,10 +16,10 @@ export const TimelineComponent = ({ activities }: any) => {
       <Timeline>
         {activities?.map((item) => {
           return (
-            <>
+            <Box key={item.created_at}>
               <TimelineItem>
                 <TimelineOppositeContent>
-                  <TimelineLeft date={new Date().toDateString()} />{' '}
+                  <TimelineLeft date={item.created_at} />{' '}
                 </TimelineOppositeContent>
                 <TimelineSeparator>
                   <TimelineDot />
@@ -29,7 +29,7 @@ export const TimelineComponent = ({ activities }: any) => {
                   <TimeLineDescription activity={item} />
                 </TimelineContent>
               </TimelineItem>
-            </>
+            </Box>
           );
         })}
       </Timeline>
@@ -42,12 +42,12 @@ const TimelineLeft = ({ date }: { date: string }) => {
     <div
       style={{
         margin: '0.3rem 0',
-        width: '10vw',
+        minWidth: '10vw',
         maxWidth: '100%',
         textAlign: 'right',
       }}
     >
-      {date}
+      {new Date(date).toUTCString().slice(0, 22)}
     </div>
   );
 };
