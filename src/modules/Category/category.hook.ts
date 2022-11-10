@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
 
 import API_CONSTANTS from 'hooks/constants';
-import { createCategoryErrorType } from './type';
+import { ICreateCategoryError } from './type';
 import {
   getCategoriesList,
   getDepartmentList,
@@ -18,7 +18,7 @@ export const useCreateCategory = () => {
       toast.success(res?.data?.message);
     },
     onError: (err: AxiosError) => {
-      let error = err?.response?.data as createCategoryErrorType;
+      let error = err?.response?.data as ICreateCategoryError;
       toast.error(error?.errors || 'Failed to create category.');
     },
   });
