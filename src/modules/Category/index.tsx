@@ -2,9 +2,10 @@ import { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { useCreateCategory, useDepartments } from './category.hook';
-import { PriorityType } from './type';
 import CategoryList from './components/CategoryList';
 import { Button } from 'modules/shared/Button';
+import Loader from 'modules/Auth/components/Loader';
+import { prioritiesList } from './constanst';
 import { UserContext } from 'App';
 
 import {
@@ -28,15 +29,9 @@ export const Category = () => {
   const [departmentId, setDepartmentId] = useState<number>(0);
   const [priority, setPriority] = useState<number>(0);
 
-  const { mutate, isLoading: creating, data } = useCreateCategory();
-  const { data: departmentsList, isLoading: departmentsFetching } =
+  const { mutate, isLoading: creating } = useCreateCategory();
+  const { data: departmentsList, isLoading: isFetchingDepartments } =
     useDepartments(organizationId);
-  const prioritiesList: PriorityType[] = [
-    { id: 0, value: 'Regular' },
-    { id: 1, value: 'High' },
-    { id: 2, value: 'Medium' },
-    { id: 3, value: 'Low' },
-  ];
 
   const createCategory = () => {
     let valid = /^[a-zA-Z0-9 ]*$/;
@@ -67,6 +62,7 @@ export const Category = () => {
           alignItems: 'center',
         }}
       >
+        <Loader isLoading={isFetchingDepartments && creating} />
         <Divider>
           <Typography variant='h6' component='div'>
             Add Category
@@ -127,9 +123,9 @@ export const Category = () => {
               <MenuItem key={'None'} value={0}>
                 <em> -Select- </em>
               </MenuItem>
-              {departmentsList?.map((item) => (
-                <MenuItem key={item.name} value={item.id}>
-                  <span>{item.name}</span>
+              {departmentsList?.map((dept) => (
+                <MenuItem key={dept.name} value={dept.id}>
+                  <span>{dept.name}</span>
                 </MenuItem>
               ))}
             </Select>
