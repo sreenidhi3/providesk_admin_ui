@@ -1,9 +1,11 @@
-import * as React from 'react';
+import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import ROUTE from 'routes/constants';
+import { UserContext } from 'App';
 import { LOCAL_STORAGE_KEYS } from 'shared/appConstants';
 import { removeLocalStorageState } from 'shared/localStorageHelpers';
+import { getSidebarConfig } from './sidebarConfig';
 
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -22,11 +24,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import DomainIcon from '@mui/icons-material/Domain';
-import GroupIcon from '@mui/icons-material/Group';
-import CategoryIcon from '@mui/icons-material/Category';
-import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Button } from '@mui/material';
 
@@ -64,7 +61,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function Sidebar() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const userContext = useContext(UserContext);
+  const role = userContext?.userAuth?.role;
+
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState<string>(window.location.pathname);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -79,33 +80,7 @@ export default function Sidebar() {
     window.location.href = ROUTE.LOGIN;
   };
 
-  const sidebarConfig = [
-    {
-      label: 'Dashboard',
-      icon: <DashboardIcon fontSize='large' />,
-      path: ROUTE.DASHBOARD,
-    },
-    {
-      label: 'Users',
-      icon: <GroupIcon fontSize='large' />,
-      path: ROUTE.USERS,
-    },
-    {
-      label: 'Department',
-      icon: <DomainIcon fontSize='large' />,
-      path: ROUTE.DEPARTMENT,
-    },
-    {
-      label: 'Categories',
-      icon: <CategoryIcon fontSize='large' />,
-      path: ROUTE.CATEGORY,
-    },
-    {
-      label: 'Ticket',
-      icon: <ConfirmationNumberIcon fontSize='large' />,
-      path: ROUTE.TICKET,
-    },
-  ];
+  const sidebarConfig = getSidebarConfig(role);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -180,16 +155,29 @@ export default function Sidebar() {
         <List>
           {sidebarConfig.map((ele) => (
             <Link
-              to={ele.path}
+              to={ele?.path}
               style={{ textDecoration: 'none', color: 'gray' }}
-              key={ele.label}
+              key={ele?.label}
+              onClick={() => {
+                setActive(ele?.path);
+                handleDrawerClose();
+              }}
             >
-              <ListItem className='my-4' disablePadding>
+              <ListItem
+                className='my-4'
+                style={{
+                  borderRight:
+                    active === ele.path ? '4px solid #4006D4' : '#ffffff',
+                  backgroundColor:
+                    active === ele.path ? '#75757515' : '#ffffff',
+                }}
+                disablePadding
+              >
                 <ListItemButton className='d-flex flex-column justify-content-center align-items-center'>
                   <ListItemIcon style={{ minWidth: 0 }}>
-                    {ele.icon}
+                    {ele?.icon}
                   </ListItemIcon>
-                  <ListItemText primary={ele.label} />
+                  <ListItemText primary={ele?.label} />
                 </ListItemButton>
               </ListItem>
             </Link>
