@@ -1,19 +1,22 @@
-import { useMutation, useQueries, useQuery, useQueryClient } from 'react-query';
-import { postCreateDepartment } from './department.service';
+import { useMutation, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
+import { AxiosError } from 'axios';
+
+import { postCreateDepartment } from './department.service';
 import 'react-toastify/dist/ReactToastify.css';
 import API_CONSTANTS from 'hooks/constants';
-import { AxiosError } from 'axios';
+import { ICreateDepartmentError } from './type';
 
 export const useCreateDepartment = () => {
   const queryClient = useQueryClient();
   return useMutation((payload: any) => postCreateDepartment({ payload }), {
-    onSuccess: () => {
+    onSuccess: (res) => {
       queryClient.invalidateQueries(API_CONSTANTS.DEPARTMENT_LIST);
-      toast.success('department created successfuly');
+      toast.success(res?.data?.message || 'Department created successfully.');
     },
     onError: (err: AxiosError) => {
-      toast.error(err?.message ? err?.message : 'unable to create department');
+      let error = err?.response?.data as ICreateDepartmentError;
+      toast.error(error?.message || 'Failed to create department.');
     },
   });
 };

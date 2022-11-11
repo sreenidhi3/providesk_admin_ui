@@ -14,7 +14,6 @@ import { loadLocalStorage } from 'shared/localStorageHelpers';
 import './App.css';
 
 import { ReactQueryDevtools } from 'react-query/devtools';
-import 'react-toastify/dist/ReactToastify.css';
 
 // Create a client
 const queryClient = new QueryClient();
