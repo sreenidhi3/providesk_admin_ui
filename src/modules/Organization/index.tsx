@@ -22,7 +22,7 @@ export const Organization = () => {
   const [domain, setDomain] = useState<string>('');
   const [domainsList, setDomainsList] = useState<string[]>([]);
 
-  const { mutate, isLoading: creating, data } = useCreateOrganization();
+  const { mutate, isLoading: creating } = useCreateOrganization();
 
   const handleAddDomain = () => {
     const DomainRegEx = /[a-z0-9]*[.][a-z]*/;
