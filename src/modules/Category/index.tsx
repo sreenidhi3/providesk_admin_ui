@@ -1,12 +1,9 @@
-import { useContext, useState } from 'react';
-import { toast } from 'react-toastify';
+import { useState } from 'react';
 
 import { useCreateCategory, useDepartments } from './category.hook';
+import { PriorityType } from './type';
 import CategoryList from './components/CategoryList';
 import { Button } from 'modules/shared/Button';
-import Loader from 'modules/Auth/components/Loader';
-import { prioritiesList } from './constanst';
-import { UserContext } from 'App';
 
 import {
   Divider,
@@ -20,57 +17,48 @@ import {
 import { SelectChangeEvent } from '@mui/material/Select/SelectInput';
 
 export const Category = () => {
-  const { userAuth } = useContext(UserContext);
-
-  const [organizationId, setOrganizationId] = useState<number | ''>(
-    userAuth?.organizations?.[0]?.id || ''
-  );
   const [category, setCategory] = useState<string>('');
   const [departmentId, setDepartmentId] = useState<number>(0);
   const [priority, setPriority] = useState<number>(0);
 
-  const { mutate, isLoading: creating } = useCreateCategory();
-  const { data: departmentsList, isLoading: isFetchingDepartments } =
-    useDepartments(organizationId);
+  const { mutate, isLoading: creating, data } = useCreateCategory();
+  const { data: departmentsList, isLoading: departmentsFetching } =
+    useDepartments(1);
+  const prioritiesList: PriorityType[] = [
+    { id: 0, value: 'Regular' },
+    { id: 1, value: 'High' },
+    { id: 2, value: 'Medium' },
+    { id: 3, value: 'Low' },
+  ];
 
   const createCategory = () => {
-    let valid = /^[a-zA-Z0-9 ]*$/;
-    if (!valid.test(category)) {
-      toast.warning('Special characters not allowed in category name.');
-    } else {
-      let payload = {
-        categories: {
-          name: category,
-          priority: priority,
-          department_id: departmentId,
-        },
-      };
-      mutate(payload);
-      setPriority(0);
-      setDepartmentId(0);
-      setCategory('');
-    }
+    let payload = {
+      categories: {
+        name: category,
+        priority: priority,
+        department_id: departmentId,
+      },
+    };
+    mutate(payload);
   };
 
   return (
     <>
       <div
         style={{
-          margin: '3rem 0',
+          marginTop: '3rem',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
         }}
       >
-        <Loader isLoading={isFetchingDepartments && creating} />
         <Divider>
-          <Typography variant='h6' component='div'>
-            Add Category
+          <Typography variant='h4' component='div'>
+            Create Category
           </Typography>
         </Divider>
         <div
           style={{
-            margin: '1rem',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -78,11 +66,10 @@ export const Category = () => {
           }}
         >
           <TextField
-            label='Category'
+            label='Create New Category'
             value={category}
             type='text'
             required={true}
-            autoFocus={true}
             variant='standard'
             color='secondary'
             onChange={(e) => setCategory(e.target.value)}
@@ -123,9 +110,9 @@ export const Category = () => {
               <MenuItem key={'None'} value={0}>
                 <em> -Select- </em>
               </MenuItem>
-              {departmentsList?.map((dept) => (
-                <MenuItem key={dept.name} value={dept.id}>
-                  <span>{dept.name}</span>
+              {departmentsList?.map((item) => (
+                <MenuItem key={item.name} value={item.id}>
+                  <span>{item.name}</span>
                 </MenuItem>
               ))}
             </Select>
@@ -133,10 +120,13 @@ export const Category = () => {
           <Button
             onClick={() => {
               createCategory();
+              setPriority(0);
+              setDepartmentId(0);
+              setCategory('');
             }}
             className='btn btn-success mx-3'
             style={{ height: '40px' }}
-            disabled={category.length < 3 || departmentId === 0 || creating}
+            disabled={category.length < 6 || departmentId === 0 || creating}
           >
             Create
           </Button>
