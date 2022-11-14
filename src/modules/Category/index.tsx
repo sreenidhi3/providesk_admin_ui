@@ -1,11 +1,13 @@
 import { useState } from 'react';
 
+import { categoryValidationRegex, prioritiesList } from './constanst';
 import { useCreateCategory, useDepartments } from './category.hook';
-import { PriorityType } from './type';
 import CategoryList from './components/CategoryList';
 import { Button } from 'modules/shared/Button';
+import Loader from 'modules/Auth/components/Loader';
 
 import {
+  Box,
   Divider,
   FormControl,
   InputLabel,
@@ -20,16 +22,11 @@ export const Category = () => {
   const [category, setCategory] = useState<string>('');
   const [departmentId, setDepartmentId] = useState<number>(0);
   const [priority, setPriority] = useState<number>(0);
+  const [error, setError] = useState<string>('');
 
-  const { mutate, isLoading: creating, data } = useCreateCategory();
-  const { data: departmentsList, isLoading: departmentsFetching } =
+  const { mutate, isLoading: isCreatingCategory } = useCreateCategory();
+  const { data: departmentsList, isLoading: isFetchingDepartment } =
     useDepartments(1);
-  const prioritiesList: PriorityType[] = [
-    { id: 0, value: 'Regular' },
-    { id: 1, value: 'High' },
-    { id: 2, value: 'Medium' },
-    { id: 3, value: 'Low' },
-  ];
 
   const createCategory = () => {
     let payload = {
@@ -52,6 +49,7 @@ export const Category = () => {
           alignItems: 'center',
         }}
       >
+        <Loader isLoading={isFetchingDepartment && isCreatingCategory} />
         <Divider>
           <Typography variant='h4' component='div'>
             Create Category
@@ -60,20 +58,42 @@ export const Category = () => {
         <div
           style={{
             display: 'flex',
-            alignItems: 'center',
             justifyContent: 'center',
+            alignItems: 'flex-start',
             flexWrap: 'wrap',
           }}
         >
-          <TextField
-            label='Create New Category'
-            value={category}
-            type='text'
-            required={true}
-            variant='standard'
-            color='secondary'
-            onChange={(e) => setCategory(e.target.value)}
-          />
+          <Box sx={{ m: 3, minWidth: 120 }}>
+            <TextField
+              label='Create New Category'
+              value={category}
+              type='text'
+              error={!!error}
+              required={true}
+              variant='standard'
+              color='secondary'
+              onChange={(e) => {
+                if (categoryValidationRegex.test(e.target.value)) {
+                  setCategory(e.target.value);
+                  setError('');
+                } else {
+                  setError('Special characters are not allowed.');
+                }
+              }}
+            />
+            {error && (
+              <Typography
+                variant='caption'
+                display='block'
+                color='#d32f2f'
+                gutterBottom
+                style={{ fontSize: '11px' }}
+              >
+                {error}
+              </Typography>
+            )}
+          </Box>
+
           <FormControl variant='standard' sx={{ m: 3, minWidth: 120 }}>
             <InputLabel id='priority-selector-id'>Priority</InputLabel>
             <Select
@@ -94,7 +114,8 @@ export const Category = () => {
               ))}
             </Select>
           </FormControl>
-          <FormControl variant='standard' sx={{ m: 1, minWidth: 120 }}>
+
+          <FormControl variant='standard' sx={{ m: 3, minWidth: 120 }}>
             <InputLabel id='department-selector-id'>Department</InputLabel>
             <Select
               placeholder='Select Department'
@@ -126,7 +147,10 @@ export const Category = () => {
             }}
             className='btn btn-success mx-3'
             style={{ height: '40px' }}
-            disabled={category.length < 6 || departmentId === 0 || creating}
+            sx={{ m: 3 }}
+            disabled={
+              category.length < 2 || departmentId === 0 || isCreatingCategory
+            }
           >
             Create
           </Button>
