@@ -4,8 +4,6 @@ import { AxiosError } from 'axios';
 
 import API_CONSTANTS from 'hooks/constants';
 import {
-  getCategoryList,
-  getDepartmentList,
   getDetailsTicket,
   putEditTicket,
   putReopenTicket,

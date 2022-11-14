@@ -1,4 +1,11 @@
 import * as React from 'react';
+
+import { useDepartments } from 'modules/Category/category.hook';
+import { UserContext } from 'App';
+import { useCreateDepartment } from './department.hook';
+import { Button } from 'modules/shared/Button';
+import Loader from 'modules/Auth/components/Loader';
+
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -7,13 +14,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Box, TextField, Typography } from '@mui/material';
-
-import { useCreateDepartment } from './department.hook';
-import { useDepartMentList } from 'modules/details/details.hook';
-import { Button } from 'modules/shared/Button';
-import Loader from 'modules/Auth/components/Loader';
-import { useDepartments } from 'modules/Category/category.hook';
-import { UserContext } from 'App';
 
 export const DepartMent = () => {
   const { userAuth } = React.useContext(UserContext);
@@ -76,7 +76,7 @@ export const DepartMent = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {departmentsList?.data?.departments?.map((dept) => (
+                  {departmentsList.map((dept) => (
                     <TableRow
                       key={dept.name}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
