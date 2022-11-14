@@ -26,6 +26,7 @@ export const useDepartments = (id) => {
     [API_CONSTANTS.DEPARTMENT_LIST, id],
     () => getDepartmentList(id),
     {
+      enabled: !!id,
       onError: () => {
         toast.error('unable to fetch departments list');
       },
@@ -39,6 +40,7 @@ export const useCategories = (dept_id) => {
     [API_CONSTANTS.CATEGORY_LIST, dept_id],
     () => getCategoriesList(dept_id),
     {
+      enabled: !!dept_id,
       onError: () => {
         toast.error('unable to fetch categories list');
       },
