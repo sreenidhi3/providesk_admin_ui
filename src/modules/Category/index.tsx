@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 import { categoryValidationRegex, prioritiesList } from './constanst';
 import { useCreateCategory, useDepartments } from './category.hook';
 import CategoryList from './components/CategoryList';
 import { Button } from 'modules/shared/Button';
 import Loader from 'modules/Auth/components/Loader';
+import { UserContext } from 'App';
 
 import {
   Box,
@@ -19,6 +20,12 @@ import {
 import { SelectChangeEvent } from '@mui/material/Select/SelectInput';
 
 export const Category = () => {
+  const { userAuth } = useContext(UserContext);
+
+  const [organizationId, setOrganizationId] = useState<number | ''>(
+    userAuth?.organizations?.[0]?.id || ''
+  );
+
   const [category, setCategory] = useState<string>('');
   const [departmentId, setDepartmentId] = useState<number>(0);
   const [priority, setPriority] = useState<number>(0);
@@ -26,7 +33,7 @@ export const Category = () => {
 
   const { mutate, isLoading: isCreatingCategory } = useCreateCategory();
   const { data: departmentsList, isLoading: isFetchingDepartment } =
-    useDepartments(1);
+    useDepartments(organizationId);
 
   const createCategory = () => {
     let payload = {
@@ -65,11 +72,12 @@ export const Category = () => {
         >
           <Box sx={{ m: 3, minWidth: 120 }}>
             <TextField
-              label='Create New Category'
+              label='Category'
               value={category}
               type='text'
               error={!!error}
               required={true}
+              autoFocus={true}
               variant='standard'
               color='secondary'
               onChange={(e) => {
