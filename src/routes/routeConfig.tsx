@@ -45,12 +45,7 @@ export const routeConfig = [
     element: (
       <PrivateRoute
         Component={withLayout(<Details />)}
-        AllowedRoles={[
-          ROLES.SUPER_ADMIN,
-          ROLES.ADMIN,
-          ROLES.DEPARTMENT_HEAD,
-          ROLES.EMPLOYEE,
-        ]}
+        AllowedRoles={[ROLES.ADMIN, ROLES.DEPARTMENT_HEAD, ROLES.EMPLOYEE]}
       />
     ),
   },
