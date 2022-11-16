@@ -11,7 +11,7 @@ import { routeConfig } from 'routes/routeConfig';
 import { GOOGLE_CLIENT_ID, LOCAL_STORAGE_KEYS } from 'shared/appConstants';
 import { loadLocalStorage } from 'shared/localStorageHelpers';
 
-import './App.css';
+import './App.scss';
 
 // Create a client
 const queryClient = new QueryClient();

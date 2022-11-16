@@ -6,6 +6,7 @@ import { CustomSelect } from 'modules/shared/Select';
 import Search from 'modules/shared/Search';
 import { useGetRequestsList } from './dashboard.hooks';
 import ComplaintCard from 'modules/shared/ComplaintCard';
+import './dashboard.scss';
 
 const statusOptions = [
   {
@@ -114,7 +115,7 @@ const Dashboard = () => {
             Search
           </Button>
         </div>
-        <div className='d-flex justify-content-around flex-wrap gap-4 mt-3'>
+        <div className='complaint-card-grid d-grid gap-4'>
           {updatedData?.map((complaint) => (
             <ComplaintCard details={complaint} />
           ))}
