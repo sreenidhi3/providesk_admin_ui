@@ -90,28 +90,30 @@ const Dashboard = () => {
   return (
     <div>
       <div className='d-flex flex-column p-5 '>
-        <div className='d-flex gap-3 mb-4'>
-          <CustomSelect
-            label={'Status'}
-            options={statusOptions}
-            value={filters.status}
-            onChange={handleChange}
-            name='status'
-          />
-          <CustomSelect
-            label={'Departments'}
-            options={departmentOptions}
-            value={filters.department}
-            onChange={handleChange}
-            name='deparment'
-          />
-          <Search
-            label={'Enter Title'}
-            value={filters.title}
-            onChange={onSearchTile}
-            name='title'
-          />
-          <Button variant='contained' sx={{ width: 250 }}>
+        <div className='d-flex gap-4 mb-4'>
+          <div className='d-flex flex-grow-1 gap-4'>
+            <CustomSelect
+              label={'Status'}
+              options={statusOptions}
+              value={filters.status}
+              onChange={handleChange}
+              name='status'
+            />
+            <CustomSelect
+              label={'Departments'}
+              options={departmentOptions}
+              value={filters.department}
+              onChange={handleChange}
+              name='deparment'
+            />
+            <Search
+              label={'Enter Title'}
+              value={filters.title}
+              onChange={onSearchTile}
+              name='title'
+            />
+          </div>
+          <Button variant='contained' size='small'>
             Search
           </Button>
         </div>
@@ -120,17 +122,15 @@ const Dashboard = () => {
             <ComplaintCard details={complaint} />
           ))}
         </div>
-        <div className='d-flex justify-content-end mt-3'>
-          <TablePagination
-            component='div'
-            count={TOTAL_COMPLAINTS}
-            page={page}
-            rowsPerPage={rowsPerPage}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: 30 }}
-          />
-        </div>
+        <TablePagination
+          component='div'
+          count={TOTAL_COMPLAINTS}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          sx={{fontSize: '0.75rem'}}
+        />
       </div>
     </div>
   );

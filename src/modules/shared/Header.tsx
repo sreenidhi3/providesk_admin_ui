@@ -1,28 +1,13 @@
 import { AppBar, Toolbar, Typography } from '@mui/material';
+import { palette } from 'theme';
 
 export const Header = () => {
   return (
-    <AppBar position='fixed'>
-      <Toolbar style={{ justifyContent: 'space-between' }}>
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'nowrap',
-            alignItems: 'center',
-          }}
-        >
-          <Typography variant='h6' noWrap component='div'>
-            PROVIDESK
-          </Typography>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-            width: 'inherit',
-          }}
-        ></div>
+    <AppBar elevation={6} color='primary'>
+      <Toolbar>
+        <Typography variant='h6' noWrap component='div'>
+          PROVIDESK
+        </Typography>
       </Toolbar>
     </AppBar>
   );

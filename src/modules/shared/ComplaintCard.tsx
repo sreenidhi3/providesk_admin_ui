@@ -70,8 +70,8 @@ const ComplaintCard: React.FC<Props> = (props) => {
           spacing={1}
           className='justify-content-between mb-3'
         >
-          <Chip label={id} />
-          <Chip label={status} color='primary' className='text-truncate' />
+          <Chip label={id} variant="outlined" size='small' sx={{fontSize: '0.75rem', fontWeight: '600'}} />
+          <Chip label={status} variant="outlined" color='info' className='text-truncate' size='small' sx={{fontSize: '0.75rem', fontWeight: '500'}} />
         </Stack>
         <Typography variant='h6' className='text-truncate mb-2'>
           {title}

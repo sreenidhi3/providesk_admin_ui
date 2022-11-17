@@ -1,33 +1,14 @@
 import { createTheme } from '@mui/material';
 
-// export const palette = {
-//   primary: {
-//     main: '#4c02c5',
-//     light: '#7e4ff4',
-//     tint: '#ae90fc',
-//     contrastText: '#ffffff',
-//     scriptbox: '#faf4f8',
-//   },
-//   secondary: {
-//     main: '#4c02c5',
-//     light: '#7e4ff4',
-//     tint: '#ae90fc',
-//     contrastText: '#ffffff',
-//   },
-//   neutral: {
-//     highEm: '#8A2424',
-//     mediumEm: '#B75656',
-//     disabled: '#948fae',
-//     borders: '#d7d5f4',
-//     background: '#faf8ff',
-//     white: '#FFFFFF',
-//     black: '#332222',
-//     link: '#D27575',
-//     tab: '#007bff',
-//   },
-// };
+export const palette = {
+  primary: {
+    main: '#4F86ED',
+    light: '#DEEBF1',
+  },
+};
 
 export const theme = createTheme({
+  palette,
   spacing: [0, 4, 8, 16, 24, 32, 40, 48],
   typography:{
     htmlFontSize: 16,
@@ -83,7 +64,6 @@ export const theme = createTheme({
     },
   },
 
-  // palette,
   // typography: {
   //   fontFamily: "'Open Sans', sans-serif",
   //   fontSize: 12,
