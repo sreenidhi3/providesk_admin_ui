@@ -18,6 +18,7 @@ import {
   Typography,
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select/SelectInput';
+import { ROLES } from 'routes/roleConstants';
 
 export const Category = () => {
   const { userAuth } = useContext(UserContext);
@@ -27,7 +28,9 @@ export const Category = () => {
   );
 
   const [category, setCategory] = useState<string>('');
-  const [departmentId, setDepartmentId] = useState<number>(0);
+  const [departmentId, setDepartmentId] = useState<number>(
+    userAuth?.organizations?.[0]?.department_id
+  );
   const [priority, setPriority] = useState<number>(0);
   const [error, setError] = useState<string>('');
 
@@ -38,7 +41,7 @@ export const Category = () => {
   const createCategory = () => {
     let payload = {
       categories: {
-        name: category,
+        name: category.trim(),
         priority: priority,
         department_id: departmentId,
       },
@@ -131,6 +134,7 @@ export const Category = () => {
               labelId='department-selector-id'
               id='department-selector'
               value={departmentId?.toString()}
+              disabled={userAuth.role === ROLES.DEPARTMENT_HEAD}
               label='Department'
               onChange={(e: SelectChangeEvent) =>
                 setDepartmentId(parseInt(e.target.value))

@@ -58,7 +58,7 @@ export const routeConfig = [
     element: (
       <PrivateRoute
         Component={withLayout(<DepartMent />)}
-        AllowedRoles={[ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.DEPARTMENT_HEAD]}
+        AllowedRoles={[ROLES.SUPER_ADMIN, ROLES.ADMIN]}
       />
     ),
   },
