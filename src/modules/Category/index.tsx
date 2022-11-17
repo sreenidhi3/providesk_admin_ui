@@ -6,6 +6,7 @@ import CategoryList from './components/CategoryList';
 import { Button } from 'modules/shared/Button';
 import Loader from 'modules/Auth/components/Loader';
 import { UserContext } from 'App';
+import { ROLES } from 'routes/roleConstants';
 
 import {
   Box,
@@ -18,7 +19,6 @@ import {
   Typography,
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select/SelectInput';
-import { ROLES } from 'routes/roleConstants';
 
 export const Category = () => {
   const { userAuth } = useContext(UserContext);
