@@ -4,6 +4,11 @@ export interface IEditTicketProps {
   setOpenEdit: (value: React.SetStateAction<boolean>) => void;
 }
 
+export interface IReopenTicketProps {
+  id: number;
+  setOpenEdit: (value: React.SetStateAction<boolean>) => void;
+}
+
 export interface ITicketDetails {
   ticket: ITicket;
   activites: [
@@ -48,6 +53,13 @@ export interface IEditTicketPayload {
   status: ticketStatusType;
 }
 
+export interface IReopenTicketPayload {
+  is_customer_satisfied: boolean;
+  rating: number | '';
+  state_action: 'reopen';
+  started_reason: string;
+}
+
 export type ticketStatusType =
   | 'open'
   | 'for_approval'
@@ -55,7 +67,8 @@ export type ticketStatusType =
   | 'inprogress'
   | 'resolved'
   | 'closed'
-  | 'rejected';
+  | 'rejected'
+  | 'reopen';
 
 export type permittedEventsType =
   | 'assigned'

@@ -1,7 +1,9 @@
-import API_CONSTANTS from 'hooks/constants';
+import { AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
 
+import API_CONSTANTS from 'hooks/constants';
+import { ICreateCategoryError } from './type';
 import {
   getCategoriesList,
   getDepartmentList,
@@ -11,12 +13,13 @@ import {
 export const useCreateCategory = () => {
   const queryClient = useQueryClient();
   return useMutation((payload: any) => postCreateCategory({ payload }), {
-    onSuccess: () => {
+    onSuccess: (res) => {
       queryClient.invalidateQueries([API_CONSTANTS.CATEGORY_LIST]);
-      toast.success('Category created successfuly');
+      toast.success(res?.data?.message);
     },
-    onError: () => {
-      toast.error('Unable to create category');
+    onError: (err: AxiosError) => {
+      let error = err?.response?.data as ICreateCategoryError;
+      toast.error(error?.errors || 'Failed to create category.');
     },
   });
 };
@@ -28,7 +31,7 @@ export const useDepartments = (id) => {
     {
       enabled: !!id,
       onError: () => {
-        toast.error('unable to fetch departments list');
+        toast.error('Failed to fetch departments list.');
       },
     }
   );
@@ -42,7 +45,7 @@ export const useCategories = (dept_id) => {
     {
       enabled: !!dept_id,
       onError: () => {
-        toast.error('unable to fetch categories list');
+        toast.error('Failed to fetch categories list.');
       },
     }
   );
