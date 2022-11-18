@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
+import { toast } from 'react-toastify';
 import jwt_decode from 'jwt-decode';
 
 import Login from 'assets/svg/Login.svg';
@@ -13,7 +14,6 @@ import { LOCAL_STORAGE_KEYS } from 'shared/appConstants';
 import { useContext, useEffect } from 'react';
 import { UserContext } from 'App';
 import { Header } from 'modules/shared/Header';
-import { toast } from 'react-toastify';
 
 const AuthContainer = () => {
   const { mutate, isLoading: isLogging } = useLogin();
