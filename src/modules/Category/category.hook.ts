@@ -9,6 +9,7 @@ import {
   getDepartmentList,
   postCreateCategory,
 } from './category.service';
+import { ICreateDepartmentError } from 'modules/Department/type';
 
 export const useCreateCategory = () => {
   const queryClient = useQueryClient();
@@ -19,7 +20,9 @@ export const useCreateCategory = () => {
     },
     onError: (err: AxiosError) => {
       let error = err?.response?.data as ICreateCategoryError;
-      toast.error(error?.errors || 'Failed to create category.');
+      toast.error(
+        error?.errors || error?.message || 'Failed to create category.'
+      );
     },
   });
 };
@@ -29,8 +32,11 @@ export const useDepartments = (id) => {
     [API_CONSTANTS.DEPARTMENT_LIST, id],
     () => getDepartmentList(id),
     {
-      onError: () => {
-        toast.error('Failed to fetch departments list.');
+      onError: (err: AxiosError) => {
+        let error = err?.response?.data as ICreateDepartmentError;
+        toast.error(
+          error?.errors || error?.message || 'Failed to fetch departments list.'
+        );
       },
     }
   );
@@ -42,8 +48,11 @@ export const useCategories = (dept_id) => {
     [API_CONSTANTS.CATEGORY_LIST, dept_id],
     () => getCategoriesList(dept_id),
     {
-      onError: () => {
-        toast.error('Failed to fetch categories list.');
+      onError: (err: AxiosError) => {
+        let error = err?.response?.data as ICreateCategoryError;
+        toast.error(
+          error?.errors || error?.message || 'Failed to fetch categories list.'
+        );
       },
     }
   );
