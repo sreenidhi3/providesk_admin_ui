@@ -13,6 +13,7 @@ import { LOCAL_STORAGE_KEYS } from 'shared/appConstants';
 import { useContext, useEffect } from 'react';
 import { UserContext } from 'App';
 import { Header } from 'modules/shared/Header';
+import { toast } from 'react-toastify';
 
 const AuthContainer = () => {
   const { mutate, isLoading: isLogging } = useLogin();
@@ -52,7 +53,9 @@ const AuthContainer = () => {
     }
   }, [navigate, userAuth]);
 
-  const onGoogleLoginFailure = () => {};
+  const onGoogleLoginFailure = () => {
+    toast.error('Login failed.');
+  };
 
   return (
     <div
