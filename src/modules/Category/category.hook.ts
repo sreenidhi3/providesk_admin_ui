@@ -1,7 +1,10 @@
+import { AxiosError } from 'axios';
 import API_CONSTANTS from 'hooks/constants';
+import { ICreateDepartmentError } from 'modules/Department/type';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
 
+import { ICreateCategoryError } from './type';
 import {
   getCategoriesList,
   getDepartmentList,
@@ -11,12 +14,15 @@ import {
 export const useCreateCategory = () => {
   const queryClient = useQueryClient();
   return useMutation((payload: any) => postCreateCategory({ payload }), {
-    onSuccess: () => {
+    onSuccess: (res) => {
       queryClient.invalidateQueries([API_CONSTANTS.CATEGORY_LIST]);
-      toast.success('Category created successfuly');
+      toast.success(res?.data?.message || 'Category created successfuly');
     },
-    onError: () => {
-      toast.error('Unable to create category');
+    onError: (err: AxiosError) => {
+      let error = err?.response?.data as ICreateCategoryError;
+      toast.error(
+        error?.errors || error?.message || 'Failed to create category.'
+      );
     },
   });
 };
@@ -27,8 +33,11 @@ export const useDepartments = (id) => {
     () => getDepartmentList(id),
     {
       enabled: !!id,
-      onError: () => {
-        toast.error('unable to fetch departments list');
+      onError: (err: AxiosError) => {
+        let error = err?.response?.data as ICreateDepartmentError;
+        toast.error(
+          error?.errors || error?.message || 'Failed to fetch departments list.'
+        );
       },
     }
   );
@@ -40,9 +49,12 @@ export const useCategories = (dept_id) => {
     [API_CONSTANTS.CATEGORY_LIST, dept_id],
     () => getCategoriesList(dept_id),
     {
-      enabled: !!dept_id,
-      onError: () => {
-        toast.error('unable to fetch categories list');
+      enabled: Boolean(dept_id),
+      onError: (err: AxiosError) => {
+        let error = err?.response?.data as ICreateCategoryError;
+        toast.error(
+          error?.errors || error?.message || 'Failed to fetch categories list.'
+        );
       },
     }
   );

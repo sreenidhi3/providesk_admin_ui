@@ -10,3 +10,8 @@ export type PriorityType = {
   id: number;
   value: string;
 };
+
+export interface ICreateCategoryError {
+  message: string;
+  errors: string;
+}
