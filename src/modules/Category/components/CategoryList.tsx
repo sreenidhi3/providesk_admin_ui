@@ -1,4 +1,4 @@
-import { useContext, useMemo, useState } from 'react';
+import { useCallback, useContext, useMemo, useState } from 'react';
 
 import Select from 'modules/shared/Select';
 import Loader from 'modules/Auth/components/Loader';
@@ -43,9 +43,9 @@ const CategoryList = () => {
     );
   }, [departmentId, departmentsList]);
 
-  function handleChange(value: string) {
+  const handleChange = useCallback((value: string) => {
     setDepartmentId(parseInt(value));
-  }
+  }, []);
 
   return (
     <div

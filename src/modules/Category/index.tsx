@@ -47,7 +47,7 @@ export const Category = () => {
     []
   );
 
-  const createCategory = () => {
+  const createCategory = useCallback(() => {
     let payload = {
       categories: {
         name: category.trim(),
@@ -56,7 +56,7 @@ export const Category = () => {
       },
     };
     mutate(payload);
-  };
+  }, [category, priority, departmentId]);
 
   return (
     <>
