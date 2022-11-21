@@ -5,11 +5,6 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
 
 import { IComplaintDetails } from 'modules/dashboard/types';
 import ROUTE from 'routes/constants';
@@ -64,23 +59,23 @@ const ComplaintCard: React.FC<Props> = (props) => {
 
   return (
     <Card variant="outlined" onClick={onCardClick}>
-      <CardContent className='px-3 pb-2'>
+      <CardContent sx={{pb: '0.5rem !important'}}>
         <Stack
           direction='row'
           spacing={1}
-          className='justify-content-between mb-3'
+          sx={{justifyContent: 'space-between', mb: '1rem'}}
         >
           <Chip label={id} variant="outlined" size='small' sx={{fontSize: '0.75rem', fontWeight: '600'}} />
           <Chip label={status} variant="outlined" color='info' className='text-truncate' size='small' sx={{fontSize: '0.75rem', fontWeight: '500'}} />
         </Stack>
-        <Typography variant='h6' className='text-truncate mb-2'>
+        <Typography variant='h6' sx={{mb: '0.5rem'}} className='text-truncate'>
           {title}
         </Typography>
-        <List className='p-0 card-list'>
+        <List className='card-list'>
           {complaintConfig.map((config) => (
-            <ListItem className='card-list-item gap-3 p-2'>
-              <Typography variant='body2' className='me-auto'>{config.label}</Typography>
-              <Typography variant='body1' className='fw-bold'>{config.value}</Typography>
+            <ListItem sx={{gap: '1rem', p: '0.5rem'}} className='card-list-item'>
+              <Typography variant='body2' sx={{mr: 'auto'}}>{config.label}</Typography>
+              <Typography variant='body1' sx={{fontWeight: '700'}}>{config.value}</Typography>
             </ListItem>
           ))}
         </List>

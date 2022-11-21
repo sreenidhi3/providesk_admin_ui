@@ -16,6 +16,13 @@
   font-size: $font-size-sm !important;
 }
 
+// Text
+.text-truncate {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 // Scroll
 .scroll-auto {
   overflow-x: auto !important;

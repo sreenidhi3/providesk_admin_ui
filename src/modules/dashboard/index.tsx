@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import TablePagination from '@mui/material/TablePagination';
+import { Box } from '@mui/material';
 
 import { CustomSelect } from 'modules/shared/Select';
 import Search from 'modules/shared/Search';
@@ -88,9 +89,9 @@ const Dashboard = () => {
   const updatedData = data?.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
 
   return (
-    <div className='d-flex flex-column p-5'>
-      <div className='d-flex gap-4 mb-4'>
-        <div className='d-flex flex-grow-1 gap-4'>
+    <Box sx={{display: 'flex', flexDirection: 'column'}}>
+      <Box sx={{display: 'flex', gap: '1.5rem', mb: '1.5rem'}}>
+        <Box sx={{display: 'flex', flex: '1', gap: '1.5rem'}}>
           <CustomSelect
             label={'Status'}
             options={statusOptions}
@@ -111,16 +112,16 @@ const Dashboard = () => {
             onChange={onSearchTile}
             name='title'
           />
-        </div>
+        </Box>
         <Button variant='contained' size='small'>
           Search
         </Button>
-      </div>
-      <div className='complaint-card-grid d-grid gap-4'>
+      </Box>
+      <Box sx={{display: 'grid', gap: '1.5rem'}} className='complaint-card-grid'>
         {updatedData?.map((complaint) => (
           <ComplaintCard details={complaint} />
         ))}
-      </div>
+      </Box>
       <TablePagination
         component='div'
         count={TOTAL_COMPLAINTS}
@@ -130,7 +131,7 @@ const Dashboard = () => {
         onRowsPerPageChange={handleChangeRowsPerPage}
         sx={{fontSize: '0.75rem'}}
       />
-    </div>
+    </Box>
   );
 };
 
