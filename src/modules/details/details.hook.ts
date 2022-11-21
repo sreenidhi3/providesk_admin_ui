@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 import { toast } from 'react-toastify';
 
 import API_CONSTANTS from 'hooks/constants';
-import { getDepartmentList, getDetailsTicket } from './details.service';
+import { getDetailsTicket } from './details.service';
 
 export const useDetails = (id: number) => {
   const { data, isLoading, refetch } = useQuery(
@@ -10,23 +10,9 @@ export const useDetails = (id: number) => {
     () => getDetailsTicket(id),
     {
       onError: (err) => {
-        console.log(err);
         toast.error('Unable to Fetch data');
       },
     }
   );
   return { data: data?.data, isLoading };
-};
-
-export const useDepartMent = () => {};
-export const useCatagory = () => {
-  const { data, isLoading } = useQuery(
-    API_CONSTANTS.DEPARTMENT_LIST,
-    getDepartmentList,
-    {
-      onError: () => {
-        toast.error('unable to fetch department list');
-      },
-    }
-  );
 };

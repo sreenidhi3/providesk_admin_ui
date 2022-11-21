@@ -3,9 +3,9 @@ import Button from '@mui/material/Button';
 import TablePagination from '@mui/material/TablePagination';
 import { Box } from '@mui/material';
 
+import { useGetRequestsList } from './dashboard.hooks';
 import { CustomSelect } from 'modules/shared/Select';
 import Search from 'modules/shared/Search';
-import { useGetRequestsList } from './dashboard.hooks';
 import ComplaintCard from 'modules/shared/ComplaintCard';
 import './dashboard.scss';
 
