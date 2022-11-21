@@ -86,7 +86,7 @@ export const Ticket = () => {
     title: yup
       .string()
       .matches(/^[-()., A-Za-z0-9\n]*$/i, 'Special characters are not allowed.')
-      .required('Complaint/Request subject is required'),
+      .required('Complaint/Request title is required'),
     description: yup
       .string()
       .matches(
@@ -94,10 +94,10 @@ export const Ticket = () => {
         'Special characters are not allowed.'
       )
       .required('Complaint/Request description is required'),
-    category_id: yup.string().required('Select ticket category'),
+    category_id: yup.string().required('Select category'),
     department_id: yup.string().required('Select department'),
-    ticket_type: yup.string().required('Select type of ticket'),
-    resolver_id: yup.string().required('Assign ticket to resolver'),
+    ticket_type: yup.string().required('Select type'),
+    resolver_id: yup.string().required('Assign to resolver'),
   });
 
   const formik = useFormik({
@@ -129,7 +129,7 @@ export const Ticket = () => {
         <Paper elevation={2} sx={{ paddingTop: 3, minWidth: '20rem' }}>
           <Divider>
             <Typography variant='h6' component='div'>
-              Create New Ticket
+              Create Request or Complaint
             </Typography>
           </Divider>
           <form onSubmit={formik.handleSubmit}>
@@ -143,7 +143,7 @@ export const Ticket = () => {
             >
               <TextField
                 sx={{ m: 2 }}
-                label='Complaint or Request'
+                label='Title'
                 name='title'
                 minRows={3}
                 value={formik.values.title}

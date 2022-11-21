@@ -46,7 +46,7 @@ const DEFAULT_FILTERS = {
   created_by_me:false,
 };
 
-const TOTAL_COMPLAINTS = 15;
+
 
 const Dashboard = () => {
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
@@ -166,17 +166,17 @@ const deptOptions = useMemo(() => {
             <ComplaintCard details={complaint} />
           ))}
         </div>
-        <div className='d-flex justify-content-end mt-3'>
+        
           <TablePagination
             component='div'
-            count={TOTAL_COMPLAINTS}
+            count={updatedData?.length||0}
             page={page}
             rowsPerPage={rowsPerPage}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
-            sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: 30 }}
+            sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: 20,display:"flex",justifyContent:"center" }}
           />
-        </div>
+        
       </div>
     </div>
   );

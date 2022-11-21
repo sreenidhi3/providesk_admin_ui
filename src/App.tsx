@@ -12,10 +12,12 @@ import { loadLocalStorage } from 'shared/localStorageHelpers';
 
 import './App.css';
 
-import Header from 'modules/shared/Header';
+
+
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 
 // Create a client
 const queryClient = new QueryClient();
@@ -42,7 +44,6 @@ function App() {
         <UserContext.Provider value={{ userAuth, userProfile, setUserAuth }}>
           <ThemeProvider theme={theme}>
             <ToastContainer position='top-right' autoClose={5000} />
-            <Header />
             <RouterProvider router={router} />
           </ThemeProvider>
         </UserContext.Provider>
