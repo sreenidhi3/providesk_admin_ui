@@ -75,7 +75,7 @@ function Details() {
                   value={values.department}
                   name='department'
                   label='Department'
-                  options={['ayush']}
+                  options={['  sdfsd']}
                   required={true}
                   onChange={(e) => {
                     handleChange(e);
@@ -99,7 +99,7 @@ function Details() {
                   value={values.user}
                   label='Assign to User'
                   name='user'
-                  options={['ayush']}
+                  options={['asfsd']}
                   required={true}
                   onChange={(e) => {
                     handleChange(e);
