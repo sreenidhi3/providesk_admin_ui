@@ -11,8 +11,6 @@ import { routeConfig } from 'routes/routeConfig';
 import { GOOGLE_CLIENT_ID, LOCAL_STORAGE_KEYS } from 'shared/appConstants';
 import { loadLocalStorage } from 'shared/localStorageHelpers';
 
-import './App.css';
-
 import { ReactQueryDevtools } from 'react-query/devtools';
 
 // Create a client
@@ -35,17 +33,20 @@ function App() {
   const userProfile = loadLocalStorage(LOCAL_STORAGE_KEYS.USER_PROFILE);
 
   return (
-    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-      <QueryClientProvider client={queryClient}>
-        <UserContext.Provider value={{ userAuth, userProfile, setUserAuth }}>
-          <ThemeProvider theme={theme}>
-            <ToastContainer position='top-right' autoClose={5000} />
-            <RouterProvider router={router} />
-          </ThemeProvider>
-        </UserContext.Provider>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </GoogleOAuthProvider>
+    <>
+      <CssBaseline />
+      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+        <QueryClientProvider client={queryClient}>
+          <UserContext.Provider value={{ userAuth, userProfile, setUserAuth }}>
+            <ThemeProvider theme={theme}>
+              <ToastContainer position='top-right' autoClose={5000} />
+              <RouterProvider router={router} />
+            </ThemeProvider>
+          </UserContext.Provider>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </GoogleOAuthProvider>
+    </>
   );
 }
 
