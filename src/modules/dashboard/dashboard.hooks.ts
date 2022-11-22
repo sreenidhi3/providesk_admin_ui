@@ -13,7 +13,8 @@ export const useGetRequestsList = (queryParams: IFetchComplaintListRequest) => {
     category:queryParams?.category!==""?queryParams?.category:undefined ,
     status : queryParams?.status!==""?queryParams.status:undefined,
     department : queryParams?.department!==""?queryParams.department:undefined,
-    
+    assigned_to_me:queryParams?.assig_to_me=== true?true:undefined,
+    created_by_me:queryParams?.created_by_me===true?true:undefined,
   }
   const { data, isLoading, isFetching } = useQuery(['complaint-list',params], () =>
     getRequestList(path,params)

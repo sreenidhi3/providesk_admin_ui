@@ -1,6 +1,7 @@
 import React, { useContext, useMemo, useState } from 'react';
 import Button from '@mui/material/Button';
 import TablePagination from '@mui/material/TablePagination';
+import { Box } from '@mui/material';
 
 import { useGetRequestsList } from './dashboard.hooks';
 import { CustomSelect } from 'modules/shared/Select';
@@ -9,8 +10,9 @@ import ComplaintCard from 'modules/shared/ComplaintCard';
 import { UserContext } from 'App';
 import { useCategories, useDepartments } from 'modules/Category/category.hook';
 import { CheckBox } from '@mui/icons-material';
-import { Box } from '@mui/system';
+
 import { Checkbox, Typography } from '@mui/material';
+import './dashboard.scss';
 
 const statusOptions = [
   {
@@ -53,7 +55,7 @@ const Dashboard = () => {
   const { data, isLoading } = useGetRequestsList(filters);
   const {userAuth}= useContext(UserContext);
   //todo add admin or user filter
-  // console.log(userAuth,"usercontext")
+  console.log(userAuth.role,"usercontext")
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [departmentId, setDepartmentId] = useState<number>(1);
@@ -85,7 +87,7 @@ const Dashboard = () => {
     return (
       categoriesList?.map((cate) => ({
         label: cate.name,
-        value: cate.id,
+        value: cate.name,
       })) || []
     );
   }, [categoriesList]);
@@ -107,24 +109,17 @@ const deptOptions = useMemo(() => {
   
 
   return (
-    <div>
-      <div className='d-flex flex-column p-5 '>
-        <div className='d-flex gap-3 mb-4'>
-        <CustomSelect
-          label = {'Type'}
-          options= {typeOption}
-          value={filters.type}
-          onChange={handleChange}
-          name='type'
-          />
-          <CustomSelect
+    <Box sx={{display: 'flex', flexDirection: 'column'}}>
+      <Box sx={{display: 'flex', gap: '1.5rem', mb: '1.5rem'}} className='complaint-card-filters'>
+        <Box sx={{display: 'grid', gap: '1.5rem'}} className='filter-input-group flex-1'>
+         {userAuth.role !== "employee" && <CustomSelect
             label={'Status'}
             options={statusOptions}
             value={filters.status}
             onChange={handleChange}
             name='status'
-          />
-           <CustomSelect
+          />}
+           {userAuth.role !== "employee" &&  <CustomSelect
             label={'departments'}
             options={deptOptions}
             value={filters.department}
@@ -134,14 +129,14 @@ const deptOptions = useMemo(() => {
             
             }
             name='department'
-          />
-          <CustomSelect
+          />}
+          {userAuth.role !== "employee" &&  <CustomSelect
             label={'Category'}
             options={categoryOptions}
             value={filters.category}
             onChange={handleChange}
             name='category'
-          />
+          />}
           <Box sx={{display:"flex"}}>
             <Typography>Assign to me</Typography>
           <Checkbox checked={filters.assig_to_me} onChange={()=> setFilters((p) => ({ ...p, "assig_to_me": !filters.assig_to_me }))}/>
@@ -157,28 +152,26 @@ const deptOptions = useMemo(() => {
             onChange={onSearchTile}
             name='title'
           />
-          <Button variant='contained' sx={{ width: 250 }}>
-            Search
-          </Button>
-        </div>
-        <div className='d-flex justify-content-around flex-wrap gap-4 mt-3'>
-          {updatedData?.map((complaint) => (
-            <ComplaintCard details={complaint} />
-          ))}
-        </div>
-        
-          <TablePagination
-            component='div'
-            count={updatedData?.length||0}
-            page={page}
-            rowsPerPage={rowsPerPage}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: 20,display:"flex",justifyContent:"center" }}
-          />
-        
-      </div>
-    </div>
+        </Box>
+        <Button variant='contained' size='small'>
+          Search
+        </Button>
+      </Box>
+      <Box sx={{display: 'grid', gap: '1.5rem'}} className='complaint-card-grid'>
+        {updatedData?.map((complaint) => (
+          <ComplaintCard details={complaint} />
+        ))}
+      </Box>
+      <TablePagination
+        component='div'
+        count={updatedData?.length||0}
+        page={page}
+        rowsPerPage={rowsPerPage}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        sx={{fontSize: '0.75rem'}}
+      />
+    </Box>
   );
 };
 
