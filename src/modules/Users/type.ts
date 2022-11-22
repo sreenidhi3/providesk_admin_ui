@@ -12,6 +12,6 @@ export interface IUser {
 }
 
 export interface IEditUserError {
-  errors: string;
-  message?: string;
+  errors?: string;
+  message: string;
 }

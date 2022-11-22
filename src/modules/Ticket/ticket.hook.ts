@@ -33,6 +33,7 @@ export const useUsers = (dept_id) => {
     [API_CONSTANTS.USER_LIST, dept_id],
     () => getUsersList(dept_id),
     {
+      enabled: Boolean(dept_id),
       onError: () => {
         toast.error('Failed to fetch department employees list.');
       },

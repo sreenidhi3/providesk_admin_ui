@@ -9,17 +9,16 @@ import { putEditUser } from './users.service';
 export const useEditUser = () => {
   const queryClient = useQueryClient();
   return useMutation(
-    (payload: IEditUserPayload) => putEditUser({ user: { ...payload } }),
+    ({ id, payload }: { id: number; payload: IEditUserPayload }) =>
+      putEditUser(id, { user: { ...payload } }),
     {
       onSuccess: (res) => {
-        toast.success(res?.data?.message || 'Ticked edited successfully.');
-        queryClient.invalidateQueries([API_CONSTANTS.DETAILS_SPECEFIC]);
+        toast.success(res?.data?.message || 'User editted successfully.');
+        queryClient.invalidateQueries(API_CONSTANTS.USER_LIST);
       },
       onError: (err: AxiosError) => {
         let error = err?.response?.data as IEditUserError;
-        toast.error(
-          error?.errors || error?.message || 'Failed to create ticket.'
-        );
+        toast.error(error?.errors || error?.message || 'Failed to edit user.');
       },
     }
   );

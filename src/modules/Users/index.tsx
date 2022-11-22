@@ -13,7 +13,6 @@ import {
   InputLabel,
   MenuItem,
   Modal,
-  OutlinedInput,
   Paper,
   Select as SelectMUI,
   Table,
@@ -25,7 +24,6 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import EditUser from './components/EditUser';
-import { string } from 'yup';
 
 export const Users = () => {
   const { userAuth } = useContext(UserContext);
@@ -36,7 +34,6 @@ export const Users = () => {
   const [departmentId, setDepartmentId] = useState<number | 'none'>(
     userAuth?.organizations?.[0]?.department_id | 0
   );
-  const [role, setRole] = useState<string>('employee');
   const [search, setSearch] = useState<string>('');
   const [openEdit, setOpenEdit] = useState<boolean>(false);
   const [user, setUser] = useState<{ id: string; name: string } | {}>({});
@@ -54,13 +51,7 @@ export const Users = () => {
     (e) => setDepartmentId(e.target.value),
     []
   );
-  const handleEdit = useCallback(
-    (e) => {
-      setOpenEdit(true);
-      setUser(e.target.value);
-    },
-    [user]
-  );
+  const handleEdit = useCallback((e) => setOpenEdit(true), []);
 
   const filteredUsers = useMemo(() => {
     return usersList?.filter((user) =>
@@ -79,7 +70,7 @@ export const Users = () => {
           flexDirection: 'column',
         }}
       >
-        <h3>Users List</h3>
+        <h5>Users List</h5>
         <div
           style={{
             display: 'flex',
@@ -101,7 +92,9 @@ export const Users = () => {
                 label='Select Organization'
               >
                 {userAuth?.organizations?.map((org) => (
-                  <MenuItem value={org.id}>{org.name}</MenuItem>
+                  <MenuItem key={org.name} value={org.id}>
+                    {org.name}
+                  </MenuItem>
                 ))}
               </SelectMUI>
             </FormControl>
@@ -174,6 +167,9 @@ export const Users = () => {
                 <TableCell sx={{ fontSize: '1rem', fontWeight: 'bold' }}>
                   Name
                 </TableCell>
+                <TableCell sx={{ fontSize: '1rem', fontWeight: 'bold' }}>
+                  Role
+                </TableCell>
                 <TableCell
                   sx={{ fontSize: '1rem', fontWeight: 'bold' }}
                 ></TableCell>
@@ -187,11 +183,17 @@ export const Users = () => {
                 >
                   <TableCell>{row.id}</TableCell>
                   <TableCell>{row.name}</TableCell>
+                  <TableCell style={{ textTransform: 'uppercase' }}>
+                    {row.role}
+                  </TableCell>
                   <TableCell sx={{ textAlign: 'right' }}>
                     <IconButton
                       aria-label='edit'
                       size='large'
-                      onClick={handleEdit}
+                      onClick={(e) => {
+                        setUser(row);
+                        handleEdit(e);
+                      }}
                     >
                       <EditIcon fontSize='inherit' />
                     </IconButton>

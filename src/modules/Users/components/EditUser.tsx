@@ -8,6 +8,7 @@ import { useEditUser } from '../users.hook';
 import { getAllowedRoles } from '../users.helpers';
 import { UserContext } from 'App';
 import { ROLES } from 'routes/roleConstants';
+import { IEditUserPayload } from '../type';
 
 import {
   Box,
@@ -17,27 +18,27 @@ import {
   Select as SelectMUI,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import ROUTE from 'routes/constants';
 
 const EditUser = ({ user, organizationId, setOpenEdit }) => {
   const { userAuth } = useContext(UserContext);
 
   const { data: departmentsList, isLoading: isFetchingDepartments } =
     useDepartments(organizationId);
-  const [departmentId, setDepartmentId] = useState<number>(
-    user?.department_id || departmentsList?.[0]?.id
+  const [departmentId, setDepartmentId] = useState<number | ''>(
+    user?.department_id || ''
   );
-  const [role, setRole] = useState<string>('');
+  const [role, setRole] = useState<string>(user?.role);
   const allowedRoles = getAllowedRoles(userAuth?.role);
   const { mutate: updateUser, isLoading: isUpdatingUser } = useEditUser();
 
   const handleRoleChange = useCallback((e) => setRole(e.target.value), []);
   const handleUpdateUser = useCallback(() => {
-    const payload = {
+    const payload: IEditUserPayload = {
       role,
-      department_id: departmentId,
+      department_id: departmentId as number,
     };
-    // updateUser(payload)
-    console.log(payload);
+    updateUser({ id: user?.id, payload });
   }, [role, departmentId]);
 
   const deptOptions = useMemo(() => {
@@ -48,6 +49,18 @@ const EditUser = ({ user, organizationId, setOpenEdit }) => {
       []
     );
   }, [departmentsList]);
+
+  // allows department head to edit employees of his department only or employees without any department allocated
+  if (userAuth.role === ROLES.DEPARTMENT_HEAD) {
+    if (
+      !(
+        user.department_id === null ||
+        user.department_id === userAuth.organizations?.[0]?.department_id
+      )
+    ) {
+      window.location.href = ROUTE.UNAUTHORIZED;
+    }
+  }
 
   return (
     <Box
@@ -96,7 +109,9 @@ const EditUser = ({ user, organizationId, setOpenEdit }) => {
               label='Change Role'
             >
               {allowedRoles.map((role) => (
-                <MenuItem value={role}>{role}</MenuItem>
+                <MenuItem key={role} value={role.toLowerCase()}>
+                  {role}
+                </MenuItem>
               ))}
             </SelectMUI>
           </FormControl>
