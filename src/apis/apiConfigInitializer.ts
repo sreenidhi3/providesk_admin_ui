@@ -28,8 +28,7 @@ axiosInstance.interceptors.request.use((config) => {
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.log(error);
-    if (error.response && error.response.data) {
+    if (error.response && error.response.status === 401) {
       window.location.href = '/';
       removeLocalStorageState('userAuth');
       removeLocalStorageState('userProfile');
