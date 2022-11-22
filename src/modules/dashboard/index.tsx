@@ -54,8 +54,7 @@ const Dashboard = () => {
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const { data, isLoading } = useGetRequestsList(filters);
   const {userAuth}= useContext(UserContext);
-  //todo add admin or user filter
-  console.log(userAuth.role,"usercontext")
+ 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [departmentId, setDepartmentId] = useState<number>(1);
@@ -91,8 +90,6 @@ const Dashboard = () => {
       })) || []
     );
   }, [categoriesList]);
-// todo
-// send organization id in useDepartments
 const { data: departmentsList, isLoading: departmentsFetching } =
   useDepartments(1);
 
