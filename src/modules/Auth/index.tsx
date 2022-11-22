@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
+import { toast } from 'react-toastify';
 import jwt_decode from 'jwt-decode';
 
 import Login from 'assets/svg/Login.svg';
@@ -53,7 +54,7 @@ const AuthContainer = () => {
   }, [navigate, userAuth]);
 
   const onGoogleLoginFailure = () => {
-    console.log('Login Failed');
+    toast.error('Login failed.');
   };
 
   return (

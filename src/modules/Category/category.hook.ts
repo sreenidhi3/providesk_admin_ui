@@ -4,12 +4,12 @@ import { toast } from 'react-toastify';
 
 import API_CONSTANTS from 'hooks/constants';
 import { ICreateCategoryError } from './type';
+import { ICreateDepartmentError } from 'modules/Department/type';
 import {
   getCategoriesList,
   getDepartmentList,
   postCreateCategory,
 } from './category.service';
-import { ICreateDepartmentError } from 'modules/Department/type';
 
 export const useCreateCategory = () => {
   const queryClient = useQueryClient();

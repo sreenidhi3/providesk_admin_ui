@@ -1,11 +1,12 @@
 import { Box, Grid } from '@mui/material';
-import { Select } from 'modules/shared/Select';
+
 import TextareaAutosize from '@mui/material/TextareaAutosize';
-import { StyleLabel } from 'modules/shared/StyleLabel';
 
 import { Form, Formik } from 'formik';
 import Paper from '@mui/material/Paper';
 import { useCallback } from 'react';
+import Select from 'modules/shared/Select';
+import { StyleLabel } from 'modules/shared/StyleLabel';
 
 function Details() {
   // toDo
@@ -101,7 +102,6 @@ function Details() {
                   options={['ayush']}
                   required={true}
                   onChange={(e) => {
-                    console.log(e.target.value);
                     handleChange(e);
                   }}
                   error={errors.user}
