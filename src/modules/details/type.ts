@@ -20,7 +20,6 @@ export interface details {
       resolver?: { id: number; name: string };
       id: number;
     }[];
-
     resolver?: {
       id: number;
       name: string;
@@ -29,41 +28,4 @@ export interface details {
     resolved_at?: string;
     id: number;
   };
-}
-
-export interface detailsData {
-  data: details;
-}
-
-// #department listing response
-
-// {
-//   "data": {
-//     "total": 3,
-//     "departments": [
-//       {
-//         "name": "Mr. Raina Fisher3",
-//         "id": "1"
-//       },
-//       {
-//         "name": "Hiram Walker2",
-//         "id": "2"
-//       },
-//       {
-//         "name": "Breanne Ledner1",
-//         "id": "3"
-//       }
-//     ]
-//   }
-// }
-
-export interface departMentList {
-  total: number;
-  departments: {
-    name: string;
-    id: number;
-  }[];
-}
-export interface departMentListData {
-  data: departMentList;
 }
