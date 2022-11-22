@@ -59,16 +59,21 @@ const AuthContainer = () => {
     toast.error('Login failed.');
   };
 
+  const Heading = () => {
+    return (<Typography variant='h2' sx={{ textAlign: 'center' }} className='auth-heading'>Welcome to Providesk!</Typography>)
+  }
+
   return (
     <>
       <Loader isLoading={isLogging} />
       <Box sx={{display: 'grid', flex: '1'}} className='scroll-auto'>
-        <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', flex: '1'}}>
-          <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', height: '100%', flex: '1'}}>
-            <img src={Login} alt='Login' className='img-login' />
+        <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', flex: '1'}} className='auth-wrapper'>
+          <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2rem'}} className='img-box'>
+            <Heading />
+            <img src={Login} alt='Login' className='img-auth' />
           </Box>
-          <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', height: '100%', flex: '1'}} className='bg-primary-light'>
-            <Typography variant='h2'>Welcome to Providesk!</Typography>
+          <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.5rem'}} className='auth-box'>
+            <Heading />
             <GoogleLogin
               onSuccess={onGoogleLoginSuccess}
               onError={onGoogleLoginFailure}
