@@ -8,7 +8,6 @@ export interface postPayload {
   path: string;
   requestParams?: object;
   queryParams?: object;
-  requireToken?: false;
 }
 
 export interface putPayload {

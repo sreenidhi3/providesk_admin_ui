@@ -3,13 +3,13 @@ import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 
 import API_CONSTANTS from 'hooks/constants';
+import { IEditTicketPayload, IReopenTicketPayload } from './type';
+import { ICreateTicketError } from 'modules/Ticket/type';
 import {
   getDetailsTicket,
   putEditTicket,
   putReopenTicket,
 } from './details.service';
-import { IEditTicketPayload, IReopenTicketPayload } from './type';
-import { ICreateTicketError } from 'modules/Ticket/type';
 
 export const useEditTicket = () => {
   const queryClient = useQueryClient();

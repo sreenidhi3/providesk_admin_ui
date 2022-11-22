@@ -1,10 +1,10 @@
 import { AxiosError } from 'axios';
-import API_CONSTANTS from 'hooks/constants';
-import { ICreateDepartmentError } from 'modules/Department/type';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
 
 import { ICreateCategoryError } from './type';
+import API_CONSTANTS from 'hooks/constants';
+import { ICreateDepartmentError } from 'modules/Department/type';
 import {
   getCategoriesList,
   getDepartmentList,
@@ -32,7 +32,7 @@ export const useDepartments = (id) => {
     [API_CONSTANTS.DEPARTMENT_LIST, id],
     () => getDepartmentList(id),
     {
-      enabled: !!id,
+      enabled: Boolean(id),
       onError: (err: AxiosError) => {
         let error = err?.response?.data as ICreateDepartmentError;
         toast.error(

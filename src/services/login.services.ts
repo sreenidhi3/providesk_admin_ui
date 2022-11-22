@@ -4,6 +4,5 @@ export const login = (loginPayload) => {
   return post({
     path: '/sessions',
     requestParams: loginPayload,
-    requireToken: false,
   });
 };

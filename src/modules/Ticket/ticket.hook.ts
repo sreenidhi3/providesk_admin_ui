@@ -29,8 +29,13 @@ export const useUsers = (dept_id) => {
     () => getUsersList(dept_id),
     {
       enabled: !!dept_id,
-      onError: () => {
-        toast.error('Failed to fetch department employees list.');
+      onError: (err: AxiosError) => {
+        let error = err?.response?.data as ICreateTicketError;
+        toast.error(
+          error?.errors ||
+            error?.message ||
+            'Failed to fetch department employees list.'
+        );
       },
     }
   );
