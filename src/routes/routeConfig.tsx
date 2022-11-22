@@ -11,6 +11,7 @@ import UnauthorizedAccess from 'modules/Auth/components/UnauthorizedAccess';
 import withLayout from 'layouts';
 import { ROLES } from './roleConstants';
 import ROUTE from './constants';
+import { Users } from 'modules/Users';
 
 export const routeConfig = [
   {
@@ -68,6 +69,15 @@ export const routeConfig = [
       <PrivateRoute
         Component={withLayout(<Category />)}
         AllowedRoles={[ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.DEPARTMENT_HEAD]}
+      />
+    ),
+  },
+  {
+    path: ROUTE.USERS,
+    element: (
+      <PrivateRoute
+        Component={withLayout(<Users />)}
+        AllowedRoles={[ROLES.ADMIN, ROLES.DEPARTMENT_HEAD]}
       />
     ),
   },
