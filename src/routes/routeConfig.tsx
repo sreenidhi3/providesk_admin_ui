@@ -46,12 +46,7 @@ export const routeConfig = [
     element: (
       <PrivateRoute
         Component={withLayout(<Details />)}
-        AllowedRoles={[
-          ROLES.SUPER_ADMIN,
-          ROLES.ADMIN,
-          ROLES.DEPARTMENT_HEAD,
-          ROLES.EMPLOYEE,
-        ]}
+        AllowedRoles={[ROLES.ADMIN, ROLES.DEPARTMENT_HEAD, ROLES.EMPLOYEE]}
       />
     ),
   },
@@ -69,7 +64,7 @@ export const routeConfig = [
     element: (
       <PrivateRoute
         Component={withLayout(<DepartMent />)}
-        AllowedRoles={[ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.DEPARTMENT_HEAD]}
+        AllowedRoles={[ROLES.SUPER_ADMIN, ROLES.ADMIN]}
       />
     ),
   },
@@ -78,7 +73,7 @@ export const routeConfig = [
     element: (
       <PrivateRoute
         Component={withLayout(<Category />)}
-        AllowedRoles={[ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.DEPARTMENT_HEAD]}
+        AllowedRoles={[ROLES.ADMIN, ROLES.DEPARTMENT_HEAD]}
       />
     ),
   },
@@ -96,12 +91,7 @@ export const routeConfig = [
     element: (
       <PrivateRoute
         Component={withLayout(<Ticket />)}
-        AllowedRoles={[
-          ROLES.SUPER_ADMIN,
-          ROLES.ADMIN,
-          ROLES.DEPARTMENT_HEAD,
-          ROLES.EMPLOYEE,
-        ]}
+        AllowedRoles={[ROLES.ADMIN, ROLES.DEPARTMENT_HEAD, ROLES.EMPLOYEE]}
       />
     ),
   },
