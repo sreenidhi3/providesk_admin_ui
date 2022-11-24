@@ -31,7 +31,7 @@ export const Users = () => {
   const [organizationId, setOrganizationId] = useState<number>(
     userAuth?.organizations?.[0]?.id
   );
-  const [departmentId, setDepartmentId] = useState<number | 'none'>(
+  const [departmentId, setDepartmentId] = useState<number | 'unassigned'>(
     userAuth?.organizations?.[0]?.department_id | 0
   );
   const [search, setSearch] = useState<string>('');
@@ -40,8 +40,10 @@ export const Users = () => {
 
   const { data: departmentsList, isLoading: isFetchingDepartments } =
     useDepartments(organizationId);
-  const { data: usersList, isLoading: isFetchingUsers } =
-    useUsers(departmentId);
+  const { data: usersList, isLoading: isFetchingUsers } = useUsers(
+    departmentId,
+    organizationId
+  );
 
   const handleOrganizationChange = useCallback(
     (e) => setOrganizationId(e.target.value),
@@ -114,7 +116,7 @@ export const Users = () => {
               <MenuItem key={'None'} value={0}>
                 <em> -Select- </em>
               </MenuItem>
-              <MenuItem key={'None'} value={'none'}>
+              <MenuItem key={'unassigned'} value={'unassigned'}>
                 <span> Unassigned </span>
               </MenuItem>
               {departmentsList?.map((item) => (
