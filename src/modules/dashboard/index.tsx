@@ -1,7 +1,7 @@
 import React, { useContext, useMemo, useState } from 'react';
 import Button from '@mui/material/Button';
 import TablePagination from '@mui/material/TablePagination';
-import { Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 
 import { useGetRequestsList } from './dashboard.hooks';
 import { CustomSelect } from 'modules/shared/Select';
@@ -13,6 +13,9 @@ import { CheckBox } from '@mui/icons-material';
 
 import { Checkbox, Typography } from '@mui/material';
 import './dashboard.scss';
+import AddCircleSharpIcon from '@mui/icons-material/AddCircleSharp';
+import { Routes, useNavigate, useRoutes } from 'react-router-dom';
+import ROUTE from 'routes/constants';
 
 const statusOptions = [
   {
@@ -51,6 +54,7 @@ const DEFAULT_FILTERS = {
 
 
 const Dashboard = () => {
+  const navigate = useNavigate()
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const { data, isLoading } = useGetRequestsList(filters);
   const {userAuth}= useContext(UserContext);
@@ -104,12 +108,14 @@ const deptOptions = useMemo(() => {
 
   const updatedData = data?.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
   
-
+const onClickPlus = ()=>{
+  navigate(ROUTE.TICKET)
+}
   return (
     <Box sx={{display: 'flex', flexDirection: 'column' ,cursor:"pointer"}} >
       <Box sx={{display: 'flex', gap: '1.5rem', mb: '1.5rem'}} className='complaint-card-filters'>
         <Box sx={{display: 'grid', gap: '1.5rem'}} className='filter-input-group flex-1'>
-         {userAuth.role !== "employe" && <Box sx={{display: 'grid', gap: '1.5rem',}} className="flex-1" ><CustomSelect
+         {userAuth.role !== "employee" && <Box sx={{display: 'grid', gap: '1.5rem',}} className="flex-1" ><CustomSelect
             label={'Status'}
             options={statusOptions}
             value={filters.status}
@@ -161,6 +167,7 @@ const deptOptions = useMemo(() => {
           <ComplaintCard details={complaint} />
         ))}
       </Box>
+      
       <TablePagination
         component='div'
         count={updatedData?.length||0}
@@ -170,6 +177,9 @@ const deptOptions = useMemo(() => {
         onRowsPerPageChange={handleChangeRowsPerPage}
         sx={{fontSize: '0.75rem'}}
       />
+      <Box sx={{display:"flex", flexDirection:"row-reverse", position:"sticky"}}>
+        <IconButton onClick={onClickPlus}><AddCircleSharpIcon color="primary" fontSize='large'/></IconButton>
+      </Box>
     </Box>
   );
 };
