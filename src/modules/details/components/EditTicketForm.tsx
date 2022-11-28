@@ -205,7 +205,14 @@ export const EditTicketForm = ({
         </FormControl>
 
         {values.status !== 'reopen' && (
-          <Box className='d-flex justify-content-center align-items-center flex-column'>
+          <Box
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'column',
+            }}
+          >
             <FormControl sx={{ m: 2, minWidth: 240 }}>
               <Select
                 name='department_id'
