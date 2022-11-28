@@ -109,14 +109,14 @@ const deptOptions = useMemo(() => {
     <Box sx={{display: 'flex', flexDirection: 'column'}}>
       <Box sx={{display: 'flex', gap: '1.5rem', mb: '1.5rem'}} className='complaint-card-filters'>
         <Box sx={{display: 'grid', gap: '1.5rem'}} className='filter-input-group flex-1'>
-         {userAuth.role !== "employee" && <CustomSelect
+         {userAuth.role !== "employe" && <Box sx={{display: 'grid', gap: '1.5rem',}} className="flex-1" ><CustomSelect
             label={'Status'}
             options={statusOptions}
             value={filters.status}
             onChange={handleChange}
             name='status'
-          />}
-           {userAuth.role !== "employee" &&  <CustomSelect
+          />
+             <CustomSelect
             label={'departments'}
             options={deptOptions}
             value={filters.department}
@@ -126,14 +126,14 @@ const deptOptions = useMemo(() => {
             
             }
             name='department'
-          />}
-          {userAuth.role !== "employee" &&  <CustomSelect
+          />
+           <CustomSelect
             label={'Category'}
             options={categoryOptions}
             value={filters.category}
             onChange={handleChange}
             name='category'
-          />}
+          /></Box>}
           <Box sx={{display:"flex"}}>
             <Typography>Assign to me</Typography>
           <Checkbox checked={filters.assig_to_me} onChange={()=> setFilters((p) => ({ ...p, "assig_to_me": !filters.assig_to_me }))}/>
