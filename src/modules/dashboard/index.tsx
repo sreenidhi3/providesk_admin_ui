@@ -97,7 +97,7 @@ const deptOptions = useMemo(() => {
   return (
     departmentsList?.map((dept) => ({
       label: dept.name,
-      value: dept.id,
+      value: dept.name,
     })) || []
   );
 }, [departmentId, departmentsList]);
@@ -109,7 +109,7 @@ const deptOptions = useMemo(() => {
     <Box sx={{display: 'flex', flexDirection: 'column' ,cursor:"pointer"}} >
       <Box sx={{display: 'flex', gap: '1.5rem', mb: '1.5rem'}} className='complaint-card-filters'>
         <Box sx={{display: 'grid', gap: '1.5rem'}} className='filter-input-group flex-1'>
-         {userAuth.role !== "employee" && <Box sx={{display: 'grid', gap: '1.5rem',}} className="flex-1" ><CustomSelect
+         {userAuth.role !== "employe" && <Box sx={{display: 'grid', gap: '1.5rem',}} className="flex-1" ><CustomSelect
             label={'Status'}
             options={statusOptions}
             value={filters.status}
@@ -120,7 +120,9 @@ const deptOptions = useMemo(() => {
             label={'departments'}
             options={deptOptions}
             value={filters.department}
-            onChange={(e)=>{setDepartmentId(+(e.target.value));
+            onChange={(e)=>{
+              setDepartmentId((departmentsList.filter((item)=>item.name === e.target.value))[0].id)
+              
               setFilters((p) => ({ ...p, "category": "" }))
               handleChange(e)}
             

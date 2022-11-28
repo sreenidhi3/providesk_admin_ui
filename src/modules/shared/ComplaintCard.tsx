@@ -58,8 +58,8 @@ const ComplaintCard: React.FC<Props> = (props) => {
       value: resolver,
     },
     {
-      label: 'Department',
-      value: department,
+      label: 'Category',
+      value: category,
     },
     { label: 'Last Updated Time', value: updated_at || '_' },
   ];
