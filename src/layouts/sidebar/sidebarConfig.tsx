@@ -53,6 +53,11 @@ export const getSidebarConfig = (role: string) => {
   const departmentHeadAccessSidebar = [
     ...employeeAccessSidebar,
     {
+      label: 'Categories',
+      icon: <CategoryIcon fontSize='large' />,
+      path: ROUTE.CATEGORY,
+    },
+    {
       label: 'Employees',
       icon: <GroupIcon fontSize='large' />,
       path: ROUTE.USERS,
