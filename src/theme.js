@@ -10,7 +10,7 @@ export const palette = {
 export const theme = createTheme({
   palette,
   spacing: [0, 4, 8, 16, 24, 32, 40, 48],
-  typography:{
+  typography: {
     htmlFontSize: 16,
     fontFamily: "'Open Sans', sans-serif",
     fontSize: 16,
@@ -61,6 +61,10 @@ export const theme = createTheme({
     body2: {
       fontSize: '0.75rem',
       lineHeight: 1.5,
+    },
+    h6: {
+      fontSize: '12px',
+      fontWeight: 700,
     },
   },
 

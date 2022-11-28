@@ -1,10 +1,10 @@
-export type createCategoryPayloadType = {
+export interface IreateCategoryPayload {
   categories: {
     name: string;
     priority: number;
     department_id: number;
   };
-};
+}
 
 export interface ICreateCategoryError {
   message: string;

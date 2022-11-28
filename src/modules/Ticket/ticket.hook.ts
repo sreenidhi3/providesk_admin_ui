@@ -23,12 +23,13 @@ export const useCreateTicket = () => {
   return { mutate, data: data?.data?.data?.users, isLoading };
 };
 
-export const useUsers = (dept_id) => {
+//org_id parameter to fetch employees with unassigned departments
+export const useUsers = (dept_id, org_id?) => {
   const { data, isLoading } = useQuery(
     [API_CONSTANTS.USER_LIST, dept_id],
-    () => getUsersList(dept_id),
+    () => getUsersList(dept_id, org_id),
     {
-      enabled: !!dept_id,
+      enabled: Boolean(dept_id),
       onError: (err: AxiosError) => {
         let error = err?.response?.data as ICreateTicketError;
         toast.error(

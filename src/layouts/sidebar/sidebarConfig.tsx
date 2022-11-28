@@ -6,6 +6,7 @@ import DomainIcon from '@mui/icons-material/Domain';
 import CategoryIcon from '@mui/icons-material/Category';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
+import GroupIcon from '@mui/icons-material/Group';
 
 export const getSidebarConfig = (role: string) => {
   const employeeAccessSidebar = [
@@ -33,10 +34,15 @@ export const getSidebarConfig = (role: string) => {
       icon: <CategoryIcon fontSize='large' />,
       path: ROUTE.CATEGORY,
     },
+    {
+      label: 'Employees',
+      icon: <GroupIcon fontSize='large' />,
+      path: ROUTE.USERS,
+    },
   ];
 
   const superAdminAccessSidebar = [
-    ...adminAccessSidebar,
+    ...employeeAccessSidebar,
     {
       label: 'Organization',
       icon: <ApartmentIcon fontSize='large' />,
@@ -47,9 +53,14 @@ export const getSidebarConfig = (role: string) => {
   const departmentHeadAccessSidebar = [
     ...employeeAccessSidebar,
     {
-      label: 'Department',
-      icon: <DomainIcon fontSize='large' />,
-      path: ROUTE.DEPARTMENT,
+      label: 'Categories',
+      icon: <CategoryIcon fontSize='large' />,
+      path: ROUTE.CATEGORY,
+    },
+    {
+      label: 'Employees',
+      icon: <GroupIcon fontSize='large' />,
+      path: ROUTE.USERS,
     },
   ];
 

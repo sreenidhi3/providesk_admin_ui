@@ -1,83 +1,164 @@
-import { useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 
+import { categoryValidationRegex, prioritiesList } from './constanst';
 import { useCreateCategory, useDepartments } from './category.hook';
-import { PriorityType } from './type';
 import CategoryList from './components/CategoryList';
 import { Button } from 'modules/shared/Button';
+import Loader from 'modules/Auth/components/Loader';
+import { UserContext } from 'App';
+import { ROLES } from 'routes/roleConstants';
 
 import {
+  Box,
   Divider,
   FormControl,
   InputLabel,
   MenuItem,
-  Select,
+  Select as SelectMUI,
   TextField,
   Typography,
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select/SelectInput';
 
 export const Category = () => {
+  const { userAuth } = useContext(UserContext);
+
+  const [organizationId, setOrganizationId] = useState<number | ''>(
+    userAuth?.organizations?.[0]?.id || ''
+  );
+
   const [category, setCategory] = useState<string>('');
-  const [departmentId, setDepartmentId] = useState<number>(0);
+  const [departmentId, setDepartmentId] = useState<number>(
+    userAuth?.organizations?.[0]?.department_id || 0
+  );
   const [priority, setPriority] = useState<number>(0);
+  const [error, setError] = useState<string>('');
 
-  const { mutate, isLoading: creating, data } = useCreateCategory();
-  const { data: departmentsList, isLoading: departmentsFetching } =
-    useDepartments(1);
-  const prioritiesList: PriorityType[] = [
-    { id: 0, value: 'Regular' },
-    { id: 1, value: 'High' },
-    { id: 2, value: 'Medium' },
-    { id: 3, value: 'Low' },
-  ];
+  const { mutate, isLoading: isCreatingCategory } = useCreateCategory();
+  const { data: departmentsList, isLoading: isFetchingDepartment } =
+    useDepartments(organizationId);
 
-  const createCategory = () => {
+  const handleOrganizationChange = useCallback(
+    (e) => setOrganizationId(e.target.value),
+    []
+  );
+  const handleDepartmentChange = useCallback(
+    (e) => setDepartmentId(e.target.value),
+    []
+  );
+
+  const createCategory = useCallback(() => {
     let payload = {
       categories: {
-        name: category,
+        name: category.trim(),
         priority: priority,
         department_id: departmentId,
       },
     };
     mutate(payload);
-  };
+  }, [category, priority, departmentId]);
 
   return (
     <>
       <div
         style={{
-          margin: '3rem 0',
+          marginTop: '3rem',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
         }}
       >
+        <Loader isLoading={isFetchingDepartment || isCreatingCategory} />
         <Divider>
-          <Typography variant='h6' component='div'>
-            Create New Category
+          <Typography variant='h4' component='div'>
+            Create Category
           </Typography>
         </Divider>
         <div
           style={{
-            margin: '1rem',
             display: 'flex',
-            alignItems: 'center',
             justifyContent: 'center',
+            alignItems: 'flex-start',
             flexWrap: 'wrap',
           }}
         >
-          <TextField
-            label='Create New Category'
-            value={category}
-            type='text'
-            required={true}
-            variant='standard'
-            color='secondary'
-            onChange={(e) => setCategory(e.target.value)}
-          />
+          {userAuth.role === ROLES.SUPER_ADMIN && (
+            <FormControl variant='standard' sx={{ m: 3, minWidth: 120 }}>
+              <InputLabel id='select-organization'>
+                Select Organization
+              </InputLabel>
+              <SelectMUI
+                labelId='select-organization'
+                id='select-organization'
+                value={organizationId}
+                onChange={handleOrganizationChange}
+                label='Select Organization'
+              >
+                {userAuth?.organizations?.map((org) => (
+                  <MenuItem value={org.id}>{org.name}</MenuItem>
+                ))}
+              </SelectMUI>
+            </FormControl>
+          )}
+
+          <FormControl variant='standard' sx={{ m: 3, minWidth: 120 }}>
+            <InputLabel id='department-selector-id'>Department</InputLabel>
+            <SelectMUI
+              placeholder='Select Department'
+              required={true}
+              labelId='department-selector-id'
+              id='department-selector'
+              value={departmentId?.toString()}
+              disabled={userAuth.role === ROLES.DEPARTMENT_HEAD}
+              label='Department'
+              onChange={handleDepartmentChange}
+            >
+              <MenuItem key={'None'} value={0}>
+                <em> -Select- </em>
+              </MenuItem>
+              {departmentsList?.map((item) => (
+                <MenuItem key={item.name} value={item.id}>
+                  <span>{item.name}</span>
+                </MenuItem>
+              ))}
+            </SelectMUI>
+          </FormControl>
+
+          <Box sx={{ m: 3, minWidth: 120 }}>
+            <TextField
+              label='Category'
+              value={category}
+              type='text'
+              error={!!error}
+              required={true}
+              autoFocus={true}
+              variant='standard'
+              color='secondary'
+              onChange={(e) => {
+                if (categoryValidationRegex.test(e.target.value)) {
+                  setCategory(e.target.value);
+                  setError('');
+                } else {
+                  setError('Special characters are not allowed.');
+                }
+              }}
+            />
+            {error && (
+              <Typography
+                variant='caption'
+                display='block'
+                color='#d32f2f'
+                gutterBottom
+                style={{ fontSize: '11px' }}
+              >
+                {error}
+              </Typography>
+            )}
+          </Box>
+
           <FormControl variant='standard' sx={{ m: 3, minWidth: 120 }}>
             <InputLabel id='priority-selector-id'>Priority</InputLabel>
-            <Select
+            <SelectMUI
               placeholder='Select Priority'
               required={true}
               labelId='priority-selector-id'
@@ -93,31 +174,9 @@ export const Category = () => {
                   <span>{item.value}</span>
                 </MenuItem>
               ))}
-            </Select>
+            </SelectMUI>
           </FormControl>
-          <FormControl variant='standard' sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id='department-selector-id'>Department</InputLabel>
-            <Select
-              placeholder='Select Department'
-              required={true}
-              labelId='department-selector-id'
-              id='department-selector'
-              value={departmentId?.toString()}
-              label='Department'
-              onChange={(e: SelectChangeEvent) =>
-                setDepartmentId(parseInt(e.target.value))
-              }
-            >
-              <MenuItem key={'None'} value={0}>
-                <em> -Select- </em>
-              </MenuItem>
-              {departmentsList?.map((item) => (
-                <MenuItem key={item.name} value={item.id}>
-                  <span>{item.name}</span>
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+
           <Button
             onClick={() => {
               createCategory();
@@ -127,7 +186,10 @@ export const Category = () => {
             }}
             className='btn btn-success mx-3'
             style={{ height: '40px' }}
-            disabled={category.length < 6 || departmentId === 0 || creating}
+            sx={{ m: 3 }}
+            disabled={
+              category.length < 2 || departmentId === 0 || isCreatingCategory
+            }
           >
             Create
           </Button>
