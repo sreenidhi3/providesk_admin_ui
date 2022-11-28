@@ -106,7 +106,7 @@ const deptOptions = useMemo(() => {
   
 
   return (
-    <Box sx={{display: 'flex', flexDirection: 'column'}}>
+    <Box sx={{display: 'flex', flexDirection: 'column' ,cursor:"pointer"}} >
       <Box sx={{display: 'flex', gap: '1.5rem', mb: '1.5rem'}} className='complaint-card-filters'>
         <Box sx={{display: 'grid', gap: '1.5rem'}} className='filter-input-group flex-1'>
          {userAuth.role !== "employee" && <Box sx={{display: 'grid', gap: '1.5rem',}} className="flex-1" ><CustomSelect
