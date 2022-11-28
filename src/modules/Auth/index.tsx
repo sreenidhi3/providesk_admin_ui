@@ -1,10 +1,8 @@
-
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { toast } from 'react-toastify';
 import jwt_decode from 'jwt-decode';
-import { Box, Typography } from '@mui/material';
 
 import Login from 'assets/svg/Login.svg';
 import Loader from './components/Loader';
@@ -15,6 +13,7 @@ import ROUTE from 'routes/constants';
 import { LOCAL_STORAGE_KEYS } from 'shared/appConstants';
 import { UserContext } from 'App';
 
+import { Box, Typography } from '@mui/material';
 import './auth.scss';
 
 const AuthContainer = () => {
@@ -60,19 +59,53 @@ const AuthContainer = () => {
   };
 
   const Heading = () => {
-    return (<Typography variant='h2' sx={{ textAlign: 'center' }} className='auth-heading'>Welcome to Providesk!</Typography>)
-  }
+    return (
+      <Typography
+        variant='h2'
+        sx={{ textAlign: 'center' }}
+        className='auth-heading'
+      >
+        Welcome to Providesk!
+      </Typography>
+    );
+  };
 
   return (
     <>
       <Loader isLoading={isLogging} />
-      <Box sx={{display: 'grid', flex: '1'}} className='scroll-auto'>
-        <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', flex: '1'}} className='auth-wrapper'>
-          <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2rem'}} className='img-box'>
+      <Box sx={{ display: 'grid', flex: '1' }} className='scroll-auto'>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flex: '1',
+          }}
+          className='auth-wrapper'
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '2rem',
+            }}
+            className='img-box'
+          >
             <Heading />
             <img src={Login} alt='Login' className='img-auth' />
           </Box>
-          <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.5rem'}} className='auth-box'>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '1.5rem',
+            }}
+            className='auth-box'
+          >
             <Heading />
             <GoogleLogin
               onSuccess={onGoogleLoginSuccess}

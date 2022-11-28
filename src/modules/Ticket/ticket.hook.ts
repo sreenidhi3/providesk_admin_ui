@@ -7,17 +7,12 @@ import { ICreateTicketPayload, ICreateTicketError } from './type';
 
 import API_CONSTANTS from 'hooks/constants';
 
-//todo - while ticket listing api integration (dashboard)
-//1. inavalidate ticket query on successful ticket creation
-
 export const useCreateTicket = () => {
-  // const queryClient = useQueryClient();
   const { mutate, data, isLoading, error } = useMutation(
     (payload: ICreateTicketPayload) => postCreateTicket(payload),
     {
       onSuccess: (res) => {
-        // queryClient.invalidateQueries([API_CONSTANTS.TICKET]);
-        toast.success(res?.data?.message);
+        toast.success(res?.data?.message || 'Ticket created successfully.');
       },
       onError: (err: AxiosError) => {
         let error = err?.response?.data as ICreateTicketError;
@@ -35,8 +30,13 @@ export const useUsers = (dept_id, org_id?) => {
     () => getUsersList(dept_id, org_id),
     {
       enabled: Boolean(dept_id),
-      onError: () => {
-        toast.error('Failed to fetch department employees list.');
+      onError: (err: AxiosError) => {
+        let error = err?.response?.data as ICreateTicketError;
+        toast.error(
+          error?.errors ||
+            error?.message ||
+            'Failed to fetch department employees list.'
+        );
       },
     }
   );
