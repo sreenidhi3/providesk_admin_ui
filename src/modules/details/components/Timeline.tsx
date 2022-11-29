@@ -55,8 +55,7 @@ const TimelineLeft = ({ date }: { date: string }) => {
 const TimeLineDescription = ({ activity }: { activity: any }) => {
   return (
     <Paper elevation={8} style={{ width: '40vw', maxWidth: '100%' }}>
-      <div className='p-2 m-2'>
-        <p>{activity?.description}</p>
+      <div style={{ padding: '0.5rem 0', margin: '0.5rem' }}>
         <Chip
           label={activity?.current_ticket_status}
           style={{
@@ -65,6 +64,12 @@ const TimeLineDescription = ({ activity }: { activity: any }) => {
             color: '#ffffff',
           }}
         />
+        <p>{activity?.description}</p>
+        <p>
+          {activity?.reason_for_update && (
+            <strong>Reason: {activity?.reason_for_update}</strong>
+          )}
+        </p>
       </div>
     </Paper>
   );
