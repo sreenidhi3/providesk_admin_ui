@@ -16,6 +16,7 @@ export interface IComplaintDetails {
   resolver: string;
   requester: string;
   permited_events: string[];
+  reason_for_update:string
 }
 
 export interface GetRequestsListResponse {

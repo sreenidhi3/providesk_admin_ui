@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import ROUTE from 'routes/constants';
 import { UserContext } from 'App';
@@ -24,8 +24,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import LogoutIcon from '@mui/icons-material/Logout';
-import { Button } from '@mui/material';
+
+import { DropMenu } from './DropDown';
 
 const drawerWidth = 180;
 
@@ -81,7 +81,7 @@ export default function Sidebar() {
   };
 
   const sidebarConfig = getSidebarConfig(role);
-
+  const navigate = useNavigate()
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -103,8 +103,8 @@ export default function Sidebar() {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant='h6' noWrap component='div'>
-              PROVIDESK
+            <Typography variant='h6' noWrap component='div' onClick={()=>navigate(ROUTE.HOME)} sx={{cursor:"pointer"}}>
+              ProviDesk
             </Typography>
           </div>
           <div
@@ -115,14 +115,8 @@ export default function Sidebar() {
               width: 'inherit',
             }}
           >
-            <Button
-              variant='outlined'
-              sx={{ color: '#ffffff' }}
-              endIcon={<LogoutIcon />}
-              onClick={onLogout}
-            >
-              Logout
-            </Button>
+            
+            <DropMenu logout={onLogout}/>
           </div>
         </Toolbar>
       </AppBar>
@@ -141,7 +135,7 @@ export default function Sidebar() {
       >
         <DrawerHeader>
           <Typography variant='h5' sx={{ width: '100%', textAlign: 'center' }}>
-            Help Desk{' '}
+            ProviDesk{' '}
           </Typography>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? (
@@ -188,3 +182,4 @@ export default function Sidebar() {
     </Box>
   );
 }
+

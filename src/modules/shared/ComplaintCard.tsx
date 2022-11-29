@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -9,6 +9,9 @@ import Stack from '@mui/material/Stack';
 import { IComplaintDetails } from 'modules/dashboard/types';
 import ROUTE from 'routes/constants';
 import { List, ListItem } from '@mui/material';
+import { ticketStatusColours } from 'modules/details/constants';
+import { Box } from '@mui/system';
+import { DateFormate } from 'apis/utils/date.utils';
 interface Props {
   details: IComplaintDetails;
 }
@@ -17,20 +20,15 @@ const ComplaintCard: React.FC<Props> = (props) => {
   const { details } = props;
   const {
     id,
-    title,
-    description,
-    ticket_number,
-    status,
-    priority,
-    ticket_type,
-    resolved_at,
+    title,  
+    status,   
     created_at,
     updated_at,
     category,
     department,
     resolver,
-    requester,
-    permited_events,
+    requester, 
+    reason_for_update
   } = details;
 
   const navigate = useNavigate();
@@ -55,26 +53,40 @@ const ComplaintCard: React.FC<Props> = (props) => {
     },
     {
       label: 'Raised Time',
-      value: created_at,
+      value: DateFormate(created_at),
     },
     {
       label: 'Assigned To',
       value: resolver,
     },
-   
-    { label: 'Last Updated Time', value: updated_at || '_' },
+   {
+    label:"Last Comment",
+    value: reason_for_update || "_"
+   },
+    {
+       label: 'Last Updated Time',
+        value: DateFormate(updated_at) || '_'
+    },
   ];
+  const [pointer,setPointer] = useState<boolean>(false) 
 
   return (
-    <Card variant="outlined" onClick={onCardClick}>
+    
+    <Card variant="outlined" onClick={onCardClick} 
+    // onMouseEnter={()=>setPointer(true)} 
+    // onMouseOut={()=>setPointer(false)}
+    // className={"shadow-lg p-3 mb-5 bg-red rounded"}
+     sx={{cursor:"pointer" }}
+    //  boxShadow={{ pointer?-1:3}}
+     >
       <CardContent sx={{pb: '0.5rem !important'}}>
         <Stack
           direction='row'
           spacing={1}
           sx={{justifyContent: 'space-between', mb: '1rem'}}
         >
-          <Chip label={id} variant="outlined" size='small' sx={{fontSize: '0.75rem', fontWeight: '600'}} />
-          <Chip label={status} variant="outlined" color='info' className='text-truncate' size='small' sx={{fontSize: '0.75rem', fontWeight: '500'}} />
+          {/* <Chip label={id} variant="outlined" size='small' sx={{fontSize: '0.75rem', fontWeight: '600'}} /> */}
+          <Chip label={status.charAt(0).toUpperCase() + status.slice(1)} className='text-truncate' size='small' sx={{fontSize: '1rem', fontWeight: '400',}} style={{backgroundColor:ticketStatusColours[status]}}/>
         </Stack>
         <Typography variant='h6' sx={{mb: '0.5rem'}} className='text-truncate'>
           {title}
@@ -87,6 +99,9 @@ const ComplaintCard: React.FC<Props> = (props) => {
             </ListItem>
           ))}
         </List>
+        <Box sx={{display:"flex" ,justifyContent:"center"}}>
+        <Typography onClick= {onCardClick} sx={{color:"GrayText"}}>See more...</Typography>
+        </Box>
       </CardContent>
     </Card>
   );
