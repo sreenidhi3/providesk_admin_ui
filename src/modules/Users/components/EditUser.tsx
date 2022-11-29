@@ -112,7 +112,7 @@ const EditUser = ({ user, organizationId, setOpenEdit }) => {
             >
               {allowedRoles.map((role) => (
                 <MenuItem key={role} value={role.toLowerCase()}>
-                  {role}
+                  {role.toUpperCase()}
                 </MenuItem>
               ))}
             </SelectMUI>
