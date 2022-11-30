@@ -2,7 +2,7 @@ import { createTheme } from '@mui/material';
 
 export const palette = {
   primary: {
-    main: '#4F86ED',
+    main: '#0091ea',
     light: '#DEEBF1',
     assigned: '#0091ea',
     inprogress: '#4527a0',
@@ -13,7 +13,7 @@ export const palette = {
   },
   background: {
     default: '#F8F9FA'
-  } 
+  }
 };
 
 export const theme = createTheme({
@@ -63,6 +63,18 @@ export const theme = createTheme({
       fontWeight: 700,
       letterSpacing: 0,
     },
+    subtitle1: {
+      fontSize: '0.875rem',
+      lineHeight: 1.25,
+      fontWeight: 700,
+      letterSpacing: 0,
+    },
+    subtitle2: {
+      fontSize: '0.75rem',
+      lineHeight: 1.25,
+      fontWeight: 700,
+      letterSpacing: 0,
+    },
     body1: {
       fontSize: '0.875rem',
       lineHeight: 1.5,
@@ -70,10 +82,6 @@ export const theme = createTheme({
     body2: {
       fontSize: '0.75rem',
       lineHeight: 1.5,
-    },
-    h6: {
-      fontSize: '12px',
-      fontWeight: 700,
-    },
+    }
   },
 });

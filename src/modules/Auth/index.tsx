@@ -43,7 +43,7 @@ const AuthContainer = () => {
         setUserAuth(response.data.data);
         saveToLocalStorage(LOCAL_STORAGE_KEYS.USER_AUTH, response.data.data);
       },
-      onError: (error) => {},
+      onError: (error) => { },
     });
   };
 
