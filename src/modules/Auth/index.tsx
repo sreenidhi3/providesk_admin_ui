@@ -15,6 +15,7 @@ import { UserContext } from 'App';
 
 import { Box, Typography } from '@mui/material';
 import './auth.scss';
+import { ROLES } from 'routes/roleConstants';
 
 const AuthContainer = () => {
   const { mutate, isLoading: isLogging } = useLogin();
@@ -50,7 +51,11 @@ const AuthContainer = () => {
   // useEffect to navigate on successfull login
   useEffect(() => {
     if (userAuth?.auth_token) {
-      navigate(ROUTE.DASHBOARD);
+      if (userAuth?.role === ROLES.SUPER_ADMIN) {
+        navigate(ROUTE.ORGANIZATION);
+      } else {
+        navigate(ROUTE.DASHBOARD);
+      }
     }
   }, [navigate, userAuth]);
 
