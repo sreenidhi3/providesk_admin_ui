@@ -12,10 +12,10 @@ import { saveToLocalStorage } from 'shared/localStorageHelpers';
 import ROUTE from 'routes/constants';
 import { LOCAL_STORAGE_KEYS } from 'shared/appConstants';
 import { UserContext } from 'App';
+import { ROLES } from 'routes/roleConstants';
 
 import { Box, Typography } from '@mui/material';
 import './auth.scss';
-import { ROLES } from 'routes/roleConstants';
 
 const AuthContainer = () => {
   const { mutate, isLoading: isLogging } = useLogin();
