@@ -11,6 +11,9 @@ export const palette = {
     closed: '#424242',
     rejected: '#c62828'
   },
+  background: {
+    default: '#F8F9FA'
+  } 
 };
 
 export const theme = createTheme({
@@ -73,45 +76,4 @@ export const theme = createTheme({
       fontWeight: 700,
     },
   },
-
-  // typography: {
-  //   fontFamily: "'Open Sans', sans-serif",
-  //   fontSize: 12,
-  //   breadcrumbs: {
-  //     fontSize: '12px',
-  //     fontWeight: 400,
-  //     textDecoration: 'none',
-  //     fontFamily: 'Open Sans',
-  //   },
-  //   h2: {
-  //     fontSize: '24px',
-  //     lineHeight: '32px',
-  //     fontWeight: 700,
-  //   },
-  //   subheading: {
-  //     fontSize: '18px',
-  //     fontWeight: 600,
-  //   },
-  //   body1: {
-  //     fontSize: '14px',
-  //   },
-  //   body2: {
-  //     fontSize: '12px',
-  //   },
-  //   h3: {
-  //     fontFamily: 'Nunito Sans',
-  //     fontWeight: 700,
-  //     fontSize: '20px',
-  //     lineHeight: '24px',
-  //   },
-  //   h4: {
-  //     fontSize: '16px',
-  //     lineHeight: '20px',
-  //     fontWeight: 700,
-  //   },
-  //   h5: {
-  //     fontSize: '14px',
-  //     fontWeight: 700,
-  //   },
-  // },
 });

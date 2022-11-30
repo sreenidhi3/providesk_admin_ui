@@ -72,7 +72,7 @@ const AuthContainer = () => {
 
   return (
     <>
-      <Loader isLoading={isLogging} />
+      <Loader isLoading={isLogging} top='0' />
       <Box sx={{ display: 'grid', flex: '1' }} className='scroll-auto'>
         <Box
           sx={{

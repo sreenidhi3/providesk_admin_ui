@@ -85,7 +85,7 @@ export default function Sidebar() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position='fixed' open={open}>
+      <AppBar position='static' open={open} sx={{zIndex: '1'}}>
         <Toolbar style={{ justifyContent: 'space-between' }}>
           <div
             style={{
