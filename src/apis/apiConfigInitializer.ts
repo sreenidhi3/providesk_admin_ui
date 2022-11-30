@@ -34,8 +34,10 @@ axiosInstance.interceptors.response.use(
       removeLocalStorageState('userAuth');
       removeLocalStorageState('userProfile');
     }
-    if (error.response.status === 401)
+    if (error.response.status === 401) {
       window.location.href = ROUTE.UNAUTHORIZED;
+      return Promise.reject(error);
+    }
     return Promise.reject(error);
   }
 );
