@@ -8,7 +8,7 @@ import {
   TimelineOppositeContent,
 } from '@mui/lab';
 import { Box, Chip, Paper, Typography } from '@mui/material';
-import { DateFormate, lastDayesFrom } from 'apis/utils/date.utils';
+import { DateFormate, getLastDaysFrom } from 'apis/utils/date.utils';
 import { ticketStatusColours } from '../constants';
 
 export const TimelineComponent = ({ activities }: any) => {
