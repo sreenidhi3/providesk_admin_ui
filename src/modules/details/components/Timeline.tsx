@@ -7,19 +7,20 @@ import {
   TimelineContent,
   TimelineOppositeContent,
 } from '@mui/lab';
-import { Box, Chip, Paper } from '@mui/material';
+import { Box, Chip, Paper, Typography } from '@mui/material';
+import { DateFormate, getLastDaysFrom } from 'apis/utils/date.utils';
 import { ticketStatusColours } from '../constants';
 
 export const TimelineComponent = ({ activities }: any) => {
   return (
     <>
       <Timeline>
-        {activities?.map((item) => {
+        {activities?.map((item, index) => {
           return (
             <Box key={item.created_at}>
               <TimelineItem>
                 <TimelineOppositeContent>
-                  <TimelineLeft date={item.created_at} />{' '}
+                  <TimelineLeft date={item.created_at} index={index} />{' '}
                 </TimelineOppositeContent>
                 <TimelineSeparator>
                   <TimelineDot />
@@ -37,17 +38,18 @@ export const TimelineComponent = ({ activities }: any) => {
   );
 };
 
-const TimelineLeft = ({ date }: { date: string }) => {
+const TimelineLeft = ({ date, index }: { date: string; index: number }) => {
   return (
     <div
       style={{
         margin: '0.3rem 0',
-        minWidth: '10vw',
+        minWidth: '11.5vw',
         maxWidth: '100%',
         textAlign: 'right',
+        fontWeight: 490,
       }}
     >
-      {new Date(date).toUTCString().slice(0, 22)}
+      {DateFormate(date)}
     </div>
   );
 };
@@ -60,9 +62,9 @@ const TimeLineDescription = ({ activity }: { activity: any }) => {
           label={activity?.current_ticket_status}
           style={{
             backgroundColor:
-              ticketStatusColours[activity.current_ticket_status] || 'default',
-            color: '#ffffff',
+              ticketStatusColours[activity?.current_ticket_status],
           }}
+          sx={{ m: 2 }}
         />
         <p>{activity?.description}</p>
         <p>

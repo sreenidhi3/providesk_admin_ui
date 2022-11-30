@@ -21,6 +21,7 @@ import {
   IconButton,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import { ticketStatusColours } from './constants';
 
 function Details() {
   const id: number = parseInt(useParams().id as string);
@@ -105,7 +106,7 @@ function Details() {
                   <TableRow>
                     <TableCell sx={{ color: '#63686b' }}>Status</TableCell>
                     <TableCell sx={{ fontWeight: 'bold' }}>
-                      <Chip label={ticket?.status} />
+                      <Chip label={ticket?.status} style={{backgroundColor:ticketStatusColours[ticket?.status]}}/>
                     </TableCell>
                   </TableRow>
                   <TableRow>
