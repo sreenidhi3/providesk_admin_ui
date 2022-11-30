@@ -1,5 +1,6 @@
 import axios, { AxiosRequestHeaders } from 'axios';
 
+import ROUTE from 'routes/constants';
 import { API_BASE_URL } from 'shared/appConstants';
 import {
   loadLocalStorage,
@@ -28,11 +29,13 @@ axiosInstance.interceptors.request.use((config) => {
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response.status === 401 && error.response.data) {
+    if (error.response.status === 440 && error.response.data) {
       window.location.href = '/';
       removeLocalStorageState('userAuth');
       removeLocalStorageState('userProfile');
     }
+    if (error.response.status === 401)
+      window.location.href = ROUTE.UNAUTHORIZED;
     return Promise.reject(error);
   }
 );
