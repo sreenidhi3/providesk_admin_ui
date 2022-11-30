@@ -10,6 +10,8 @@ import {
 export const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
   headers: {
+    'Access-Control-Allow-Origin': '*',
+    'ngrok-skip-browser-warning': true,
     Accept: 'application/vnd.providesk; version=1',
     'Content-Type': 'application/json',
   },
