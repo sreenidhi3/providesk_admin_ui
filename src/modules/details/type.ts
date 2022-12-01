@@ -50,7 +50,7 @@ export interface IEditTicketPayload {
   category_id: string;
   department_id: string;
   resolver_id: string;
-  description?: string;
+  reason_for_update?: string;
   status: ticketStatusType;
 }
 
