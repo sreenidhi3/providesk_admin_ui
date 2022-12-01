@@ -127,10 +127,10 @@ const Dashboard = () => {
     navigate(ROUTE.TICKET)
   }
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', }} >
+    <Box sx={{ display: 'flex', flexDirection: 'column', flex: '1', p: '1.5rem' }} >
       <Box sx={{ display: 'flex', gap: '1.5rem', mb: '1.5rem' }} className='complaint-card-filters'>
         <Box sx={{ display: 'grid', gap: '1.5rem' }} className='filter-input-group flex-1'>
-          {userAuth.role !== "employee" && 
+          {userAuth.role !== "employee" &&
             <>
               <CustomSelect
                 label={'Status'}
@@ -178,17 +178,17 @@ const Dashboard = () => {
             placeholder='Enter Title'
           />
         </Box>
-
         <Button onClick={() => setFilters(DEFAULT_FILTERS)}>Reset</Button>
       </Box>
-      {isLoading ? <Loader isLoading={isLoading} /> : updateddataSearch?.length === 0 ?
-        <Typography sx={{ textAlign: "center" }}>No Data</Typography> :
-        <Box sx={{ display: 'grid', gap: '1.5rem' }} className='complaint-card-grid'>
-          {updateddataSearch?.map((complaint) => (
-            <ComplaintCard details={complaint} />
-          ))}
-        </Box>}
-
+      <Box sx={{ flex: '1' }}>
+        {isLoading ? <Loader isLoading={isLoading} /> : updateddataSearch?.length === 0 ?
+          <Typography sx={{ textAlign: "center" }}>No Data</Typography> :
+          <Box sx={{ display: 'grid', gap: '1.5rem' }} className='complaint-card-grid'>
+            {updateddataSearch?.map((complaint) => (
+              <ComplaintCard details={complaint} />
+            ))}
+          </Box>}
+      </Box>
       <TablePagination
         component='div'
         count={Math.ceil(updatedData?.length / rowsPerPage || 0)}
@@ -198,8 +198,8 @@ const Dashboard = () => {
         onRowsPerPageChange={handleChangeRowsPerPage}
         sx={{ fontSize: '0.75rem' }}
       />
-      <Box sx={{ display: "flex", flexDirection: "row-reverse", position: "sticky", bottom: 0, zIndex: 10000 }}>
-        <IconButton onClick={onClickPlus}><AddCircleSharpIcon color="primary" fontSize='large' /></IconButton>
+      <Box sx={{ display: 'flex', justifyContent: 'end', position: "sticky", bottom: 0, zIndex: 1 }}>
+        <IconButton onClick={onClickPlus} sx={{ p: 0 }}><AddCircleSharpIcon color="primary" sx={{ fontSize: '2.25rem' }} /></IconButton>
       </Box>
     </Box>
   );
