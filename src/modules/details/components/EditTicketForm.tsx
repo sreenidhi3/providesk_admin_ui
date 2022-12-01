@@ -88,8 +88,6 @@ export const EditTicketForm = ({
         reason_for_update,
         status,
       };
-      console.log("this is call handleupdate")
-      console.log(ticketDetails,"this is ticket details ")
       editTicket({
         id,
         ticket_details: { ticket: ticketDetails },
