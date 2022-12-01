@@ -44,7 +44,7 @@ const AuthContainer = () => {
         setUserAuth(response.data.data);
         saveToLocalStorage(LOCAL_STORAGE_KEYS.USER_AUTH, response.data.data);
       },
-      onError: (error) => {},
+      onError: (error) => { },
     });
   };
 
@@ -77,7 +77,7 @@ const AuthContainer = () => {
 
   return (
     <>
-      <Loader isLoading={isLogging} />
+      <Loader isLoading={isLogging} top='0' />
       <Box sx={{ display: 'grid', flex: '1' }} className='scroll-auto'>
         <Box
           sx={{
