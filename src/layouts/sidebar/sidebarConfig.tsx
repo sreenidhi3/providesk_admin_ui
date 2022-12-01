@@ -42,7 +42,6 @@ export const getSidebarConfig = (role: string) => {
   ];
 
   const superAdminAccessSidebar = [
-    ...employeeAccessSidebar,
     {
       label: 'Organization',
       icon: <ApartmentIcon fontSize='large' />,

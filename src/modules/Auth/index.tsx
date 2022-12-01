@@ -12,6 +12,7 @@ import { saveToLocalStorage } from 'shared/localStorageHelpers';
 import ROUTE from 'routes/constants';
 import { LOCAL_STORAGE_KEYS } from 'shared/appConstants';
 import { UserContext } from 'App';
+import { ROLES } from 'routes/roleConstants';
 
 import { Box, Typography } from '@mui/material';
 import './auth.scss';
@@ -50,7 +51,11 @@ const AuthContainer = () => {
   // useEffect to navigate on successfull login
   useEffect(() => {
     if (userAuth?.auth_token) {
-      navigate(ROUTE.DASHBOARD);
+      if (userAuth?.role === ROLES.SUPER_ADMIN) {
+        navigate(ROUTE.ORGANIZATION);
+      } else {
+        navigate(ROUTE.DASHBOARD);
+      }
     }
   }, [navigate, userAuth]);
 
